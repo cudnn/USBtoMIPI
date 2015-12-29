@@ -21,6 +21,9 @@ module top
 (
    // Clock Source
    CLK1,
+   CLK2,
+   // Chip Enable
+   OE,
    // MIPI Interface
    SCLK,
    SDA,
@@ -41,11 +44,14 @@ module top
 
    ////////////////// PORT ////////////////////
    input                          CLK1; // 48MHz
+   input                          CLK2; // 52MHz
+   
+   output                         OE;
    
    inout  [`IO_UNIT_NBIT-1:0]     IO_DB;
    
-   output                         SCLK;
-   inout                          SDA;
+   output [3:0]                   SCLK;
+   inout  [3:0]                   SDA;
                                   
    output                         USB_XTALIN; // 24MHz
    input                          USB_FLAGB;  // EP2 Empty
@@ -75,15 +81,23 @@ module top
    
    wire ifclk;      // 48MHz
    wire usb_clk;    // 24MHz
+   wire mipi_clk;   // 52MHz
    wire locked_sig;
-   clk_gen  clk_gen_u (
+   clk_gen  main_clk_gen (
       .areset (`LOW       ),
       .inclk0 (CLK1       ),
       .c0     (ifclk      ),
       .c1     (usb_clk    ),
       .locked (locked_sig )
    );
+   
+   mipi_clkpll  mipi_clk_gen (
+      .inclk0 (CLK2       ),
+      .c0     (mipi_clk   )
+   );   
 
+   assign OE = `HIGH;
+   
    ////////////////// USB PHY Slave FIFO Controller
    
    wire                         sloe;
@@ -155,18 +169,27 @@ module top
       end
    endgenerate
 
-   wire                      pktdec_sclk;
-   wire                      pktdec_sdi;
-   wire                      pktdec_sdo;
-   wire                      pktdec_sdo_en;
+   wire                       pktdec_sclk;
+   reg                        pktdec_sdi;
+   wire                       pktdec_sdo;
+   wire                       pktdec_sdo_en;
+   wire [`MIPI_BANK_NBIT-1:0] pktdec_mipi_bank;
+   reg  [3:0]                 SCLK;
+   reg  [3:0]                 SDA;
    
-   assign SCLK = pktdec_sclk;
-   assign SDA = pktdec_sdo_en ? pktdec_sdo : 1'bZ;
-   assign pktdec_sdi = SDA;
+   always@* begin
+      SCLK <= 4'b0000;
+      SDA  <= 4'b0000;
+         
+      SCLK[pktdec_mipi_bank] <= pktdec_sclk;
+      SDA[pktdec_mipi_bank]  <= pktdec_sdo_en ? pktdec_sdo : 1'bZ;
+      pktdec_sdi <= SDA[pktdec_mipi_bank];
+   end
       
    pkt_decode u_cmd_decode
    (
       .clk      (ifclk           ),
+      .mipi_clk (mipi_clk        ),
       .o_io_dir (pktdec_o_io_dir ),
       .i_io_db  (pktdec_i_io_db  ),
       .o_io_db  (pktdec_o_io_db  ),
@@ -175,6 +198,7 @@ module top
       .sdi      (pktdec_sdi      ),
       .sdo      (pktdec_sdo      ),
       .sdo_en   (pktdec_sdo_en   ),
+      .mipi_bank(pktdec_mipi_bank),
       .rx_vd    (rx_cache_vd     ),
       .rx_data  (rx_cache_data   ),
       .rx_sop   (rx_cache_sop    ),

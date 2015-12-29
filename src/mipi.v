@@ -27,6 +27,7 @@ module mipi
    start,
    done,
    // BUFFER Interface
+   i_buf_clk,
    i_buf_wr,
    i_buf_waddr,
    i_buf_wdata,
@@ -47,7 +48,8 @@ module mipi
    input                            start;
    output                           done;
    
-   input                            i_buf_wr;
+   input                            i_buf_clk  ;
+   input                            i_buf_wr   ;
    input  [`MIPI_BUF_ADDR_NBIT-1:0] i_buf_waddr;
    input  [`MIPI_BUF_DATA_NBIT-1:0] i_buf_wdata;
    input  [`MIPI_BUF_ADDR_NBIT-1:0] i_buf_raddr;
@@ -64,23 +66,22 @@ module mipi
    reg                          mipi_clk=`LOW;
    reg  [`MIPI_CLKDIV_NBIT-1:0] clk_div=`MIPI_CLKDIV_NBIT'd2;
    reg  [`MIPI_CLKDIV_NBIT-1:0] clk_cnt=`MIPI_CLKDIV_NBIT'd1;
-   reg  [`MIPI_CLKDIV_NBIT-1:0] clk_dly;
+   localparam  clk_dly=`MIPI_CLKDIV_NBIT'd0;
    
    always@(posedge clk) begin
       clk_cnt <= clk_cnt - 1'b1;
-      if(clk_cnt==0) begin
+      if(clk_cnt==0)
          clk_cnt  <= clk_div-1'b1;
-         mipi_clk <= `LOW;   
-      end
-      else if(clk_cnt==(clk_div-clk_dly))
-         mipi_clk <= `HIGH;
-      else if(clk_cnt==clk_dly)
+
+      if(clk_cnt+clk_dly==(clk_div>>1))
          mipi_clk <= `LOW;
+      else if(clk_cnt+clk_dly==(clk_dly==0 ? 0 : clk_div))
+         mipi_clk <= `HIGH;
+         
       // minimum value of clock cycle is 2, means up to 24MHz
       if(set) begin
          clk_div  <= div<`MIPI_CLKDIV_NBIT'd2 ? `MIPI_CLKDIV_NBIT'd2 : div;
          clk_cnt  <= div<`MIPI_CLKDIV_NBIT'd2 ? `MIPI_CLKDIV_NBIT'd1 : div-1'b1;
-         clk_dly  <= 0; //div>>2;
          mipi_clk <= `HIGH;
       end
    end
@@ -105,18 +106,20 @@ module mipi
    // addr: 0   1  2   3~4  5~20
    // data: div sa cmd addr data
    wire [`MIPI_BUF_DATA_NBIT-1:0] mipi_buf_rdata;
-   buffered_ram#(`MIPI_BUF_ADDR_NBIT,`MIPI_BUF_DATA_NBIT)
+   buffered_ram_tdp#(`MIPI_BUF_ADDR_NBIT,`MIPI_BUF_DATA_NBIT)
    mipi_buffer(
-      .inclk       (clk),
-      .in_wren     (in_process ? mipi_buf_wr    : i_buf_wr   ),
-      .in_wraddress(in_process ? mipi_buf_waddr : i_buf_waddr),
-      .in_wrdata   (in_process ? mipi_buf_wdata : i_buf_wdata),
-      .in_rdaddress(in_process ? mipi_buf_raddr : i_buf_raddr),
-      .out_rddata  (mipi_buf_rdata)
+      .a_inclk     (i_buf_clk),
+      .a_in_wren   (i_buf_wr&~in_process),
+      .a_in_address(i_buf_wr ? i_buf_waddr : i_buf_raddr),
+      .a_in_wrdata (i_buf_wdata),
+      .a_out_rddata(o_buf_rdata),
+      .b_inclk     (clk           ),
+      .b_in_wren   (mipi_buf_wr&in_process),
+      .b_in_address(mipi_buf_wr ? mipi_buf_waddr : mipi_buf_raddr),
+      .b_in_wrdata (mipi_buf_wdata),
+      .b_out_rddata(mipi_buf_rdata)
    );
-   
-   assign o_buf_rdata = in_process ? `MIPI_BUF_DATA_NBIT'd0 : mipi_buf_rdata;
-   
+     
    // PARITY BIT
    reg  pb_strobe;
    reg  pb_data;

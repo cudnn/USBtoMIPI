@@ -40,6 +40,7 @@ set_time_format -unit ns -decimal_places 3
 #**************************************************************
 
 create_clock -name {CLK1} -period 20.833 -waveform { 0.000 10.416 } [get_ports {CLK1}]
+create_clock -name {CLK2} -period 19.231 -waveform { 0.000 10.416 } [get_ports {CLK2}]
 
 
 #**************************************************************
@@ -48,11 +49,11 @@ create_clock -name {CLK1} -period 20.833 -waveform { 0.000 10.416 } [get_ports {
 
 derive_pll_clocks -use_net_name
 
+create_clock -name usb_ifclk -period 20.833 [get_pins {main_clk_gen|altpll_component|auto_generated|pll1|clk[0]}] -add
 
 #**************************************************************
 # Set Clock Latency
 #**************************************************************
-
 
 
 #**************************************************************
@@ -78,7 +79,7 @@ derive_clock_uncertainty
 # Set Clock Groups
 #**************************************************************
 
-
+set_clock_groups -exclusive -group [get_clocks {usb_ifclk clk_gen:main_clk_gen|altpll:altpll_component|clk_gen_altpll1:auto_generated|wire_pll1_clk[0]}] -group [get_clocks {mipi_clkpll:mipi_clk_gen|altpll:altpll_component|mipi_clkpll_altpll:auto_generated|wire_pll1_clk[0]}]
 
 #**************************************************************
 # Set False Path

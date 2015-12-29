@@ -71,7 +71,7 @@
 `define MSG_FP_CODE_23      `MSG_STR_NBIT'h3332
 
 // IO Control
-`define IO_UNIT_NBIT        32
+`define IO_UNIT_NBIT        24
 `define IO_BANK_NBIT        8
 `define IO_DATA_NUM         12
 
@@ -109,3 +109,5 @@
 
 `define MIPI_CMD_WRZERO_PAT `MIPI_CMD_NBIT'b10000000
 `define MIPI_CMD_ZERO_MASK  `MIPI_CMD_NBIT'b10000000
+
+`define MIPI_BANK_NBIT      2

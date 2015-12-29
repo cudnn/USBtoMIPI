@@ -27,10 +27,12 @@ module pkt_decode
    o_io_db,
    o_io_bank,
    // MIPI Interface
+   mipi_clk,
+   mipi_bank,
    sclk,
    sdi,
    sdo,
-   sdo_en,   
+   sdo_en,
    // Interface with RX BUFFER
    rx_vd,
    rx_data,
@@ -44,27 +46,29 @@ module pkt_decode
 ); 
 
    ////////////////// PORT ////////////////////
-   input                       clk;
-   
-   output [`IO_UNIT_NBIT-1:0]  o_io_dir;
-   input  [`IO_UNIT_NBIT-1:0]  i_io_db;
-   output [`IO_UNIT_NBIT-1:0]  o_io_db;
-   output [`IO_BANK_NBIT-1:0]  o_io_bank;
-
-   output                      sclk;
-   input                       sdi;
-   output                      sdo;
-   output                      sdo_en;
-   
-   input                       rx_vd  ;
-   input  [`USB_DATA_NBIT-1:0] rx_data;
-   input                       rx_sop ;
-   input                       rx_eop ;
-   
-   output                      tx_vd;
-   output [`USB_ADDR_NBIT:0]   tx_addr;
-   output [`USB_DATA_NBIT-1:0] tx_data;
-   output                      tx_eop;
+   input                        clk;      // main clock 48MHz
+   input                        mipi_clk; // mipi clock 52MHz
+                                
+   output [`IO_UNIT_NBIT-1:0]   o_io_dir;
+   input  [`IO_UNIT_NBIT-1:0]   i_io_db;
+   output [`IO_UNIT_NBIT-1:0]   o_io_db;
+   output [`IO_BANK_NBIT-1:0]   o_io_bank;
+                                
+   output [`MIPI_BANK_NBIT-1:0] mipi_bank;
+   output                       sclk;
+   input                        sdi;
+   output                       sdo;
+   output                       sdo_en;
+                                
+   input                        rx_vd  ;
+   input  [`USB_DATA_NBIT-1:0]  rx_data;
+   input                        rx_sop ;
+   input                        rx_eop ;
+                                
+   output                       tx_vd;
+   output [`USB_ADDR_NBIT:0]    tx_addr;
+   output [`USB_DATA_NBIT-1:0]  tx_data;
+   output                       tx_eop;
 
    ////////////////// ARCH ////////////////////
 
@@ -208,16 +212,20 @@ module pkt_decode
    reg  [`MIPI_CMD_NBIT-1:0]      proc_mipi_cmd;
    reg                            proc_mipi_set;
    reg                            proc_mipi_exe;
+   reg  [1:0]                     t_mipi_done; // clock domain transfer
    reg                            prev_mipi_done;
+   reg  [`MIPI_CLKDIV_NBIT-1:0]   m_mipi_div;
+   reg                            m_mipi_div_set;
+   reg                            m_mipi_start;
+   reg  [`MIPI_BANK_NBIT-1:0]     mipi_bank;
    
    always@(posedge clk) begin
       proc_handshake_start <= `LOW;
 
       proc_mipi_start      <= `LOW;
       mipi_buf_wr          <= `LOW;
-      mipi_div_set         <= `LOW;
-      mipi_start           <= `LOW;
-      prev_mipi_done       <= mipi_done;
+      t_mipi_done          <= {t_mipi_done[0],mipi_done};
+      prev_mipi_done       <= t_mipi_done[1];
 
       proc_io_start        <= `LOW;
       proc_io_set          <= `LOW;
@@ -241,8 +249,8 @@ module pkt_decode
             mipi_buf_wdata <= atoi_rx_data;
             if(rx_vd&(rx_st==`ST_MSG_DATA)) begin
                if(rx_msg_addr==`MIPI_DIV_BASEADDR) begin
-                  mipi_div_set <= (rx_msg_mode!=`MSG_MODE_EXEDATA);
-                  mipi_div     <= atoi_rx_data;
+                  m_mipi_div_set <= (rx_msg_mode!=`MSG_MODE_EXEDATA);
+                  m_mipi_div     <= atoi_rx_data;
                end
                else if(rx_msg_addr==`MIPI_CMD_BASEADDR) begin
                   proc_mipi_cmd <= atoi_rx_data;
@@ -284,7 +292,11 @@ module pkt_decode
                proc_mipi_start <= rx_msg_eop;
             end       
             
-            if(proc_mipi_exe) begin
+            if(proc_mipi_start) begin
+               m_mipi_start <= `LOW;
+               m_mipi_div_set <= `LOW;
+            end
+            else if(proc_mipi_exe) begin
                if((proc_mipi_cmd&`MIPI_CMD_ZERO_MASK)==`MIPI_CMD_WRZERO_PAT ||
                   (proc_mipi_cmd&`MIPI_CMD_REG_MASK) ==`MIPI_CMD_WR_PAT     || 
                   (proc_mipi_cmd&`MIPI_CMD_REG_MASK) ==`MIPI_CMD_RD_PAT     ||
@@ -292,7 +304,8 @@ module pkt_decode
                   (proc_mipi_cmd&`MIPI_CMD_EXTL_MASK)==`MIPI_CMD_EXTRDL_PAT ||
                   (proc_mipi_cmd&`MIPI_CMD_EXT_MASK) ==`MIPI_CMD_EXTWR_PAT  || 
                   (proc_mipi_cmd&`MIPI_CMD_EXT_MASK) ==`MIPI_CMD_EXTRD_PAT) begin
-                  mipi_start <= `HIGH;
+                  m_mipi_start <= `HIGH;
+                  mipi_bank    <= rx_ch_addr[`MIPI_BANK_NBIT-1:0];
                end
             end            
          end
@@ -404,13 +417,29 @@ module pkt_decode
    
    assign mipi_buf_raddr = `MIPI_BUF_ADDR_NBIT'd`MIPI_DATA_NUM + 2'd2 - tx_msg_addr[`MIPI_BUF_ADDR_NBIT-1:0];
    
+   reg                            d_mipi_div_set;
+   reg                            d_mipi_start  ;
+   
+   always@(posedge mipi_clk) begin
+      d_mipi_div_set <= m_mipi_div_set;
+      d_mipi_start   <= m_mipi_start  ;
+      mipi_div_set   <= `LOW;
+      mipi_start     <= `LOW;
+      if(m_mipi_div_set&~d_mipi_div_set)
+         mipi_div_set <= `HIGH;
+      if(m_mipi_start&~d_mipi_start)
+         mipi_start <= `HIGH;
+      mipi_div <= m_mipi_div;
+   end
+   
    mipi mipi_u
    (
-      .clk        (clk           ),
+      .clk        (mipi_clk      ),
       .set        (mipi_div_set  ),
       .div        (mipi_div      ),
       .start      (mipi_start    ),
       .done       (mipi_done     ),
+      .i_buf_clk  (clk           ),
       .i_buf_wr   (mipi_buf_wr   ),
       .i_buf_waddr(mipi_buf_waddr),
       .i_buf_wdata(mipi_buf_wdata),
