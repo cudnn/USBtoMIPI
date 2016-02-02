@@ -84,11 +84,12 @@ module top
    wire mipi_clk;   // 52MHz
    wire locked_sig;
    clk_gen  main_clk_gen (
-      .areset (`LOW       ),
-      .inclk0 (CLK1       ),
-      .c0     (ifclk      ),
-      .c1     (usb_clk    ),
-      .locked (locked_sig )
+      .areset (`LOW      ),
+      .inclk0 (CLK1      ),
+      .c0     (ifclk     ),
+      .c1     (usb_clk   ),
+      .c2     (),
+      .locked (locked_sig)
    );
    
    mipi_clkpll  mipi_clk_gen (

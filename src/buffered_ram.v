@@ -176,6 +176,7 @@ module buffered_ram_tdp
       buffered_ram_altsyncram.read_during_write_mode_mixed_ports = "DONT_CARE",
       buffered_ram_altsyncram.operation_mode = "BIDIR_DUAL_PORT",
       buffered_ram_altsyncram.outdata_aclr_b = "NONE",
+      buffered_ram_altsyncram.outdata_reg_a = "CLOCK0",
       buffered_ram_altsyncram.outdata_reg_b = "CLOCK1",
       buffered_ram_altsyncram.power_up_uninitialized = "FALSE",
       buffered_ram_altsyncram.widthad_a = p_waddresswidth,
