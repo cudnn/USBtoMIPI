@@ -44,11 +44,16 @@
 `define MSG_TYPE_HANDSHAKE  `MSG_STR_NBIT'h3030  // "00"
 `define MSG_TYPE_MIPI       `MSG_STR_NBIT'h3130  // "01"
 `define MSG_TYPE_IOCTRL     `MSG_STR_NBIT'h3230  // "02"
+`define MSG_TYPE_CNT        `MSG_STR_NBIT'h3330  // "03"
+`define MSG_TYPE_IIC        `MSG_STR_NBIT'h3430  // "04"
+`define MSG_TYPE_SPI        `MSG_STR_NBIT'h3530  // "05"
+`define MSG_TYPE_IOCFG      `MSG_STR_NBIT'h3630  // "06"
 
 `define MSG_MODE_RESERVED   `MSG_STR_NBIT'h3030  // "00"
 `define MSG_MODE_SETDATA    `MSG_STR_NBIT'h3130  // "01"
 `define MSG_MODE_EXEDATA    `MSG_STR_NBIT'h3230  // "02"
 `define MSG_MODE_SEXDATA    `MSG_STR_NBIT'h3330  // "03"
+`define MSG_MODE_IO         `MSG_STR_NBIT'h3430  // "04"
 
 `define MSG_PASS            `MSG_STR_NBIT'h3530  // "05"
 `define MSG_FAIL            `MSG_STR_NBIT'h3730  // "07"
@@ -72,11 +77,11 @@
 
 // IO Control
 `define IO_UNIT_NBIT        24
+`define IO_DATA_NUM         9
 `define IO_BANK_NBIT        8
-`define IO_DATA_NUM         12
 
 // MIPI
-`define MIPI_DATA_NUM       21
+`define MIPI_DATA_NUM       21 // 2(freq)+2(sa)+2(cmd)+4(addr)+16(data)
 
 `define MIPI_CLKDIV_NBIT    8 // 187.5KHz ~ 24MHz
 `define MIPI_SA_NBIT        4

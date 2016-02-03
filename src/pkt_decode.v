@@ -80,6 +80,7 @@ module pkt_decode
    `define ST_MSG_CHADDR 3'b100
    `define ST_MSG_DATA   3'b101
    `define ST_MSG_END    3'b111
+
    reg [2:0] rx_st;
    
    // RX Message Structure: {HEAD,TYPE,MODE,CHANNEL_ADDRESS,DATA}
@@ -90,6 +91,7 @@ module pkt_decode
                                               // "01": reveive data;
                                               // "02": execute data;
                                               // "03": receive and execute data
+   reg [`MSG_STR_NBIT-1:0]       rx_msg_ch_addr;
    reg [`IO_BANK_NBIT-1:0]       rx_ch_addr;  // "00" ~ "FF"
    
    reg [`MSG_DATA_MAX_NBIT-1:0]  rx_msg_data;
@@ -108,6 +110,7 @@ module pkt_decode
       .o_err (atoi_err    )
    );   
    
+   // decode rx command
    always@(posedge clk) begin
       
       // Statement
@@ -121,13 +124,14 @@ module pkt_decode
          case(rx_st)
             `ST_MSG_IDLE : begin
                if(rx_sop) begin
-                  rx_st <= `ST_MSG_HEAD;
-                  rx_msg_type <= 0;
-                  rx_msg_mode <= 0;
-                  rx_ch_addr  <= 0;
-                  rx_msg_addr <= 0;
-                  rx_msg_err  <= `LOW;
-                  rx_msg_data <= 0;
+                  rx_st          <= `ST_MSG_HEAD;
+                  rx_msg_type    <= 0;
+                  rx_msg_mode    <= 0;
+                  rx_ch_addr     <= 0;
+                  rx_msg_addr    <= 0;
+                  rx_msg_err     <= `LOW;
+                  rx_msg_data    <= 0;
+                  rx_msg_ch_addr <=0;
                end
             end
             `ST_MSG_HEAD: begin
@@ -163,11 +167,13 @@ module pkt_decode
                if(rx_vd) begin
                   if(rx_data[`MSG_STR_NBIT/2-1:0]==`MSG_END_N || rx_data[`MSG_STR_NBIT/2-1:0]==`MSG_END_R) begin
                      rx_ch_addr <= 0;
+                     rx_msg_ch_addr <= 0;
                      rx_st <= `ST_MSG_END;
                   end
                   else begin   
                      rx_ch_addr <= atoi_rx_data;
                      rx_msg_err <= atoi_err;
+                     rx_msg_ch_addr <= rx_data;
                      rx_st      <= `ST_MSG_DATA;
                   end
                end
@@ -412,10 +418,18 @@ module pkt_decode
    reg                            mipi_div_set;
    reg                            mipi_start;
    wire                           mipi_done;
-   wire [`MIPI_BUF_ADDR_NBIT-1:0] mipi_buf_raddr;
+   reg  [`MIPI_BUF_ADDR_NBIT-1:0] mipi_buf_raddr;
    wire [`MIPI_BUF_DATA_NBIT-1:0] mipi_buf_rdata;
    
-   assign mipi_buf_raddr = `MIPI_BUF_ADDR_NBIT'd`MIPI_DATA_NUM + 2'd2 - tx_msg_addr[`MIPI_BUF_ADDR_NBIT-1:0];
+   `define ST_MSG_PF  3'b011
+   `define ST_PF_CODE 3'b110
+
+   always@(posedge clk) begin
+      if(tx_st==`ST_MSG_PF || tx_st==`ST_PF_CODE || tx_st==`ST_MSG_CHADDR || tx_st==`ST_MSG_DATA)
+         mipi_buf_raddr <= mipi_buf_raddr + 1'b1;
+      else
+         mipi_buf_raddr <= 0;
+   end
    
    reg                            d_mipi_div_set;
    reg                            d_mipi_start  ;
@@ -452,8 +466,6 @@ module pkt_decode
    );
    
    ////////////////// TX STATEMENT         
-   `define ST_MSG_PF  3'b011
-   `define ST_PF_CODE 3'b110
    
    wire   tx_msg_sop;
    assign tx_msg_sop = proc_handshake_start|proc_io_start|proc_mipi_start;
@@ -496,56 +508,51 @@ module pkt_decode
             tx_vd <= `HIGH;
             tx_buf_addr <= 0;
             tx_data <= `MSG_HEAD;
-            if(tx_msg_type==`MSG_TYPE_MIPI)
-               tx_msg_addr <= `USB_ADDR_NBIT'd`MIPI_DATA_NUM+2'd2;
             tx_st <= `ST_MSG_TYPE;
          end
          `ST_MSG_TYPE: begin
             tx_vd <= `HIGH;
             tx_buf_addr <= tx_buf_addr + 1'b1;
             tx_data <= tx_msg_type;
-            if(tx_msg_type==`MSG_TYPE_MIPI)
-               tx_msg_addr <= tx_msg_addr - 1'b1;
             tx_st <= `ST_MSG_PF;
          end
          `ST_MSG_PF: begin
             tx_vd   <= `HIGH;
             tx_buf_addr <= tx_buf_addr + 1'b1;
             tx_data <= tx_msg_pf;
-            if(tx_msg_type==`MSG_TYPE_MIPI) begin
-               tx_msg_addr <= tx_msg_addr - 1'b1;
-               tx_msg_data <= {mipi_buf_rdata,{`MSG_DATA_MAX_NBIT-`USB_DATA_NBIT/2{1'b0}}};
-            end
             tx_st   <= `ST_PF_CODE;
          end
          `ST_PF_CODE: begin
-            tx_vd   <= `HIGH;
-            tx_data <= tx_pf_code;
+            tx_vd       <= `HIGH;
+            tx_data     <= tx_pf_code;
             tx_buf_addr <= tx_buf_addr + 1'b1;
-            case(tx_msg_type)
-               `MSG_TYPE_HANDSHAKE: begin
-                  tx_st   <= `ST_MSG_IDLE;
-                  tx_eop  <= `HIGH;
-               end
-               `MSG_TYPE_IOCTRL: begin
-                  tx_st       <= `ST_MSG_DATA;
-                  tx_msg_data <= {proc_io_mask,proc_io_dir,proc_io_data};
-                  tx_msg_addr <= `USB_ADDR_NBIT'd`IO_DATA_NUM-1'b1;
-               end
-               `MSG_TYPE_MIPI: begin
-                  tx_msg_addr <= tx_msg_addr - 1'b1;
-                  tx_msg_data <= {mipi_buf_rdata,{`MSG_DATA_MAX_NBIT-`USB_DATA_NBIT/2{1'b0}}};
-                  tx_st       <= `ST_MSG_DATA;
-               end
-               default:;
-            endcase
+            tx_st       <= `ST_MSG_CHADDR;
+            if(tx_msg_type==`MSG_TYPE_HANDSHAKE) begin
+               tx_st   <= `ST_MSG_IDLE;
+               tx_eop  <= `HIGH;
+            end
+         end
+         `ST_MSG_CHADDR: begin
+            tx_vd       <= `HIGH;
+            tx_data     <= rx_msg_ch_addr;
+            tx_buf_addr <= tx_buf_addr + 1'b1;
+            if(tx_msg_type==`MSG_TYPE_IOCTRL) begin
+               tx_st       <= `ST_MSG_DATA;
+               tx_msg_data <= {proc_io_mask,proc_io_dir,proc_io_data};
+               tx_msg_addr <= `USB_ADDR_NBIT'd`IO_DATA_NUM-1'b1;
+            end
+            else if(tx_msg_type==`MSG_TYPE_MIPI) begin
+               tx_st       <= `ST_MSG_DATA;
+               tx_msg_data <= {mipi_buf_rdata,{`MSG_DATA_MAX_NBIT-`USB_DATA_NBIT/2{1'b0}}};
+               tx_msg_addr <= `USB_ADDR_NBIT'd`MIPI_DATA_NUM-1'b1;
+            end
          end
          `ST_MSG_DATA: begin
+            tx_msg_data <= tx_msg_type==`MSG_TYPE_MIPI ? {mipi_buf_rdata,{`MSG_DATA_MAX_NBIT-`USB_DATA_NBIT/2{1'b0}}} : tx_msg_data<<(`USB_DATA_NBIT/2);
+            tx_msg_addr <= tx_msg_addr - 1'b1;
             tx_vd       <= `HIGH;
             tx_buf_addr <= tx_buf_addr + 1'b1;
             tx_data     <= char_tx_data;
-            tx_msg_data <= tx_msg_type==`MSG_TYPE_MIPI ? {mipi_buf_rdata,{`MSG_DATA_MAX_NBIT-`USB_DATA_NBIT/2{1'b0}}} : tx_msg_data<<(`USB_DATA_NBIT/2);
-            tx_msg_addr <= tx_msg_addr - 1'b1;
             if(tx_msg_addr==0)
                tx_st <= `ST_MSG_END;
          end
