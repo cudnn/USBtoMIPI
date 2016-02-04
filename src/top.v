@@ -24,9 +24,6 @@ module top
    CLK2,
    // Chip Enable
    OE,
-   // MIPI Interface
-   SCLK,
-   SDA,
    // IO Interface
    IO_DB,
    // USB Interface
@@ -49,10 +46,7 @@ module top
    output                         OE;
    
    inout  [`IO_UNIT_NBIT-1:0]     IO_DB;
-   
-   output [3:0]                   SCLK;
-   inout  [3:0]                   SDA;
-                                  
+                                     
    output                         USB_XTALIN; // 24MHz
    input                          USB_FLAGB;  // EP2 Empty
    input                          USB_FLAGC;  // EP6 Full
@@ -160,33 +154,7 @@ module top
    wire [`IO_UNIT_NBIT-1:0]  pktdec_o_io_dir;
    wire [`IO_UNIT_NBIT-1:0]  pktdec_i_io_db;
    wire [`IO_UNIT_NBIT-1:0]  pktdec_o_io_db;
-   wire [`IO_BANK_NBIT-1:0]  pktdec_o_io_bank;
-   generate
-   genvar i;
-      for(i=0;i<`IO_UNIT_NBIT;i=i+1)
-      begin:io_ctrl
-         assign IO_DB[i] = pktdec_o_io_dir[i] ? pktdec_o_io_db[i] : 1'bZ;
-         assign pktdec_i_io_db[i] = IO_DB[i];
-      end
-   endgenerate
-
-   wire                       pktdec_sclk;
-   reg                        pktdec_sdi;
-   wire                       pktdec_sdo;
-   wire                       pktdec_sdo_en;
-   wire [`MIPI_BANK_NBIT-1:0] pktdec_mipi_bank;
-   reg  [3:0]                 SCLK;
-   reg  [3:0]                 SDA;
    
-   always@* begin
-      SCLK <= 4'b0000;
-      SDA  <= 4'b0000;
-         
-      SCLK[pktdec_mipi_bank] <= pktdec_sclk;
-      SDA[pktdec_mipi_bank]  <= pktdec_sdo_en ? pktdec_sdo : 1'bZ;
-      pktdec_sdi <= SDA[pktdec_mipi_bank];
-   end
-      
    pkt_decode u_cmd_decode
    (
       .clk      (ifclk           ),
@@ -194,12 +162,6 @@ module top
       .o_io_dir (pktdec_o_io_dir ),
       .i_io_db  (pktdec_i_io_db  ),
       .o_io_db  (pktdec_o_io_db  ),
-      .o_io_bank(pktdec_o_io_bank),
-      .sclk     (pktdec_sclk     ),
-      .sdi      (pktdec_sdi      ),
-      .sdo      (pktdec_sdo      ),
-      .sdo_en   (pktdec_sdo_en   ),
-      .mipi_bank(pktdec_mipi_bank),
       .rx_vd    (rx_cache_vd     ),
       .rx_data  (rx_cache_data   ),
       .rx_sop   (rx_cache_sop    ),
@@ -209,6 +171,15 @@ module top
       .tx_data  (pktdec_tx_data  ),
       .tx_eop   (pktdec_tx_eop   )
    );
+
+   generate
+   genvar m;
+   for(m=0;m<`IO_UNIT_NBIT;m=m+1)
+      begin: u
+         assign IO_DB[m] = pktdec_o_io_dir[m] ? pktdec_o_io_db[m] : 1'bZ;
+         assign pktdec_i_io_db[m] = IO_DB[m];
+      end
+   endgenerate
    
    ////////////////// TX BUFFER
    

@@ -16,14 +16,14 @@
 `define HIGH 1'b1
 `define LOW  1'b0
 
-// SDRAM
+//////////////////  SDRAM
 `define SDRAM_ADDR_NBIT  13
 `define SDRAM_DATA_NBIT  32
 `define SDRAM_DQM_NBIT   4
 `define SDRAM_BA_NBIT    2
 `define SDRAM_NCS_NBIT   2
                          
-// USB                   
+//////////////////  USB                   
 `define USB_DATA_NBIT    16
 `define USB_ADDR_NBIT    8   // 256 x 16-BIT
 `define USB_FIFOADR_NBIT 2
@@ -35,7 +35,7 @@
 `define BUFFER_ADDR_NBIT `USB_ADDR_NBIT
 `define BUFFER_DATA_NBIT `USB_DATA_NBIT
 
-// COMMUNICATION, BYTE INVERTED
+//////////////////  COMMUNICATION, BYTE INVERTED
 `define MSG_STR_NBIT        `USB_DATA_NBIT
 `define MSG_DATA_MAX_NBIT   128                  // 16x8=128 bits
                             
@@ -75,12 +75,16 @@
 `define MSG_FP_CODE_22      `MSG_STR_NBIT'h3232
 `define MSG_FP_CODE_23      `MSG_STR_NBIT'h3332
 
+`define MSG_FP_CODE_61      `MSG_STR_NBIT'h3136
+`define MSG_FP_CODE_62      `MSG_STR_NBIT'h3236
+
 // IO Control
-`define IO_UNIT_NBIT        24
-`define IO_DATA_NUM         9
+`define IO_UNIT_NBIT        32
+`define IO_DATA_NUM         12
 `define IO_BANK_NBIT        8
 
 // MIPI
+`define MIPI_GP_NUM         4
 `define MIPI_DATA_NUM       21 // 2(freq)+2(sa)+2(cmd)+4(addr)+16(data)
 
 `define MIPI_CLKDIV_NBIT    8 // 187.5KHz ~ 24MHz
@@ -116,3 +120,7 @@
 `define MIPI_CMD_ZERO_MASK  `MIPI_CMD_NBIT'b10000000
 
 `define MIPI_BANK_NBIT      2
+
+// IO Configuration
+`define IOCFG_DATA_NBIT     8 // 5 bits = 32 > 22
+`define IOCFG_DATA_NUM      32
