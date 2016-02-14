@@ -37,7 +37,7 @@
 
 //////////////////  COMMUNICATION, BYTE INVERTED
 `define MSG_STR_NBIT        `USB_DATA_NBIT
-`define MSG_DATA_MAX_NBIT   128                  // 16x8=128 bits
+`define MSG_DATA_MAX_NBIT   96
                             
 `define MSG_HEAD            `MSG_STR_NBIT'h5453  // "ST"
                             
