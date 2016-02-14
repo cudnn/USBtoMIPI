@@ -37,7 +37,7 @@
 
 // COMMUNICATION, BYTE INVERTED
 `define MSG_STR_NBIT        `USB_DATA_NBIT
-`define MSG_DATA_MAX_NBIT   128                  // 16x8=128 bits
+`define MSG_DATA_MAX_NBIT   96                  
                             
 `define MSG_HEAD            `MSG_STR_NBIT'h5453  // "ST"
                             
@@ -76,8 +76,8 @@
 `define MSG_FP_CODE_23      `MSG_STR_NBIT'h3332
 
 // IO Control
-`define IO_UNIT_NBIT        24
-`define IO_DATA_NUM         9
+`define IO_UNIT_NBIT        32
+`define IO_DATA_NUM         12 // 4 bytes X 3 =12
 `define IO_BANK_NBIT        8
 
 // MIPI
