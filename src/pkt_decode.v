@@ -218,8 +218,7 @@ module pkt_decode
    reg  [`MIPI_CMD_NBIT-1:0]      proc_mipi_cmd;
    reg                            proc_mipi_set;
    reg                            proc_mipi_exe;
-   reg  [1:0]                     t_mipi_done; // clock domain transfer
-   reg                            prev_mipi_done;
+   reg  [2:0]                     t_mipi_done; // clock domain transfer
    reg  [`MIPI_CLKDIV_NBIT-1:0]   m_mipi_div;
    reg                            m_mipi_div_set;
    reg                            m_mipi_start;
@@ -230,8 +229,7 @@ module pkt_decode
 
       proc_mipi_start      <= `LOW;
       mipi_buf_wr          <= `LOW;
-      t_mipi_done          <= {t_mipi_done[0],mipi_done};
-      prev_mipi_done       <= t_mipi_done[1];
+      t_mipi_done          <= {t_mipi_done[1:0],mipi_done};
 
       proc_io_start        <= `LOW;
       proc_io_set          <= `LOW;
@@ -278,7 +276,7 @@ module pkt_decode
                tx_msg_pf       <= rx_msg_err ? `MSG_FAIL       : `MSG_PASS;
                tx_pf_code      <= rx_msg_err ? `MSG_FP_CODE_13 : `MSG_FP_CODE_11; // 11: succeed; 13: error data received
                proc_mipi_exe   <= ~rx_msg_err&rx_msg_eop;
-               proc_mipi_start <= ~rx_msg_err ? prev_mipi_done&~mipi_done : rx_msg_eop;
+               proc_mipi_start <= ~rx_msg_err ? t_mipi_done[2:1]==2'b01 : rx_msg_eop;
             end
             // set and execute data, control IO with new data
             else if(rx_msg_mode==`MSG_MODE_SEXDATA) begin
@@ -289,7 +287,7 @@ module pkt_decode
                else if(rx_msg_eop)
                   proc_mipi_set <= `LOW;
                proc_mipi_exe   <= ~rx_msg_err&rx_msg_eop;
-               proc_mipi_start <= ~rx_msg_err ? prev_mipi_done&~mipi_done : rx_msg_eop;
+               proc_mipi_start <= ~rx_msg_err ? t_mipi_done[2:1]==2'b01 : rx_msg_eop;
             end
             // Error Mode String
             else begin
@@ -431,17 +429,18 @@ module pkt_decode
          mipi_buf_raddr <= 0;
    end
    
-   reg                            d_mipi_div_set;
-   reg                            d_mipi_start  ;
+   reg [2:0]                      d_mipi_div_set;
+   reg [2:0]                      d_mipi_start  ;
    
    always@(posedge mipi_clk) begin
-      d_mipi_div_set <= m_mipi_div_set;
-      d_mipi_start   <= m_mipi_start  ;
+      d_mipi_div_set <= {d_mipi_div_set[1:0],m_mipi_div_set};
+      d_mipi_start   <= {d_mipi_start  [1:0],m_mipi_start  };
+      
       mipi_div_set   <= `LOW;
       mipi_start     <= `LOW;
-      if(m_mipi_div_set&~d_mipi_div_set)
+      if(d_mipi_div_set[2:1]==2'b01)
          mipi_div_set <= `HIGH;
-      if(m_mipi_start&~d_mipi_start)
+      if(d_mipi_start[2:1]==2'b01)
          mipi_start <= `HIGH;
       mipi_div <= m_mipi_div;
    end

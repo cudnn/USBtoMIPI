@@ -77,11 +77,11 @@
 
 // IO Control
 `define IO_UNIT_NBIT        32
-`define IO_DATA_NUM         12 // 4 bytes X 3 =12
+`define IO_DATA_NUM         12 // 4(mask) + 4(dir) + 4(data)
 `define IO_BANK_NBIT        8
 
 // MIPI
-`define MIPI_DATA_NUM       21 // 2(freq)+2(sa)+2(cmd)+4(addr)+16(data)
+`define MIPI_DATA_NUM       21 // 1(freq)+1(sa)+1(cmd)+2(addr)+16(data)
 
 `define MIPI_CLKDIV_NBIT    8 // 187.5KHz ~ 24MHz
 `define MIPI_SA_NBIT        4

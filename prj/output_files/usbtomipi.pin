@@ -78,12 +78,12 @@ IO_DB[11]                    : A6        : bidir  : 3.3-V LVTTL       :         
 IO_DB[6]                     : A7        : bidir  : 3.3-V LVTTL       :         : 8         : Y              
 IO_DB[0]                     : A8        : bidir  : 3.3-V LVTTL       :         : 8         : Y              
 IO_DB[22]                    : A9        : bidir  : 3.3-V LVTTL       :         : 7         : Y              
-IO_DB[26]                    : A10       : bidir  : 3.3-V LVTTL       :         : 7         : N              
+RESERVED_INPUT               : A10       :        :                   :         : 7         :                
 RESERVED_INPUT               : A11       :        :                   :         : 7         :                
 RESERVED_INPUT               : A12       :        :                   :         : 7         :                
 RESERVED_INPUT               : A13       :        :                   :         : 7         :                
 RESERVED_INPUT               : A14       :        :                   :         : 7         :                
-IO_DB[25]                    : A15       : bidir  : 3.3-V LVTTL       :         : 7         : N              
+IO_DB[28]                    : A15       : bidir  : 3.3-V LVTTL       :         : 7         : N              
 VCCIO7                       : A16       : power  :                   : 3.3V    : 7         :                
 RESERVED_INPUT               : B1        :        :                   :         : 1         :                
 GND                          : B2        : gnd    :                   :         :           :                
@@ -117,7 +117,7 @@ VCCIO7                       : C13       : power  :                   : 3.3V    
 RESERVED_INPUT               : C14       :        :                   :         : 7         :                
 USB_DB[1]                    : C15       : bidir  : 3.3-V LVTTL       :         : 6         : Y              
 USB_DB[2]                    : C16       : bidir  : 3.3-V LVTTL       :         : 6         : Y              
-RESERVED_INPUT               : D1        :        :                   :         : 1         :                
+IO_DB[29]                    : D1        : bidir  : 3.3-V LVTTL       :         : 1         : N              
 RESERVED_INPUT               : D2        :        :                   :         : 1         :                
 IO_DB[17]                    : D3        : bidir  : 3.3-V LVTTL       :         : 8         : Y              
 OE                           : D4        : output : 3.3-V LVTTL       :         : 1         : Y              
@@ -137,7 +137,7 @@ CLK1                         : E1        : input  : 3.3-V LVTTL       :         
 GND                          : E2        : gnd    :                   :         :           :                
 VCCIO1                       : E3        : power  :                   : 3.3V    : 1         :                
 GND                          : E4        : gnd    :                   :         :           :                
-RESERVED_INPUT               : E5        :        :                   :         : 1         :                
+IO_DB[26]                    : E5        : bidir  : 3.3-V LVTTL       :         : 1         : N              
 IO_DB[14]                    : E6        : bidir  : 3.3-V LVTTL       :         : 8         : Y              
 IO_DB[13]                    : E7        : bidir  : 3.3-V LVTTL       :         : 8         : Y              
 IO_DB[4]                     : E8        : bidir  : 3.3-V LVTTL       :         : 8         : Y              
@@ -149,27 +149,27 @@ GND                          : E13       : gnd    :                   :         
 VCCIO6                       : E14       : power  :                   : 3.3V    : 6         :                
 GND+                         : E15       :        :                   :         : 6         :                
 USB_FLAGC                    : E16       : input  : 3.3-V LVTTL       :         : 6         : Y              
-RESERVED_INPUT               : F1        :        :                   :         : 1         :                
-RESERVED_INPUT               : F2        :        :                   :         : 1         :                
+IO_DB[27]                    : F1        : bidir  : 3.3-V LVTTL       :         : 1         : N              
+IO_DB[24]                    : F2        : bidir  : 3.3-V LVTTL       :         : 1         : N              
 RESERVED_INPUT               : F3        :        :                   :         : 1         :                
 nSTATUS                      : F4        :        :                   :         : 1         :                
 RESERVED_INPUT               : F5        :        :                   :         : 1         :                
 IO_DB[8]                     : F6        : bidir  : 3.3-V LVTTL       :         : 8         : Y              
 IO_DB[9]                     : F7        : bidir  : 3.3-V LVTTL       :         : 8         : Y              
 IO_DB[5]                     : F8        : bidir  : 3.3-V LVTTL       :         : 8         : Y              
-IO_DB[27]                    : F9        : bidir  : 3.3-V LVTTL       :         : 7         : N              
-IO_DB[29]                    : F10       : bidir  : 3.3-V LVTTL       :         : 7         : N              
-IO_DB[28]                    : F11       : bidir  : 3.3-V LVTTL       :         : 7         : N              
+RESERVED_INPUT               : F9        :        :                   :         : 7         :                
+RESERVED_INPUT               : F10       :        :                   :         : 7         :                
+RESERVED_INPUT               : F11       :        :                   :         : 7         :                
 VCCA2                        : F12       : power  :                   : 2.5V    :           :                
 USB_DB[5]                    : F13       : bidir  : 3.3-V LVTTL       :         : 6         : Y              
 USB_DB[6]                    : F14       : bidir  : 3.3-V LVTTL       :         : 6         : Y              
 USB_DB[7]                    : F15       : bidir  : 3.3-V LVTTL       :         : 6         : Y              
 RESERVED_INPUT               : F16       :        :                   :         : 6         :                
-IO_DB[24]                    : G1        : bidir  : 3.3-V LVTTL       :         : 1         : N              
+IO_DB[25]                    : G1        : bidir  : 3.3-V LVTTL       :         : 1         : N              
 IO_DB[30]                    : G2        : bidir  : 3.3-V LVTTL       :         : 1         : N              
 VCCIO1                       : G3        : power  :                   : 3.3V    : 1         :                
 GND                          : G4        : gnd    :                   :         :           :                
-RESERVED_INPUT               : G5        :        :                   :         : 1         :                
+IO_DB[31]                    : G5        : bidir  : 3.3-V LVTTL       :         : 1         : N              
 VCCINT                       : G6        : power  :                   : 1.2V    :           :                
 VCCINT                       : G7        : power  :                   : 1.2V    :           :                
 VCCINT                       : G8        : power  :                   : 1.2V    :           :                
@@ -237,7 +237,7 @@ VCCA1                        : L5        : power  :                   : 2.5V    
 RESERVED_INPUT               : L6        :        :                   :         : 2         :                
 RESERVED_INPUT               : L7        :        :                   :         : 3         :                
 RESERVED_INPUT               : L8        :        :                   :         : 3         :                
-IO_DB[31]                    : L9        : bidir  : 3.3-V LVTTL       :         : 4         : N              
+RESERVED_INPUT               : L9        :        :                   :         : 4         :                
 RESERVED_INPUT               : L10       :        :                   :         : 4         :                
 RESERVED_INPUT               : L11       :        :                   :         : 4         :                
 RESERVED_INPUT               : L12       :        :                   :         : 5         :                
