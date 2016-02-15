@@ -212,7 +212,7 @@ module pkt_decode
    reg  [`MIPI_CMD_NBIT-1:0]      proc_mipi_cmd;
    reg                            proc_mipi_set;
    reg                            proc_mipi_exe;
-   reg  [1:0]                     t_mipi_done; // clock domain transfer
+   reg  [2:0]                     t_mipi_done; // clock domain transfer
    reg                            prev_mipi_done;
    reg  [`MIPI_CLKDIV_NBIT-1:0]   m_mipi_div;
    reg                            m_mipi_div_set;
@@ -224,8 +224,8 @@ module pkt_decode
 
       proc_mipi_start      <= `LOW;
       mipi_buf_wr          <= `LOW;
-      t_mipi_done          <= {t_mipi_done[0],mipi_done};
-      prev_mipi_done       <= t_mipi_done[1];
+      t_mipi_done          <= {t_mipi_done[1:0],mipi_done};
+      prev_mipi_done       <= t_mipi_done[2];
 
       proc_io_start        <= `LOW;
       proc_io_set          <= `LOW;
@@ -374,15 +374,15 @@ module pkt_decode
    genvar i;
       for(i=0;i<`IO_UNIT_NBIT;i=i+1)
       begin:u
-         assign new_io_dir[i]  = new_io_mask[i] ? `LOW : rx_msg_data[i+`IO_UNIT_NBIT];
-         assign new_io_data[i] = new_io_dir[i] ? rx_msg_data[i] : 
+         assign new_io_dir[i]  = new_io_mask[i] ? `LOW : rx_msg_data[i+`IO_UNIT_NBIT]; // when masked, direction of io performs as input tri-stated
+         assign new_io_data[i] = new_io_dir[i] ? rx_msg_data[i] :                      // when masked, data of io is LOW
                                                 (new_io_mask[i] ? `LOW : i_io_db[i]);
       end
    endgenerate
    
-   reg [`IO_UNIT_NBIT-1:0]   proc_io_dir ;
-   reg [`IO_UNIT_NBIT-1:0]   proc_io_mask;
-   reg [`IO_UNIT_NBIT-1:0]   proc_io_data;
+   reg [`IO_UNIT_NBIT-1:0]   proc_io_dir ; // ioctrl data for usb ack
+   reg [`IO_UNIT_NBIT-1:0]   proc_io_mask; // ioctrl data for usb ack
+   reg [`IO_UNIT_NBIT-1:0]   proc_io_data; // ioctrl data for usb ack
    reg [`IO_UNIT_NBIT-1:0]   o_io_db ;
    reg [`IO_UNIT_NBIT-1:0]   o_io_dir;
    reg [`IO_BANK_NBIT-1:0]   o_io_bank;
@@ -417,17 +417,21 @@ module pkt_decode
    
    assign mipi_buf_raddr = `MIPI_BUF_ADDR_NBIT'd`MIPI_DATA_NUM + 2'd2 - tx_msg_addr[`MIPI_BUF_ADDR_NBIT-1:0];
    
-   reg                            d_mipi_div_set;
-   reg                            d_mipi_start  ;
+   // clock transfer - From main clock: 48MHz To mipi clock: 50MHz
+   reg [2:0]                      d_mipi_div_set;
+   reg [2:0]                      d_mipi_start  ;
    
    always@(posedge mipi_clk) begin
-      d_mipi_div_set <= m_mipi_div_set;
-      d_mipi_start   <= m_mipi_start  ;
+      // two flip-flop for clock transfer
+      d_mipi_div_set <= {d_mipi_div_set[1:0],m_mipi_div_set};
+      d_mipi_start   <= {d_mipi_start  [1:0],m_mipi_start  };
+      
       mipi_div_set   <= `LOW;
       mipi_start     <= `LOW;
-      if(m_mipi_div_set&~d_mipi_div_set)
+      // detect posedge
+      if(d_mipi_div_set[2:1]==2'b01)
          mipi_div_set <= `HIGH;
-      if(m_mipi_start&~d_mipi_start)
+      if(d_mipi_start[2:1]==2'b01)
          mipi_start <= `HIGH;
       mipi_div <= m_mipi_div;
    end
@@ -529,7 +533,7 @@ module pkt_decode
                end
                `MSG_TYPE_IOCTRL: begin
                   tx_st       <= `ST_MSG_DATA;
-                  tx_msg_data <= {proc_io_mask,proc_io_dir,proc_io_data};
+                  tx_msg_data <= {proc_io_mask,proc_io_dir,proc_io_data,{`MSG_DATA_MAX_NBIT-3*`IO_UNIT_NBIT{1'b0}}};
                   tx_msg_addr <= `USB_ADDR_NBIT'd`IO_DATA_NUM-1'b1;
                end
                `MSG_TYPE_MIPI: begin
