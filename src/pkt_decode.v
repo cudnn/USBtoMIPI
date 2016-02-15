@@ -378,9 +378,8 @@ module pkt_decode
    genvar i;
       for(i=0;i<`IO_UNIT_NBIT;i=i+1)
       begin:u
-         assign new_io_dir[i]  = new_io_mask[i] ? `LOW : rx_msg_data[i+`IO_UNIT_NBIT];
-         assign new_io_data[i] = new_io_dir[i] ? rx_msg_data[i] : 
-                                                (new_io_mask[i] ? `LOW : i_io_db[i]);
+         assign new_io_dir[i]  = new_io_mask[i] ? proc_io_dir[i] : rx_msg_data[i+`IO_UNIT_NBIT];
+         assign new_io_data[i] = new_io_mask[i] ? proc_io_data[i] : (new_io_dir[i] ? rx_msg_data[i] : i_io_db[i]);
       end
    endgenerate
    
@@ -401,7 +400,7 @@ module pkt_decode
          end
          // execute data
          if(proc_io_exe) begin
-            o_io_db   <= proc_io_set ? (new_io_data&~new_io_mask) : (proc_io_data&~proc_io_mask);
+            o_io_db   <= proc_io_set ? new_io_data : proc_io_data;
             o_io_dir  <= proc_io_set ? new_io_dir  : proc_io_dir;
             o_io_bank <= rx_ch_addr;
          end
