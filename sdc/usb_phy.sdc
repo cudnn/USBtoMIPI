@@ -60,31 +60,29 @@ set_time_format -unit ns -decimal_places 3
 # Set Input Delay
 #**************************************************************
 
-set_input_delay -clock { usb_ifclk } -max 15 [get_ports {USB_DB[*]}]
-set_input_delay -clock { usb_ifclk } -min 0 [get_ports {USB_DB[*]}]
-set_input_delay -clock { usb_ifclk } -max 13.5 [get_ports {USB_FLAGB}]
-set_input_delay -clock { usb_ifclk } -min 0 [get_ports {USB_FLAGB}]
-set_input_delay -clock { usb_ifclk } -max 13.5 [get_ports {USB_FLAGC}]
-set_input_delay -clock { usb_ifclk } -min 0 [get_ports {USB_FLAGC}]
+set_input_delay -clock { clk_gen:main_clk_gen|altpll:altpll_component|clk_gen_altpll:auto_generated|wire_pll1_clk[0] } -max 15 [get_ports {USB_DB[*]}]
+set_input_delay -clock { clk_gen:main_clk_gen|altpll:altpll_component|clk_gen_altpll:auto_generated|wire_pll1_clk[0] } -min 0 [get_ports {USB_DB[*]}]
+set_input_delay -clock { clk_gen:main_clk_gen|altpll:altpll_component|clk_gen_altpll:auto_generated|wire_pll1_clk[0] } -max 13.5 [get_ports {USB_FLAGB}]
+set_input_delay -clock { clk_gen:main_clk_gen|altpll:altpll_component|clk_gen_altpll:auto_generated|wire_pll1_clk[0] } -min 0 [get_ports {USB_FLAGB}]
+set_input_delay -clock { clk_gen:main_clk_gen|altpll:altpll_component|clk_gen_altpll:auto_generated|wire_pll1_clk[0] } -max 13.5 [get_ports {USB_FLAGC}]
+set_input_delay -clock { clk_gen:main_clk_gen|altpll:altpll_component|clk_gen_altpll:auto_generated|wire_pll1_clk[0] } -min 0 [get_ports {USB_FLAGC}]
 
 #**************************************************************
 # Set Output Delay
 #**************************************************************
 
-set_output_delay -clock { usb_ifclk } -max 3.2 [get_ports {USB_DB[*]}]
-set_output_delay -clock { usb_ifclk } -min -4.5 [get_ports {USB_DB[*]}]
-set_output_delay -clock { usb_ifclk } -max 2.7 [get_ports {USB_SLRD}]
-set_output_delay -clock { usb_ifclk } -min -3.7 [get_ports {USB_SLRD}]
-set_output_delay -clock { usb_ifclk } -max 2.1 [get_ports {USB_SLWR}]
-set_output_delay -clock { usb_ifclk } -min -3.6 [get_ports {USB_SLWR}]
-set_output_delay -clock { clk_gen:main_clk_gen|altpll:altpll_component|clk_gen_altpll1:auto_generated|wire_pll1_clk[0] } -clock_fall 0 [get_ports {USB_IFCLK}]
-set_output_delay -clock { clk_gen:main_clk_gen|altpll:altpll_component|clk_gen_altpll1:auto_generated|wire_pll1_clk[1] } 0 [get_ports {USB_XTALIN}]
+set_output_delay -clock { clk_gen:main_clk_gen|altpll:altpll_component|clk_gen_altpll:auto_generated|wire_pll1_clk[0] } -max 3.2 [get_ports {USB_DB[*]}]
+set_output_delay -clock { clk_gen:main_clk_gen|altpll:altpll_component|clk_gen_altpll:auto_generated|wire_pll1_clk[0] } -min -4.5 [get_ports {USB_DB[*]}]
+set_output_delay -clock { clk_gen:main_clk_gen|altpll:altpll_component|clk_gen_altpll:auto_generated|wire_pll1_clk[0] } -max 2.7 [get_ports {USB_SLRD}]
+set_output_delay -clock { clk_gen:main_clk_gen|altpll:altpll_component|clk_gen_altpll:auto_generated|wire_pll1_clk[0] } -min -3.7 [get_ports {USB_SLRD}]
+set_output_delay -clock { clk_gen:main_clk_gen|altpll:altpll_component|clk_gen_altpll:auto_generated|wire_pll1_clk[0] } -max 2.1 [get_ports {USB_SLWR}]
+set_output_delay -clock { clk_gen:main_clk_gen|altpll:altpll_component|clk_gen_altpll:auto_generated|wire_pll1_clk[0] } -min -3.6 [get_ports {USB_SLWR}]
+set_output_delay -clock { clk_gen:main_clk_gen|altpll:altpll_component|clk_gen_altpll:auto_generated|wire_pll1_clk[0] } -clock_fall 0 [get_ports {USB_IFCLK}]
+set_output_delay -clock { clk_gen:main_clk_gen|altpll:altpll_component|clk_gen_altpll:auto_generated|wire_pll1_clk[1] } 0 [get_ports {USB_XTALIN}]
 
 #**************************************************************
 # Set Clock Groups
 #**************************************************************
-
-set_clock_groups -exclusive -group [get_clocks {clk_gen:main_clk_gen|altpll:altpll_component|clk_gen_altpll1:auto_generated|wire_pll1_clk[0]}] -group [get_clocks {usb_ifclk}]
 
 #**************************************************************
 # Set False Path
