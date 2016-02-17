@@ -100,88 +100,87 @@ module pkt_decode
    always@(posedge clk) begin: rx_fsm   
       // Statement
       rx_msg_eop <= `LOW;
-      if(rx_eop) begin
-         rx_st <= `ST_MSG_IDLE;
-         if(rx_st==`ST_MSG_END)
-            rx_msg_eop  <= `HIGH;
-      end
-      else begin
-         case(rx_st)
-            `ST_MSG_IDLE : begin
-               if(rx_sop) begin
-                  rx_st          <= `ST_MSG_HEAD;
-                  rx_msg_type    <= 0;
-                  rx_msg_mode    <= 0;
-                  rx_ch_addr     <= 0;
-                  rx_msg_addr    <= 0;
-                  rx_msg_err     <= `LOW;
-                  rx_msg_data    <= 0;
-                  rx_msg_ch_addr <=0;
+      case(rx_st)
+         `ST_MSG_IDLE : begin
+            if(rx_sop) begin
+               rx_st          <= `ST_MSG_HEAD;
+               rx_msg_type    <= 0;
+               rx_msg_mode    <= 0;
+               rx_ch_addr     <= 0;
+               rx_msg_addr    <= 0;
+               rx_msg_err     <= `LOW;
+               rx_msg_data    <= 0;
+               rx_msg_ch_addr <= 0;
+            end
+         end
+         `ST_MSG_HEAD: begin
+            // Detect HEAD
+            if(rx_vd&rx_data==`MSG_HEAD) begin
+               rx_st        <= `ST_MSG_TYPE;
+            end
+         end
+         `ST_MSG_TYPE: begin
+            if(rx_vd) begin
+               // Three TYPE Supported:
+               // - "00": HANDSHAKE
+               // - "01": MIPI
+               // - "02": IO CONTROL
+               rx_msg_type  <= rx_data;
+               rx_st        <= `ST_MSG_MODE;
+            end
+         end
+         `ST_MSG_MODE : begin
+            if(rx_vd) begin
+               if(rx_data[`MSG_STR_NBIT/2-1:0]==`MSG_END_N || rx_data[`MSG_STR_NBIT/2-1:0]==`MSG_END_R) begin
+                  rx_ch_addr   <= 0;
+                  rx_msg_mode  <= 0;
+                  rx_st        <= `ST_MSG_END;
+               end
+               else begin
+                  rx_msg_mode  <= rx_data;
+                  rx_st        <= `ST_MSG_CHADDR;
                end
             end
-            `ST_MSG_HEAD: begin
-               // Detect HEAD
-               if(rx_vd&rx_data==`MSG_HEAD) begin
-                  rx_st        <= `ST_MSG_TYPE;
+         end
+         `ST_MSG_CHADDR: begin
+            if(rx_vd) begin
+               if(rx_data[`MSG_STR_NBIT/2-1:0]==`MSG_END_N || rx_data[`MSG_STR_NBIT/2-1:0]==`MSG_END_R) begin
+                  rx_ch_addr <= 0;
+                  rx_msg_ch_addr <= 0;
+                  rx_st <= `ST_MSG_END;
+               end
+               else begin   
+                  rx_ch_addr <= atoi_rx_data;
+                  rx_msg_err <= atoi_err;
+                  rx_msg_ch_addr <= rx_data;
+                  rx_st      <= `ST_MSG_DATA;
                end
             end
-            `ST_MSG_TYPE: begin
-               if(rx_vd) begin
-                  // Three TYPE Supported:
-                  // - "00": HANDSHAKE
-                  // - "01": MIPI
-                  // - "02": IO CONTROL
-                  rx_msg_type  <= rx_data;
-                  rx_st        <= `ST_MSG_MODE;
+         end
+         `ST_MSG_DATA: begin
+            if(rx_vd) begin
+               if(rx_data[`MSG_STR_NBIT/2-1:0]==`MSG_END_N || rx_data[`MSG_STR_NBIT/2-1:0]==`MSG_END_R)
+                  rx_st <= `ST_MSG_END;
+               else begin
+                  rx_msg_addr <= rx_msg_addr + 1'b1;
+                  rx_msg_data <= {rx_msg_data[`MSG_DATA_MAX_NBIT-`USB_DATA_NBIT/2-1:0],atoi_rx_data}; 
+                  rx_msg_err  <= atoi_err;
                end
             end
-            `ST_MSG_MODE : begin
-               if(rx_vd) begin
-                  if(rx_data[`MSG_STR_NBIT/2-1:0]==`MSG_END_N || rx_data[`MSG_STR_NBIT/2-1:0]==`MSG_END_R) begin
-                     rx_ch_addr   <= 0;
-                     rx_msg_mode  <= 0;
-                     rx_st        <= `ST_MSG_END;
-                  end
-                  else begin
-                     rx_msg_mode  <= rx_data;
-                     rx_st        <= `ST_MSG_CHADDR;
-                  end
-               end
-            end
-            `ST_MSG_CHADDR: begin
-               if(rx_vd) begin
-                  if(rx_data[`MSG_STR_NBIT/2-1:0]==`MSG_END_N || rx_data[`MSG_STR_NBIT/2-1:0]==`MSG_END_R) begin
-                     rx_ch_addr <= 0;
-                     rx_msg_ch_addr <= 0;
-                     rx_st <= `ST_MSG_END;
-                  end
-                  else begin   
-                     rx_ch_addr <= atoi_rx_data;
-                     rx_msg_err <= atoi_err;
-                     rx_msg_ch_addr <= rx_data;
-                     rx_st      <= `ST_MSG_DATA;
-                  end
-               end
-            end
-            `ST_MSG_DATA: begin
-               if(rx_vd) begin
-                  if(rx_data[`MSG_STR_NBIT/2-1:0]==`MSG_END_N || rx_data[`MSG_STR_NBIT/2-1:0]==`MSG_END_R)
-                     rx_st <= `ST_MSG_END;
-                  else begin
-                     rx_msg_addr <= rx_msg_addr + 1'b1;
-                     rx_msg_data <= {rx_msg_data[`MSG_DATA_MAX_NBIT-`USB_DATA_NBIT/2-1:0],atoi_rx_data}; 
-                     rx_msg_err  <= atoi_err;
-                  end
-               end
-            end
-            `ST_MSG_END: begin
+            if(rx_eop) begin
                rx_msg_eop <= `HIGH;
                rx_st      <= `ST_MSG_IDLE;
             end
-            default:
-               rx_st <= `ST_MSG_IDLE;
-         endcase
-      end      
+         end
+         `ST_MSG_END: begin
+            if(rx_eop) begin
+               rx_msg_eop <= `HIGH;
+               rx_st      <= `ST_MSG_IDLE;
+            end
+         end
+         default:
+            rx_st <= `ST_MSG_IDLE;
+      endcase
    end
    
    ////////////////// Instruction Execute
@@ -190,7 +189,7 @@ module pkt_decode
    reg  [`MSG_STR_NBIT-1:0]       tx_pf_code;
    reg                            tx_buf_baddr; // base address of BUFFER
                              
-   // HANDSHAKE              
+   // HANDSHAKE: USB clock domain - 48MHz
    reg                            proc_handshake_start;
                                      
    always@(posedge clk) begin: ins_exe
@@ -288,24 +287,23 @@ module pkt_decode
       endcase
    end
    
-   ////////////////// IO Control Process
-   wire [`IO_UNIT_NBIT-1:0]   new_io_dir ;
-   wire [`IO_UNIT_NBIT-1:0]   new_io_mask;
-   wire [`IO_UNIT_NBIT-1:0]   new_io_data;
-
-   wire [`IO_UNIT_NBIT-1:0]  i_ioctrl_db;   
+   ////////////////// IO Control Process: USB clock domain - 48MHz
+   wire [`IO_UNIT_NBIT-1:0] new_io_dir ;
+   wire [`IO_UNIT_NBIT-1:0] new_io_mask;
+   wire [`IO_UNIT_NBIT-1:0] new_io_data;
+                            
+   wire [`IO_UNIT_NBIT-1:0] i_ioctrl_db;   
 
    // dir: 0-input; 1-output
    // mask: 0-don't mask; 1-mask
-   // when bit is masked, it performs as input tri-stated: dir=0 and data=0
+   // when bit is masked, it retain previous value
    assign new_io_mask = rx_msg_data[`IO_UNIT_NBIT*3-1:`IO_UNIT_NBIT*2];  
    generate
    genvar i;
       for(i=0;i<`IO_UNIT_NBIT;i=i+1)
       begin: new_io
-         assign new_io_dir[i]  = new_io_mask[i] ? `LOW : rx_msg_data[i+`IO_UNIT_NBIT];
-         assign new_io_data[i] = new_io_dir[i] ? rx_msg_data[i] : 
-                                                (new_io_mask[i] ? `LOW : i_ioctrl_db[i]);
+         assign new_io_dir[i]  = new_io_mask[i] ? proc_io_dir[i]  : rx_msg_data[i+`IO_UNIT_NBIT];
+         assign new_io_data[i] = new_io_mask[i] ? proc_io_data[i] : (new_io_dir[i] ? rx_msg_data[i] : i_ioctrl_db[i]);
       end
    endgenerate
    
@@ -363,7 +361,7 @@ module pkt_decode
       end
    end
    
-   ////////////////// MIPI Process
+   ////////////////// MIPI Process: MIPI clock domain - 50MHz
    reg                            proc_mipi_start;
    reg  [`MIPI_CMD_NBIT-1:0]      proc_mipi_cmd;
    reg                            proc_mipi_set;
@@ -408,7 +406,7 @@ module pkt_decode
          // execute data, control IO with current data
          else if(rx_msg_mode==`MSG_MODE_EXEDATA) begin
             proc_mipi_exe   <= ~rx_msg_err&rx_msg_eop;
-            proc_mipi_start <= ~rx_msg_err ? prev_mipi_done[2]&~(|mipi_done) : rx_msg_eop;
+            proc_mipi_start <= ~rx_msg_err ? prev_mipi_done[2:1]==2'b01 : rx_msg_eop;
          end
          // set and execute data, control IO with new data
          else if(rx_msg_mode==`MSG_MODE_SEXDATA) begin
@@ -417,7 +415,7 @@ module pkt_decode
             else if(rx_msg_eop)
                proc_mipi_set <= `LOW;
             proc_mipi_exe   <= ~rx_msg_err&rx_msg_eop;
-            proc_mipi_start <= ~rx_msg_err ? prev_mipi_done[2]&(~|mipi_done) : rx_msg_eop;
+            proc_mipi_start <= ~rx_msg_err ? prev_mipi_done[2:1]==2'b01 : rx_msg_eop;
          end
          // Error Mode String
          else begin
@@ -464,19 +462,21 @@ module pkt_decode
          mipi_buf_raddr <= 0;
    end
    
-   // clock transfer
-   reg d_mipi_div_set;
-   reg d_mipi_start  ;
+   // clock transfer from USB domain(48MHz) to MIPI domain(50MHz)
+   reg [2:0] d_mipi_div_set;
+   reg [2:0] d_mipi_start  ;
    
    always@(posedge mipi_clk) begin
-      d_mipi_div_set <= m_mipi_div_set;
-      d_mipi_start   <= m_mipi_start  ;
+      d_mipi_div_set <= {d_mipi_div_set[1:0],m_mipi_div_set};
       mipi_div_set   <= `LOW;
-      mipi_start     <= `LOW;
-      if(m_mipi_div_set&~d_mipi_div_set)
+      if(d_mipi_div_set[2:1]==2'b01)
          mipi_div_set <= `HIGH;
-      if(m_mipi_start&~d_mipi_start)
+
+      d_mipi_start   <= {d_mipi_start  [1:0],m_mipi_start  };
+      mipi_start     <= `LOW;
+      if(d_mipi_start[2:1]==2'b01)
          mipi_start <= `HIGH;
+
       mipi_div <= m_mipi_div;
    end
 
@@ -597,7 +597,7 @@ module pkt_decode
             tx_buf_addr <= tx_buf_addr + 1'b1;
             if(tx_msg_type==`MSG_TYPE_IOCTRL) begin
                tx_st       <= `ST_MSG_DATA;
-               tx_msg_data <= {proc_io_mask,proc_io_dir,proc_io_data};
+               tx_msg_data <= {proc_io_mask,proc_io_dir,proc_io_data,{`MSG_DATA_MAX_NBIT-`IO_UNIT_NBIT*3{1'b0}}};
                tx_msg_addr <= `USB_ADDR_NBIT'd`IO_DATA_NUM-1'b1;
             end
             else if(tx_msg_type==`MSG_TYPE_MIPI) begin
