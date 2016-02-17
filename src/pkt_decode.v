@@ -115,88 +115,88 @@ module pkt_decode
       
       // Statement
       rx_msg_eop <= `LOW;
-      if(rx_eop) begin
-         rx_st <= `ST_MSG_IDLE;
-         if(rx_st==`ST_MSG_END)
-            rx_msg_eop  <= `HIGH;
-      end
-      else begin
-         case(rx_st)
-            `ST_MSG_IDLE : begin
-               if(rx_sop) begin
-                  rx_st          <= `ST_MSG_HEAD;
-                  rx_msg_type    <= 0;
-                  rx_msg_mode    <= 0;
-                  rx_ch_addr     <= 0;
-                  rx_msg_addr    <= 0;
-                  rx_msg_err     <= `LOW;
-                  rx_msg_data    <= 0;
-                  rx_msg_ch_addr <=0;
+      case(rx_st)
+         `ST_MSG_IDLE : begin
+            if(rx_sop) begin
+               rx_st          <= `ST_MSG_HEAD;
+               rx_msg_type    <= 0;
+               rx_msg_mode    <= 0;
+               rx_ch_addr     <= 0;
+               rx_msg_addr    <= 0;
+               rx_msg_err     <= `LOW;
+               rx_msg_data    <= 0;
+               rx_msg_ch_addr <=0;
+            end
+         end
+         `ST_MSG_HEAD: begin
+            // Detect HEAD
+            if(rx_vd&rx_data==`MSG_HEAD) begin
+               rx_st        <= `ST_MSG_TYPE;
+            end
+         end
+         `ST_MSG_TYPE: begin
+            if(rx_vd) begin
+               // Three TYPE Supported:
+               // - "00": HANDSHAKE
+               // - "01": MIPI
+               // - "02": IO CONTROL
+               rx_msg_type  <= rx_data;
+               rx_st        <= `ST_MSG_MODE;
+            end
+         end
+         `ST_MSG_MODE : begin
+            if(rx_vd) begin
+               if(rx_data[`MSG_STR_NBIT/2-1:0]==`MSG_END_N || rx_data[`MSG_STR_NBIT/2-1:0]==`MSG_END_R) begin
+                  rx_ch_addr   <= 0;
+                  rx_msg_mode  <= 0;
+                  rx_st        <= `ST_MSG_END;
+               end
+               else begin
+                  rx_msg_mode  <= rx_data;
+                  rx_st        <= `ST_MSG_CHADDR;
                end
             end
-            `ST_MSG_HEAD: begin
-               // Detect HEAD
-               if(rx_vd&rx_data==`MSG_HEAD) begin
-                  rx_st        <= `ST_MSG_TYPE;
+         end
+         `ST_MSG_CHADDR: begin
+            if(rx_vd) begin
+               if(rx_data[`MSG_STR_NBIT/2-1:0]==`MSG_END_N || rx_data[`MSG_STR_NBIT/2-1:0]==`MSG_END_R) begin
+                  rx_ch_addr <= 0;
+                  rx_msg_ch_addr <= 0;
+                  rx_st <= `ST_MSG_END;
+               end
+               else begin   
+                  rx_ch_addr <= atoi_rx_data;
+                  rx_msg_err <= atoi_err;
+                  rx_msg_ch_addr <= rx_data;
+                  rx_st      <= `ST_MSG_DATA;
                end
             end
-            `ST_MSG_TYPE: begin
-               if(rx_vd) begin
-                  // Three TYPE Supported:
-                  // - "00": HANDSHAKE
-                  // - "01": MIPI
-                  // - "02": IO CONTROL
-                  rx_msg_type  <= rx_data;
-                  rx_st        <= `ST_MSG_MODE;
+         end
+         `ST_MSG_DATA: begin
+            if(rx_vd) begin
+               if(rx_data[`MSG_STR_NBIT/2-1:0]==`MSG_END_N || rx_data[`MSG_STR_NBIT/2-1:0]==`MSG_END_R)
+                  rx_st <= `ST_MSG_END;
+               else begin
+                  rx_msg_addr <= rx_msg_addr + 1'b1;
+                  rx_msg_data <= {rx_msg_data[`MSG_DATA_MAX_NBIT-`USB_DATA_NBIT/2-1:0],atoi_rx_data}; 
+                  rx_msg_err  <= atoi_err;
                end
             end
-            `ST_MSG_MODE : begin
-               if(rx_vd) begin
-                  if(rx_data[`MSG_STR_NBIT/2-1:0]==`MSG_END_N || rx_data[`MSG_STR_NBIT/2-1:0]==`MSG_END_R) begin
-                     rx_ch_addr   <= 0;
-                     rx_msg_mode  <= 0;
-                     rx_st        <= `ST_MSG_END;
-                  end
-                  else begin
-                     rx_msg_mode  <= rx_data;
-                     rx_st        <= `ST_MSG_CHADDR;
-                  end
-               end
-            end
-            `ST_MSG_CHADDR: begin
-               if(rx_vd) begin
-                  if(rx_data[`MSG_STR_NBIT/2-1:0]==`MSG_END_N || rx_data[`MSG_STR_NBIT/2-1:0]==`MSG_END_R) begin
-                     rx_ch_addr <= 0;
-                     rx_msg_ch_addr <= 0;
-                     rx_st <= `ST_MSG_END;
-                  end
-                  else begin   
-                     rx_ch_addr <= atoi_rx_data;
-                     rx_msg_err <= atoi_err;
-                     rx_msg_ch_addr <= rx_data;
-                     rx_st      <= `ST_MSG_DATA;
-                  end
-               end
-            end
-            `ST_MSG_DATA: begin
-               if(rx_vd) begin
-                  if(rx_data[`MSG_STR_NBIT/2-1:0]==`MSG_END_N || rx_data[`MSG_STR_NBIT/2-1:0]==`MSG_END_R)
-                     rx_st <= `ST_MSG_END;
-                  else begin
-                     rx_msg_addr <= rx_msg_addr + 1'b1;
-                     rx_msg_data <= {rx_msg_data[`MSG_DATA_MAX_NBIT-`USB_DATA_NBIT/2-1:0],atoi_rx_data}; 
-                     rx_msg_err  <= atoi_err;
-                  end
-               end
-            end
-            `ST_MSG_END: begin
+            if(rx_eop) begin
                rx_msg_eop <= `HIGH;
                rx_st      <= `ST_MSG_IDLE;
             end
-            default:
-               rx_st <= `ST_MSG_IDLE;
-         endcase
-      end      
+         end
+         `ST_MSG_END: begin
+            // wait until all usb data are received
+            if(rx_eop) begin
+               rx_msg_eop <= `HIGH;
+               rx_st      <= `ST_MSG_IDLE;
+            end
+         end
+         default:
+            rx_st <= `ST_MSG_IDLE;
+      endcase
    end
    
    ////////////////// Instruction Execute
