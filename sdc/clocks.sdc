@@ -78,6 +78,8 @@ derive_clock_uncertainty
 #**************************************************************
 
 set_clock_groups -exclusive -group [get_clocks {clk_gen:main_clk_gen|altpll:altpll_component|clk_gen_altpll:auto_generated|wire_pll1_clk[0]}] -group [get_clocks {mipi_clkpll:mipi_clk_gen|altpll:altpll_component|mipi_clkpll_altpll:auto_generated|wire_pll1_clk[0]}]
+#set_clock_groups -exclusive -group [get_clocks {clk_gen:main_clk_gen|altpll:altpll_component|clk_gen_altpll:auto_generated|wire_pll1_clk[0]}] -group [get_clocks {clk_gen:main_clk_gen|altpll:altpll_component|clk_gen_altpll:auto_generated|wire_pll1_clk[2]}]
+set_clock_groups -exclusive -group [get_clocks {clk_gen:main_clk_gen|altpll:altpll_component|clk_gen_altpll:auto_generated|wire_pll1_clk[0]}] -group [get_clocks {mipi_clkpll:mipi_clk_gen|altpll:altpll_component|mipi_clkpll_altpll:auto_generated|wire_pll1_clk[1]}]
 
 #**************************************************************
 # Set False Path

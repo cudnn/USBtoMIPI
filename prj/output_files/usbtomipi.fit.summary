@@ -1,16 +1,16 @@
-Fitter Status : Successful - Wed Feb 17 13:33:28 2016
+Fitter Status : Successful - Thu Feb 18 17:36:22 2016
 Quartus Prime Version : 15.1.0 Build 185 10/21/2015 SJ Standard Edition
 Revision Name : usbtomipi
 Top-level Entity Name : top
 Family : Cyclone IV E
 Device : EP4CE10F17C8
 Timing Models : Final
-Total logic elements : 9,190 / 10,320 ( 89 % )
-    Total combinational functions : 4,648 / 10,320 ( 45 % )
-    Dedicated logic registers : 7,199 / 10,320 ( 70 % )
-Total registers : 7199
+Total logic elements : 10,248 / 10,320 ( 99 % )
+    Total combinational functions : 5,958 / 10,320 ( 58 % )
+    Dedicated logic registers : 7,627 / 10,320 ( 74 % )
+Total registers : 7627
 Total pins : 61 / 180 ( 34 % )
 Total virtual pins : 0
-Total memory bits : 70,784 / 423,936 ( 17 % )
+Total memory bits : 329,728 / 423,936 ( 78 % )
 Embedded Multiplier 9-bit elements : 0 / 46 ( 0 % )
 Total PLLs : 2 / 2 ( 100 % )

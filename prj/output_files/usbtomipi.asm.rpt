@@ -1,5 +1,5 @@
 Assembler report for usbtomipi
-Wed Feb 17 13:33:40 2016
+Thu Feb 18 17:36:36 2016
 Quartus Prime Version 15.1.0 Build 185 10/21/2015 SJ Standard Edition
 
 
@@ -40,7 +40,7 @@ agreement for further details.
 +---------------------------------------------------------------+
 ; Assembler Summary                                             ;
 +-----------------------+---------------------------------------+
-; Assembler Status      ; Successful - Wed Feb 17 13:33:40 2016 ;
+; Assembler Status      ; Successful - Thu Feb 18 17:36:36 2016 ;
 ; Revision Name         ; usbtomipi                             ;
 ; Top-level Entity Name ; top                                   ;
 ; Family                ; Cyclone IV E                          ;
@@ -81,8 +81,8 @@ agreement for further details.
 ; Option         ; Setting                                                   ;
 +----------------+-----------------------------------------------------------+
 ; Device         ; EP4CE10F17C8                                              ;
-; JTAG usercode  ; 0x0054153B                                                ;
-; Checksum       ; 0x0054153B                                                ;
+; JTAG usercode  ; 0x00617353                                                ;
+; Checksum       ; 0x00617353                                                ;
 +----------------+-----------------------------------------------------------+
 
 
@@ -93,7 +93,7 @@ agreement for further details.
 +--------------------+-------------------------------------------------------+
 ; Device             ; EPCS16                                                ;
 ; JTAG usercode      ; 0x00000000                                            ;
-; Checksum           ; 0x1DE97917                                            ;
+; Checksum           ; 0x1DD8AF43                                            ;
 ; Compression Ratio  ; 2                                                     ;
 +--------------------+-------------------------------------------------------+
 
@@ -104,14 +104,14 @@ agreement for further details.
 Info: *******************************************************************
 Info: Running Quartus Prime Assembler
     Info: Version 15.1.0 Build 185 10/21/2015 SJ Standard Edition
-    Info: Processing started: Wed Feb 17 13:33:37 2016
+    Info: Processing started: Thu Feb 18 17:36:32 2016
 Info: Command: quartus_asm --read_settings_files=off --write_settings_files=off usbtomipi -c usbtomipi
 Info (115031): Writing out detailed assembly data for power analysis
 Info (115030): Assembler is generating device programming files
 Info: Quartus Prime Assembler was successful. 0 errors, 0 warnings
-    Info: Peak virtual memory: 765 megabytes
-    Info: Processing ended: Wed Feb 17 13:33:41 2016
+    Info: Peak virtual memory: 766 megabytes
+    Info: Processing ended: Thu Feb 18 17:36:36 2016
     Info: Elapsed time: 00:00:04
-    Info: Total CPU time (on all processors): 00:00:03
+    Info: Total CPU time (on all processors): 00:00:04
 
 

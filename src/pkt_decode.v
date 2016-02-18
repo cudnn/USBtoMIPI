@@ -22,6 +22,7 @@ module pkt_decode
 (
    clk,
    mipi_clk,
+   freq_clk,
    // IO
    o_io_dir,
    i_io_db,
@@ -40,7 +41,8 @@ module pkt_decode
 
    ////////////////// PORT ////////////////////
    input                         clk;      // main clock 48MHz
-   input                         mipi_clk; // mipi clock 52MHz
+   input                         mipi_clk; // mipi clock 50MHz
+   input                         freq_clk; // fast clock 150MHz
                                  
    output [`IO_UNIT_NBIT-1:0]    o_io_dir;
    input  [`IO_UNIT_NBIT-1:0]    i_io_db;
@@ -189,15 +191,9 @@ module pkt_decode
    reg  [`MSG_STR_NBIT-1:0]       tx_pf_code;
    reg                            tx_buf_baddr; // base address of BUFFER
                              
-   // HANDSHAKE: USB clock domain - 48MHz
-   reg                            proc_handshake_start;
-                                     
    always@(posedge clk) begin: ins_exe
-      proc_handshake_start <= `LOW;
-
       case(rx_msg_type)
          `MSG_TYPE_HANDSHAKE: begin
-            proc_handshake_start <= rx_msg_eop;
             tx_buf_baddr         <= `LOW;
             tx_msg_type          <= `MSG_TYPE_HANDSHAKE;
             tx_msg_pf            <= `MSG_PASS;
@@ -230,10 +226,34 @@ module pkt_decode
          `MSG_TYPE_IOCTRL: begin
             tx_msg_type  <= `MSG_TYPE_IOCTRL;
             tx_buf_baddr <= `HIGH;
+            // set data
+            if(rx_msg_mode==`MSG_MODE_SETDATA) begin
+               tx_msg_pf     <= rx_msg_err ? `MSG_FAIL       : `MSG_PASS;
+               tx_pf_code    <= rx_msg_err ? `MSG_FP_CODE_03 : `MSG_FP_CODE_01; // 01: succeed; 03: error data received
+            end
+            // execute data, control IO with current data
+            else if(rx_msg_mode==`MSG_MODE_EXEDATA) begin
+               tx_msg_pf       <= rx_msg_err ? `MSG_FAIL       : `MSG_PASS;
+               tx_pf_code      <= rx_msg_err ? `MSG_FP_CODE_13 : `MSG_FP_CODE_11; // 11: succeed; 13: error data received
+            end
+            // set and execute data, control IO with new data
+            else if(rx_msg_mode==`MSG_MODE_SEXDATA) begin
+               tx_msg_pf       <= rx_msg_err ? `MSG_FAIL       : `MSG_PASS;
+               tx_pf_code      <= rx_msg_err ? `MSG_FP_CODE_23 : `MSG_FP_CODE_21; // 21: succeed; 23: error data received
+            end
+            // Error Mode String
+            else begin
+               tx_msg_pf  <= `MSG_FAIL;
+               tx_pf_code <= `MSG_FP_CODE_00; // 00: error mode received
+            end
+         end
+         `MSG_TYPE_CNT: begin
+            tx_msg_type  <= `MSG_TYPE_CNT;
+            tx_buf_baddr <= `HIGH;
             if(rx_msg_eop) begin
                // set data
                if(rx_msg_mode==`MSG_MODE_SETDATA) begin
-                  if(rx_msg_addr==`IO_DATA_NUM) begin
+                  if(rx_msg_addr==`FREQ_RX_DATA_NUM) begin
                      tx_msg_pf   <= rx_msg_err ? `MSG_FAIL       : `MSG_PASS;
                      tx_pf_code  <= rx_msg_err ? `MSG_FP_CODE_03 : `MSG_FP_CODE_01; // 01: succeed; 03: error data received
                   end
@@ -255,7 +275,7 @@ module pkt_decode
                end
                // set and execute data, control IO with new data
                else if(rx_msg_mode==`MSG_MODE_SEXDATA) begin
-                  if(rx_msg_addr==`IO_DATA_NUM) begin
+                  if(rx_msg_addr==`FREQ_RX_DATA_NUM) begin
                      tx_msg_pf   <= rx_msg_err ? `MSG_FAIL       : `MSG_PASS;
                      tx_pf_code  <= rx_msg_err ? `MSG_FP_CODE_23 : `MSG_FP_CODE_21; // 21: succeed; 23: error data received
                   end
@@ -285,6 +305,15 @@ module pkt_decode
          end
          default:;
       endcase
+   end
+
+   ////////////////// HANDSHAKE: USB clock domain - 48MHz
+   reg proc_handshake_start;
+                                     
+   always@(posedge clk) begin: handshake
+      proc_handshake_start <= `LOW;
+      if(rx_msg_type==`MSG_TYPE_HANDSHAKE)
+         proc_handshake_start <= rx_msg_eop;
    end
    
    ////////////////// IO Control Process: USB clock domain - 48MHz
@@ -376,7 +405,7 @@ module pkt_decode
    always@(posedge clk) begin: mipi_proc
       proc_mipi_start      <= `LOW;
       mipi_buf_wr          <= `LOW;
-      prev_mipi_done       <= {prev_mipi_done[1:0],|mipi_done};
+      prev_mipi_done       <= {prev_mipi_done[1:0],mipi_done[mipi_bank]};
 
       if(rx_msg_type==`MSG_TYPE_MIPI) begin
          mipi_buf_wr    <= rx_vd&
@@ -511,23 +540,106 @@ module pkt_decode
    endgenerate
    
    assign tx_mipi_buf_rdata = mipi_buf_rdata[mipi_bank];
+   
+   ////////////////// FREQUENCY MEASURE
+   
+   reg                      proc_freq_set;
+   reg                      proc_freq_exe;
+   reg                      proc_freq_sex;
+   reg                      proc_freq_start;
+   reg [2:0]                prev_freq_done;
+   reg [`FREQ_CNT_NBIT-1:0] proc_cnt;
+   reg [`FREQ_TO_NBIT-1:0]  proc_timeout;
+   
+   always@(posedge clk) begin: freq_proc
+      prev_freq_done <= {prev_freq_done[1:0],freq_done};
+      proc_freq_start<= `LOW;
+      proc_freq_set <= `LOW;
+      proc_freq_exe <= `LOW;
+      
+      if(rx_msg_type==`MSG_TYPE_CNT) begin
+         // set data
+         if(rx_msg_mode==`MSG_MODE_SETDATA) begin
+            proc_freq_set   <= ~rx_msg_err&(rx_msg_addr==`FREQ_RX_DATA_NUM);
+            proc_freq_start <= ~rx_msg_err&rx_msg_eop;
+         end
+         // execute data, control IO with current data
+         else if(rx_msg_mode==`MSG_MODE_EXEDATA) begin
+            proc_freq_exe   <= ~rx_msg_err&(rx_msg_addr==`FREQ_RX_DATA_NUM)&rx_msg_eop;
+            proc_freq_start <= ~rx_msg_err ? prev_freq_done[2:1]==2'b01 : rx_msg_eop;
+         end
+         // set and execute data, control IO with new data
+         else if(rx_msg_mode==`MSG_MODE_SEXDATA) begin
+            proc_freq_set   <= ~rx_msg_err&(rx_msg_addr==`FREQ_RX_DATA_NUM);
+            proc_freq_exe   <= ~rx_msg_err&(rx_msg_addr==`FREQ_RX_DATA_NUM)&rx_msg_eop;
+            proc_freq_start <= ~rx_msg_err ? prev_freq_done[2:1]==2'b01 : rx_msg_eop;
+         end
+         // Error Mode String
+         else begin
+            proc_freq_start <= rx_msg_eop;
+         end
+         
+         if(proc_freq_set) begin
+            proc_cnt <= rx_msg_data[`FREQ_CNT_NBIT+`FREQ_TO_NBIT-1:`FREQ_TO_NBIT];
+            proc_timeout <= rx_msg_data[`FREQ_TO_NBIT-1:0];
+         end
+      end
+   end
+   
+   // clock transfer
+   reg [2:0]                 d_freq_start;
+   reg                       freq_start;
+   reg [`FREQ_CNT_NBIT-1:0]  freq_cnt    ;
+   reg [`FREQ_TO_NBIT-1:0]   freq_timeout;
+   reg [`FREQ_BANK_NBIT-1:0] freq_bank;
+   always@(posedge freq_clk) begin
+      d_freq_start <= {d_freq_start[1:0],proc_freq_exe};
+      freq_start <= `LOW;
+      if(d_freq_start[2:1]==2'b01) begin
+         freq_start <= `HIGH;
+         freq_bank  <= rx_ch_addr[`FREQ_BANK_NBIT-1:0];
+      end
+      
+      freq_cnt     <= proc_cnt    ;
+      freq_timeout <= proc_timeout;
+   end
+   
+   wire                       freq_done;
+   wire [`FREQ_DATA_NBIT-1:0] freq_data;
+   wire [`FREQ_GP_NUM-1:0]    freq_io;
+   freq_m freq_measure
+   (
+      .clk      (freq_clk          ),
+      .start    (freq_start        ),
+      .i_cnt    (freq_cnt          ),
+      .i_timeout(freq_timeout      ),
+      .i_io     (freq_io[freq_bank]),
+      .o_freq   (freq_data         ),
+      .done     (freq_done         )
+   );
 
-   ////////////////// IO COnfiguration
+   ////////////////// IO Configuration
    reg proc_iocfg_start;
    reg [`IOCFG_DATA_NBIT-1:0] io_cfg[0:`IO_UNIT_NBIT-1];
    
    always@(posedge clk) begin
-      proc_iocfg_start <= rx_msg_eop;
-      if(rx_msg_type==`MSG_TYPE_IOCFG && rx_msg_mode==`MSG_MODE_IO) begin
-         if(rx_vd&~rx_msg_err&(rx_st==`ST_MSG_DATA))
-            io_cfg[rx_msg_addr-1'b1] <= rx_msg_data[`IOCFG_DATA_NBIT-1:0];
+      if(rx_msg_type==`MSG_TYPE_IOCFG) begin
+         proc_iocfg_start <= rx_msg_eop;
+         if(rx_msg_mode==`MSG_MODE_IO) begin
+            if(rx_vd&~rx_msg_err&(rx_st==`ST_MSG_DATA))
+               io_cfg[rx_msg_addr-1'b1] <= rx_msg_data[`IOCFG_DATA_NBIT-1:0];
+         end
       end
    end
             
    ////////////////// TX STATEMENT         
    
    wire   tx_msg_sop;
-   assign tx_msg_sop = proc_handshake_start|proc_io_start|proc_mipi_start|proc_iocfg_start;
+   assign tx_msg_sop = proc_handshake_start |
+                       proc_io_start |
+                       proc_mipi_start |
+                       proc_freq_start |
+                       proc_iocfg_start;
    
    reg                      tx_vd;
    reg [`USB_DATA_NBIT-1:0] tx_data;
@@ -605,6 +717,11 @@ module pkt_decode
                tx_msg_data <= {tx_mipi_buf_rdata,{`MSG_DATA_MAX_NBIT-`USB_DATA_NBIT/2{1'b0}}};
                tx_msg_addr <= `USB_ADDR_NBIT'd`MIPI_DATA_NUM-1'b1;
             end
+            else if(tx_msg_type==`MSG_TYPE_CNT) begin
+               tx_st       <= `ST_MSG_DATA;
+               tx_msg_data <= {freq_data,{`MSG_DATA_MAX_NBIT-`FREQ_DATA_NBIT{1'b0}}};
+               tx_msg_addr <= `USB_ADDR_NBIT'd`FREQ_TX_DATA_NUM-1'b1;
+            end
             else if(tx_msg_type==`MSG_TYPE_IOCFG) begin
                tx_st       <= `ST_MSG_DATA;
                tx_msg_data <= {io_cfg[0],{`MSG_DATA_MAX_NBIT-`IOCFG_DATA_NBIT{1'b0}}};
@@ -649,89 +766,138 @@ module pkt_decode
    
    reg  t_ioctrl_db[`IO_UNIT_NBIT-1:0];
    
+   reg  [`FREQ_GP_NUM-1:0]  t_freq_io[`IO_UNIT_NBIT-1:0];
+   wire [`IO_UNIT_NBIT-1:0] v_freq_io[`FREQ_GP_NUM-1:0];
+   
    generate
    genvar m;
    for(m=0;m<`IO_UNIT_NBIT;m=m+1)
    begin: io_map
       always@* begin
          case(io_cfg[m])
-            0: begin 
+            `IOCFG_DATA_NBIT'h0: begin 
                // default, IO, inout
                t_io_db[m]  <= o_ioctrl_db[m];
                t_io_dir[m] <= o_ioctrl_dir[m];
                t_ioctrl_db[m] <= i_io_db[m];
                // latch
-               t_sdi[m] <= `LOW;
+               t_sdi[m] <= {`MIPI_GP_NUM{1'b0}};
+               t_freq_io[m] <= {`FREQ_GP_NUM{1'b0}};
             end
-            1: begin 
+            `IOCFG_DATA_NBIT'h1: begin 
                // mipi_clk[0], output
                t_io_db[m] <= sclk[0];
                t_io_dir[m] <= `HIGH;
                // latch
                t_ioctrl_db[m] <= `LOW;
-               t_sdi[m] <= `LOW;
+               t_sdi[m] <= {`MIPI_GP_NUM{1'b0}};
+               t_freq_io[m] <= {`FREQ_GP_NUM{1'b0}};
             end
-            2: begin 
+            `IOCFG_DATA_NBIT'h2: begin 
                // mipi_clk[1], output
                t_io_db[m] <= sclk[1];
                t_io_dir[m] <= `HIGH;
                // latch
                t_ioctrl_db[m] <= `LOW;
-               t_sdi[m] <= `LOW;
+               t_sdi[m] <= {`MIPI_GP_NUM{1'b0}};
+               t_freq_io[m] <= {`FREQ_GP_NUM{1'b0}};
             end
-            3: begin 
+            `IOCFG_DATA_NBIT'h3: begin 
                // mipi_clk[2], output
                t_io_db[m] <= sclk[2];
                t_io_dir[m] <= `HIGH;
                // latch
                t_ioctrl_db[m] <= `LOW;
-               t_sdi[m] <= `LOW;
+               t_sdi[m] <= {`MIPI_GP_NUM{1'b0}};
+               t_freq_io[m] <= {`FREQ_GP_NUM{1'b0}};
             end
-            4: begin 
+            `IOCFG_DATA_NBIT'h4: begin 
                // mipi_clk[3], output
                t_io_db[m] <= sclk[3];
                t_io_dir[m] <= `HIGH;
                // latch
                t_ioctrl_db[m] <= `LOW;
-               t_sdi[m] <= `LOW;
+               t_sdi[m] <= {`MIPI_GP_NUM{1'b0}};
+               t_freq_io[m] <= {`FREQ_GP_NUM{1'b0}};
             end
-            5: begin 
+            `IOCFG_DATA_NBIT'h5: begin 
                // mipi_sda[0], inout
                t_io_db[m]  <= sdo[0];
                t_io_dir[m] <= sdo_en[0];
-               t_sdi[m] <= i_io_db[m];
+               t_sdi[m] <= {{`MIPI_GP_NUM-1{1'b0}},i_io_db[m]};
                // latch
                t_ioctrl_db[m] <= `LOW;
+               t_freq_io[m] <= {`FREQ_GP_NUM{1'b0}};
             end
-            6: begin 
+            `IOCFG_DATA_NBIT'h6: begin 
                // mipi_sda[1], inout
                t_io_db[m]  <= sdo[1];
                t_io_dir[m] <= sdo_en[1];
-               t_sdi[m] <= i_io_db[m];
+               t_sdi[m] <= {{`MIPI_GP_NUM-2{1'b0}},i_io_db[m],1'b0};
                // latch
                t_ioctrl_db[m] <= `LOW;
+               t_freq_io[m] <= {`FREQ_GP_NUM{1'b0}};
             end
-            7: begin 
+            `IOCFG_DATA_NBIT'h7: begin 
                // mipi_sda[2], inout
                t_io_db[m]  <= sdo[2];
                t_io_dir[m] <= sdo_en[2];
-               t_sdi[m] <= i_io_db[m];
+               t_sdi[m] <= {{`MIPI_GP_NUM-3{1'b0}},i_io_db[m],2'b00};
                // latch
                t_ioctrl_db[m] <= `LOW;
+               t_freq_io[m] <= {`FREQ_GP_NUM{1'b0}};
             end
-            8: begin 
+            `IOCFG_DATA_NBIT'h8: begin 
                // mipi_sda[3], inout
                t_io_db[m]  <= sdo[3];
                t_io_dir[m] <= sdo_en[3];
-               t_sdi[m] <= i_io_db[m];
+               t_sdi[m] <= {{`MIPI_GP_NUM-4{1'b0}},i_io_db[m],3'b000};
                // latch
                t_ioctrl_db[m] <= `LOW;
+               t_freq_io[m] <= {`FREQ_GP_NUM{1'b0}};
+            end
+            `IOCFG_DATA_NBIT'h19: begin
+               // counter[0], input
+               t_freq_io[m] <= {{`FREQ_GP_NUM-1{1'b0}},i_io_db[m]};
+               t_io_dir[m] <= `LOW;
+               // latch
+               t_io_db[m]  <= 1'bZ;
+               t_ioctrl_db[m] <= `LOW;
+               t_sdi[m] <= {`MIPI_GP_NUM{1'b0}};
+            end
+            `IOCFG_DATA_NBIT'h20: begin
+               // counter[1], input
+               t_freq_io[m] <= {{`FREQ_GP_NUM-2{1'b0}},i_io_db[m],1'b0};
+               t_io_dir[m] <= `LOW;
+               // latch
+               t_io_db[m]  <= 1'bZ;
+               t_ioctrl_db[m] <= `LOW;
+               t_sdi[m] <= {`MIPI_GP_NUM{1'b0}};
+            end
+            `IOCFG_DATA_NBIT'h21: begin
+               // counter[2], input
+               t_freq_io[m] <= {{`FREQ_GP_NUM-3{1'b0}},i_io_db[m],2'b00};
+               t_io_dir[m] <= `LOW;
+               // latch
+               t_io_db[m]  <= 1'bZ;
+               t_ioctrl_db[m] <= `LOW;
+               t_sdi[m] <= {`MIPI_GP_NUM{1'b0}};
+            end
+            `IOCFG_DATA_NBIT'h22: begin
+               // counter[3], input
+               t_freq_io[m] <= {{`FREQ_GP_NUM-4{1'b0}},i_io_db[m],3'b000};
+               t_io_dir[m] <= `LOW;
+               // latch
+               t_io_db[m]  <= 1'bZ;
+               t_ioctrl_db[m] <= `LOW;
+               t_sdi[m] <= {`MIPI_GP_NUM{1'b0}};
             end
             default: begin
                t_io_db[m]  <= `LOW;
                t_io_dir[m] <= `HIGH;
                t_ioctrl_db[m] <= `LOW;
-               t_sdi[m] <= `LOW;
+               t_sdi[m] <= {`MIPI_GP_NUM{1'b0}};
+               t_freq_io[m] <= {`FREQ_GP_NUM{1'b0}};
             end
          endcase
       end
@@ -739,6 +905,7 @@ module pkt_decode
 		assign o_io_db[m]  = t_io_db[m];
 		assign {v_sdi[3][m],v_sdi[2][m],v_sdi[1][m],v_sdi[0][m]} = t_sdi[m];
 		assign i_ioctrl_db[m] = t_ioctrl_db[m];
+		assign {v_freq_io[3][m],v_freq_io[2][m],v_freq_io[1][m],v_freq_io[0][m]} = t_freq_io[m];
    end
    endgenerate
    
@@ -747,6 +914,7 @@ module pkt_decode
    for(s=0;s<`MIPI_GP_NUM;s=s+1)
    begin: sdi_assign
       assign sdi[s] = |v_sdi[s];
+      assign freq_io[s] = |v_freq_io[s];
    end
    endgenerate
    

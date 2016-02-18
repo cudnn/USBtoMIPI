@@ -121,6 +121,20 @@
 
 `define MIPI_BANK_NBIT      2
 
+// Frequence counter
+`define FREQ_DATA_NBIT      48 
+`define FREQ_CNT_NBIT       32 
+`define FREQ_TO_NBIT        16
+
+`define FREQ_RX_DATA_NUM    6  // 4(CNT) + 2(TIMEOUT)
+`define FREQ_TX_DATA_NUM    6  // (DATA)
+
+`define FREQ_GP_NUM         4
+`define FREQ_BANK_NBIT      2
+
+`define FREQ_CNT_BASEADDR   `USB_ADDR_NBIT'd0
+`define FREQ_TO_BASEADDR    `USB_ADDR_NBIT'd4
+
 // IO Configuration
 `define IOCFG_DATA_NBIT     8 // 5 bits = 32 > 22
 `define IOCFG_DATA_NUM      32

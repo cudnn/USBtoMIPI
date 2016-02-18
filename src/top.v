@@ -63,7 +63,7 @@ module top
    ////////////////// USB PORTs
    
    assign USB_XTALIN  = usb_clk; // 24MHz, CPU clock
-   assign USB_IFCLK   = ~ifclk;  // 48MHz, GPIF clock, invert output IFCLK
+   assign USB_IFCLK   = ~mclk;   // 48MHz, GPIF clock, invert output IFCLK
    assign USB_DB      = usb_wen ? usb_wdata : {`USB_DATA_NBIT{1'bZ}};
    assign USB_SLOE    = ~sloe;
    assign USB_SLRD    = ~slrd;
@@ -73,24 +73,27 @@ module top
    
    ////////////////// Clock Generation
    
-   wire ifclk;      // 48MHz
+   wire mclk;       // 48MHz
    wire usb_clk;    // 24MHz
-   wire mipi_clk;   // 52MHz
    wire locked_sig;
    clk_gen  main_clk_gen (
       .areset (`LOW      ),
       .inclk0 (CLK1      ),
-      .c0     (ifclk     ),
+      .c0     (mclk      ),
       .c1     (usb_clk   ),
-      .c2     (),
       .locked (locked_sig)
    );
    
+   wire mipi_clk;      // 50MHz
+   wire freq_fast_clk; // 200MHz
+   wire freq_slow_clk;
    mipi_clkpll  mipi_clk_gen (
-      .inclk0 (CLK2       ),
-      .c0     (mipi_clk   )
-   );   
-
+      .inclk0 (CLK2         ),
+      .c0     (mipi_clk     ),
+      .c1     (freq_fast_clk),
+      .c2     (freq_slow_clk)
+   );
+   
    assign OE = `HIGH;
    
    ////////////////// USB PHY Slave FIFO Controller
@@ -124,24 +127,24 @@ module top
 
    usb_slavefifo u_usb_slavefifo
    (
-      .ifclk        (ifclk           ),
-      .sloe         (sloe            ),
-      .slrd         (slrd            ),
-      .f_empty      (out_ep_empty    ),
-      .rdata        (usb_rdata       ),
-      .slwr         (slwr            ),
-      .wen          (usb_wen         ),
-      .wdata        (usb_wdata       ),
-      .f_full       (in_ep_full      ),
-      .pkend        (pkend           ),
-      .fifoaddr     (fifoadr         ),
-      .rx_cache_vd  (rx_cache_vd     ),
-      .rx_cache_data(rx_cache_data   ),
-      .rx_cache_sop (rx_cache_sop    ),
-      .rx_cache_eop (rx_cache_eop    ),
-      .tx_cache_sop (pktdec_tx_eop   ),
-      .tx_cache_addr(tx_cache_addr   ),
-      .tx_cache_data(tx_cache_data   )
+      .ifclk        (mclk         ),
+      .sloe         (sloe         ),
+      .slrd         (slrd         ),
+      .f_empty      (out_ep_empty ),
+      .rdata        (usb_rdata    ),
+      .slwr         (slwr         ),
+      .wen          (usb_wen      ),
+      .wdata        (usb_wdata    ),
+      .f_full       (in_ep_full   ),
+      .pkend        (pkend        ),
+      .fifoaddr     (fifoadr      ),
+      .rx_cache_vd  (rx_cache_vd  ),
+      .rx_cache_data(rx_cache_data),
+      .rx_cache_sop (rx_cache_sop ),
+      .rx_cache_eop (rx_cache_eop ),
+      .tx_cache_sop (pktdec_tx_eop),
+      .tx_cache_addr(tx_cache_addr),
+      .tx_cache_data(tx_cache_data)
    );
          
    ////////////////// Packet Instruction Decoding
@@ -157,21 +160,22 @@ module top
    
    pkt_decode u_cmd_decode
    (
-      .clk      (ifclk           ),
-      .mipi_clk (mipi_clk        ),
-      .o_io_dir (pktdec_o_io_dir ),
-      .i_io_db  (pktdec_i_io_db  ),
-      .o_io_db  (pktdec_o_io_db  ),
-      .rx_vd    (rx_cache_vd     ),
-      .rx_data  (rx_cache_data   ),
-      .rx_sop   (rx_cache_sop    ),
-      .rx_eop   (rx_cache_eop    ),
-      .tx_vd    (pktdec_tx_vd    ),
-      .tx_addr  (pktdec_tx_addr  ),
-      .tx_data  (pktdec_tx_data  ),
-      .tx_eop   (pktdec_tx_eop   )
+      .clk      (mclk           ),
+      .mipi_clk (mipi_clk       ),
+      .freq_clk (freq_fast_clk  ),
+      .o_io_dir (pktdec_o_io_dir),
+      .i_io_db  (pktdec_i_io_db ),
+      .o_io_db  (pktdec_o_io_db ),
+      .rx_vd    (rx_cache_vd    ),
+      .rx_data  (rx_cache_data  ),
+      .rx_sop   (rx_cache_sop   ),
+      .rx_eop   (rx_cache_eop   ),
+      .tx_vd    (pktdec_tx_vd   ),
+      .tx_addr  (pktdec_tx_addr ),
+      .tx_data  (pktdec_tx_data ),
+      .tx_eop   (pktdec_tx_eop  )
    );
-
+   
    generate
    genvar m;
    for(m=0;m<`IO_UNIT_NBIT;m=m+1)
@@ -187,7 +191,7 @@ module top
 
    buffered_ram#(`USB_ADDR_NBIT+1,`USB_DATA_NBIT,"./tx_buf_512x16.mif")
    tx_buffer(
-      .inclk       (ifclk         ),
+      .inclk       (mclk          ),
       .in_wren     (pktdec_tx_vd  ),
       .in_wraddress(pktdec_tx_addr),
       .in_wrdata   (pktdec_tx_data),
