@@ -123,11 +123,11 @@
 
 // Frequence counter
 `define FREQ_DATA_NBIT      48 
-`define FREQ_CNT_NBIT       32 
-`define FREQ_TO_NBIT        16
+`define FREQ_CNT_NBIT       16
+`define FREQ_TO_NBIT        32
 
-`define FREQ_RX_DATA_NUM    6  // 4(CNT) + 2(TIMEOUT)
-`define FREQ_TX_DATA_NUM    6  // (DATA)
+`define FREQ_RX_DATA_NUM    6  // 2(CNT) + 4(TIMEOUT)
+`define FREQ_TX_DATA_NUM    8  // 6(DATA) + 2(CNT)
 
 `define FREQ_GP_NUM         4
 `define FREQ_BANK_NBIT      2

@@ -26,6 +26,7 @@ module freq_m
    i_io,
   
    o_freq,
+   o_cnt,
    done
 );
 
@@ -38,6 +39,7 @@ module freq_m
    input                         i_io;
    
    output [`FREQ_DATA_NBIT-1:0]  o_freq;
+   output [`FREQ_CNT_NBIT-1:0]   o_cnt;
    output                        done; 
    
    ////////////////// ARCH ////////////////////
@@ -64,42 +66,49 @@ module freq_m
    
    always@(posedge clk) begin
       if(m_inproc) begin
+         freq_cnt <= freq_cnt + 1'b1;
          if(io_posedge) begin
-            if(~freq_inproc)
+            if(~freq_inproc) begin
                freq_inproc <= `HIGH;
+               freq_cnt <= 0;
+            end
             else
-               r_cnt <= r_cnt - 1'b1;
+               r_cnt <= r_cnt + 1'b1;
+         end
+         
+         if(r_cnt==i_cnt || freq_cnt[`FREQ_DATA_NBIT-1:`FREQ_DATA_NBIT-`FREQ_TO_NBIT]>r_timeout) begin
+            m_inproc   <= `LOW; // finish counting or timeout, stop counting
          end
       end
-
-      if(m_inproc&freq_inproc)
-         freq_cnt <= freq_cnt + 1'b1;
-            
+      else
+         freq_inproc<= `LOW;      
+      
       if(start) begin
-         r_cnt <= i_cnt;
          r_timeout <= i_timeout;
-         freq_cnt <= 0;
          m_inproc <= `HIGH;
          freq_inproc<= `LOW;
-      end
-      else if(r_cnt==0 || freq_cnt[`FREQ_DATA_NBIT-1:`FREQ_DATA_NBIT-`FREQ_TO_NBIT]>r_timeout) begin
-         m_inproc <= `LOW; // finish counting or timeout, stop counting
-         freq_inproc<= `LOW;
+         r_cnt     <= 0;
+         freq_cnt <= 0;
       end
    end
 
-   reg [`FREQ_DATA_NBIT-1:0]  o_freq;
    reg                        done; 
    reg                        prev_m_inproc;
+   reg [`FREQ_DATA_NBIT-1:0]  o_freq;
+   reg [`FREQ_CNT_NBIT-1:0]   o_cnt;
+   
    always@(posedge clk) begin
       prev_m_inproc <= m_inproc;
+      // negedge of inproc, done
       if(prev_m_inproc&~m_inproc)
          done <= `HIGH;
       else if(start)
          done <= `LOW;
          
-      if(m_inproc)
+      if(m_inproc) begin
          o_freq <= freq_cnt;
+         o_cnt  <= r_cnt;
+      end
    end
             
 endmodule            

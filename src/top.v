@@ -26,6 +26,9 @@ module top
    OE,
    // IO Interface
    IO_DB,
+   // TEST POINT
+   IO_1M,
+   IO_EN,
    // USB Interface
    USB_XTALIN,
    USB_FLAGB,
@@ -46,6 +49,9 @@ module top
    output                         OE;
    
    inout  [`IO_UNIT_NBIT-1:0]     IO_DB;
+   
+   output                         IO_1M;
+   input                          IO_EN;
                                      
    output                         USB_XTALIN; // 24MHz
    input                          USB_FLAGB;  // EP2 Empty
@@ -95,6 +101,19 @@ module top
    );
    
    assign OE = `HIGH;
+   
+   ////////////////// TEST POINT
+   reg [7:0] cnt;
+   reg       s_1m;
+   always@(posedge mipi_clk) begin   
+      cnt <= cnt + 1'b1;
+      if(cnt==8'd24) begin
+         cnt <= 0;
+         s_1m <= ~s_1m;
+      end
+   end
+   
+   assign IO_1M = IO_EN & s_1m;
    
    ////////////////// USB PHY Slave FIFO Controller
    
@@ -176,11 +195,49 @@ module top
       .tx_eop   (pktdec_tx_eop  )
    );
    
+//   reg freq_test[3:0];
+//   reg [15:0] freq_cnt[3:0];
+//   always@(posedge mclk) begin
+//      freq_cnt[0] <= freq_cnt[0] + 1'b1;
+//      if(freq_cnt[0]==123) begin
+//         freq_cnt[0] <= 0;
+//      end
+//      freq_test[0] <= ~freq_test[0];
+//      
+//      freq_cnt[1] <= freq_cnt[1] + 1'b1;
+//      if(freq_cnt[1]==5999) begin
+//         freq_test[1] <= ~freq_test[1];
+//         freq_cnt[1] <= 0;
+//      end
+//   end
+//   always@(posedge mipi_clk) begin
+//      freq_cnt[2] <= freq_cnt[2] + 1'b1;
+//      if(freq_cnt[2]==123) begin
+//         freq_cnt[2] <= 0;
+//      end
+//      freq_test[2] <= ~freq_test[2];
+//      
+//      freq_cnt[3] <= freq_cnt[3] + 1'b1;
+//      if(freq_cnt[3]==5999) begin
+//         freq_test[3] <= ~freq_test[3];
+//         freq_cnt[3] <= 0;
+//      end
+//   end
+
    generate
    genvar m;
    for(m=0;m<`IO_UNIT_NBIT;m=m+1)
       begin: u
          assign IO_DB[m] = pktdec_o_io_dir[m] ? pktdec_o_io_db[m] : 1'bZ;
+//         if(m==8)
+//         assign pktdec_i_io_db[m] = freq_test[0];
+//         else if(m==9)
+//         assign pktdec_i_io_db[m] = freq_test[1];
+//         else if(m==10)
+//         assign pktdec_i_io_db[m] = freq_test[2];
+//         else if(m==11)
+//         assign pktdec_i_io_db[m] = freq_test[3];
+//         else
          assign pktdec_i_io_db[m] = IO_DB[m];
       end
    endgenerate

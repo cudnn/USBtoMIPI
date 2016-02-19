@@ -589,7 +589,7 @@ module pkt_decode
    // clock transfer
    reg [2:0]                 d_freq_start;
    reg                       freq_start;
-   reg [`FREQ_CNT_NBIT-1:0]  freq_cnt    ;
+   reg [`FREQ_CNT_NBIT-1:0]  freq_i_cnt;
    reg [`FREQ_TO_NBIT-1:0]   freq_timeout;
    reg [`FREQ_BANK_NBIT-1:0] freq_bank;
    always@(posedge freq_clk) begin
@@ -600,21 +600,23 @@ module pkt_decode
          freq_bank  <= rx_ch_addr[`FREQ_BANK_NBIT-1:0];
       end
       
-      freq_cnt     <= proc_cnt    ;
+      freq_i_cnt   <= proc_cnt    ;
       freq_timeout <= proc_timeout;
    end
    
+   wire [`FREQ_GP_NUM-1:0]    freq_io;
    wire                       freq_done;
    wire [`FREQ_DATA_NBIT-1:0] freq_data;
-   wire [`FREQ_GP_NUM-1:0]    freq_io;
+   wire [`FREQ_CNT_NBIT-1:0]  freq_o_cnt;
    freq_m freq_measure
    (
       .clk      (freq_clk          ),
       .start    (freq_start        ),
-      .i_cnt    (freq_cnt          ),
+      .i_cnt    (freq_i_cnt        ),
       .i_timeout(freq_timeout      ),
       .i_io     (freq_io[freq_bank]),
       .o_freq   (freq_data         ),
+      .o_cnt    (freq_o_cnt        ),
       .done     (freq_done         )
    );
 
@@ -719,7 +721,7 @@ module pkt_decode
             end
             else if(tx_msg_type==`MSG_TYPE_CNT) begin
                tx_st       <= `ST_MSG_DATA;
-               tx_msg_data <= {freq_data,{`MSG_DATA_MAX_NBIT-`FREQ_DATA_NBIT{1'b0}}};
+               tx_msg_data <= {freq_data,freq_o_cnt,{`MSG_DATA_MAX_NBIT-`FREQ_DATA_NBIT-`FREQ_CNT_NBIT{1'b0}}};
                tx_msg_addr <= `USB_ADDR_NBIT'd`FREQ_TX_DATA_NUM-1'b1;
             end
             else if(tx_msg_type==`MSG_TYPE_IOCFG) begin
