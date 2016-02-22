@@ -89,7 +89,9 @@ set_output_delay -clock { clk_gen:main_clk_gen|altpll:altpll_component|clk_gen_a
 #**************************************************************
 
 #set_false_path -from [get_ports {IO_DB[*]}] -to {pkt_decode:u_cmd_decode|o_io_db[*]}
-set_false_path -from [get_ports {IO_DB[*]}] -to {pkt_decode:u_cmd_decode|proc_io_data[*]}
+set_false_path -from [get_ports {P1_IO_DB[*]}] -to {pkt_decode:u_cmd_decode|proc_io_data[*][*]}
+set_false_path -from [get_ports {P2_IO_DB[*]}] -to {pkt_decode:u_cmd_decode|proc_io_data[*][*]}
+set_false_path -from [get_ports {P3_IO_DB[*]}] -to {pkt_decode:u_cmd_decode|proc_io_data[*][*]}
 set_false_path -from [get_ports {USB_FLAGB}] -to {USB_SLOE}
 set_false_path -from [get_ports {USB_FLAGB}] -to {USB_SLRD}
 set_false_path -from [get_ports {USB_FLAGC}] -to {USB_SLOE}

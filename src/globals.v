@@ -37,7 +37,7 @@
 
 //////////////////  COMMUNICATION, BYTE INVERTED
 `define MSG_STR_NBIT        `USB_DATA_NBIT
-`define MSG_DATA_MAX_NBIT   96
+`define MSG_DATA_MAX_NBIT   256 // IO CONFIG 32*8 = 256
                             
 `define MSG_HEAD            `MSG_STR_NBIT'h5453  // "ST"
                             
@@ -81,7 +81,8 @@
 // IO Control
 `define IO_UNIT_NBIT        32
 `define IO_DATA_NUM         12
-`define IO_BANK_NBIT        8
+`define IO_BANK_NBIT        2
+`define IO_BANK_NUM         3
 
 // MIPI
 `define MIPI_GP_NUM         4
@@ -137,4 +138,4 @@
 
 // IO Configuration
 `define IOCFG_DATA_NBIT     8 // 5 bits = 32 > 22
-`define IOCFG_DATA_NUM      32
+`define IOCFG_DATA_NUM      `IO_UNIT_NBIT

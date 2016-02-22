@@ -24,9 +24,15 @@ module pkt_decode
    mipi_clk,
    freq_clk,
    // IO
-   o_io_dir,
-   i_io_db,
-   o_io_db,
+   o_p1_io_dir,
+   i_p1_io_db,
+   o_p1_io_db,
+   o_p2_io_dir,
+   i_p2_io_db,
+   o_p2_io_db,
+   o_p3_io_dir,
+   i_p3_io_db,
+   o_p3_io_db,
    // Interface with RX BUFFER
    rx_vd,
    rx_data,
@@ -44,9 +50,15 @@ module pkt_decode
    input                         mipi_clk; // mipi clock 50MHz
    input                         freq_clk; // fast clock 150MHz
                                  
-   output [`IO_UNIT_NBIT-1:0]    o_io_dir;
-   input  [`IO_UNIT_NBIT-1:0]    i_io_db;
-   output [`IO_UNIT_NBIT-1:0]    o_io_db;
+   output [`IO_UNIT_NBIT-1:0]    o_p1_io_dir;
+   input  [`IO_UNIT_NBIT-1:0]    i_p1_io_db;
+   output [`IO_UNIT_NBIT-1:0]    o_p1_io_db;
+   output [`IO_UNIT_NBIT-1:0]    o_p2_io_dir;
+   input  [`IO_UNIT_NBIT-1:0]    i_p2_io_db;
+   output [`IO_UNIT_NBIT-1:0]    o_p2_io_db;
+   output [`IO_UNIT_NBIT-1:0]    o_p3_io_dir;
+   input  [`IO_UNIT_NBIT-1:0]    i_p3_io_db;
+   output [`IO_UNIT_NBIT-1:0]    o_p3_io_db;
                                                                     
    input                         rx_vd  ;
    input  [`USB_DATA_NBIT-1:0]   rx_data;
@@ -80,7 +92,7 @@ module pkt_decode
                                               // "02": execute data;
                                               // "03": receive and execute data
    reg [`MSG_STR_NBIT-1:0]       rx_msg_ch_addr;
-   reg [`IO_BANK_NBIT-1:0]       rx_ch_addr;  // "00" ~ "FF"
+   reg [`MSG_STR_NBIT/2-1:0]     rx_ch_addr;  // "00" ~ "FF"
    
    reg [`MSG_DATA_MAX_NBIT-1:0]  rx_msg_data;
    reg [`USB_ADDR_NBIT-1:0]      rx_msg_addr;
@@ -321,7 +333,7 @@ module pkt_decode
    wire [`IO_UNIT_NBIT-1:0] new_io_mask;
    wire [`IO_UNIT_NBIT-1:0] new_io_data;
                             
-   wire [`IO_UNIT_NBIT-1:0] i_ioctrl_db;   
+   wire [`IO_UNIT_NBIT-1:0] i_ioctrl_db[`IO_BANK_NUM-1:0];   
 
    // dir: 0-input; 1-output
    // mask: 0-don't mask; 1-mask
@@ -331,61 +343,64 @@ module pkt_decode
    genvar i;
       for(i=0;i<`IO_UNIT_NBIT;i=i+1)
       begin: new_io
-         assign new_io_dir[i]  = new_io_mask[i] ? proc_io_dir[i]  : rx_msg_data[i+`IO_UNIT_NBIT];
-         assign new_io_data[i] = new_io_mask[i] ? proc_io_data[i] : (new_io_dir[i] ? rx_msg_data[i] : i_ioctrl_db[i]);
+         assign new_io_dir[i]  = new_io_mask[i] ? proc_io_dir[proc_ioctrl_bank][i]  : rx_msg_data[i+`IO_UNIT_NBIT];
+         assign new_io_data[i] = new_io_mask[i] ? proc_io_data[proc_ioctrl_bank][i] : (new_io_dir[i] ? rx_msg_data[i] : i_ioctrl_db[proc_ioctrl_bank][i]);
       end
    endgenerate
    
-   reg                       proc_io_start;
-   reg                       proc_io_set  ;
-   reg                       proc_io_exe  ;
-   reg [`IO_UNIT_NBIT-1:0]   proc_io_dir ;
-   reg [`IO_UNIT_NBIT-1:0]   proc_io_mask;
-   reg [`IO_UNIT_NBIT-1:0]   proc_io_data;
-   reg [`IO_UNIT_NBIT-1:0]   o_ioctrl_db ;
-   reg [`IO_UNIT_NBIT-1:0]   o_ioctrl_dir;
-   reg [`IO_BANK_NBIT-1:0]   o_ioctrl_bank;
+   reg                       proc_ioctrl_start;
+   reg                       proc_ioctrl_set  ;
+   reg                       proc_ioctrl_exe  ;
+   reg [`IO_BANK_NBIT-1:0]   proc_ioctrl_bank ;
+   
+   reg [`IO_UNIT_NBIT-1:0]   proc_io_dir [`IO_BANK_NUM-1:0];
+   reg [`IO_UNIT_NBIT-1:0]   proc_io_mask[`IO_BANK_NUM-1:0];
+   reg [`IO_UNIT_NBIT-1:0]   proc_io_data[`IO_BANK_NUM-1:0];
+   reg [`IO_UNIT_NBIT-1:0]   o_ioctrl_db [`IO_BANK_NUM-1:0];
+   reg [`IO_UNIT_NBIT-1:0]   o_ioctrl_dir[`IO_BANK_NUM-1:0];
 
    always@(posedge clk) begin : ioctrl_proc
-      proc_io_start        <= `LOW;
-      proc_io_set          <= `LOW;
-      proc_io_exe          <= `LOW;
+      proc_ioctrl_start        <= `LOW;
+      proc_ioctrl_set          <= `LOW;
+      proc_ioctrl_exe          <= `LOW;
 
       if(rx_msg_type==`MSG_TYPE_IOCTRL) begin
-         proc_io_start <= rx_msg_eop;
+         proc_ioctrl_start <= rx_msg_eop;
          if(rx_msg_eop) begin
             // set data
             if(rx_msg_mode==`MSG_MODE_SETDATA) begin
                if(rx_msg_addr==`IO_DATA_NUM)
-                  proc_io_set <= ~rx_msg_err;
+                  proc_ioctrl_set <= ~rx_msg_err;
             end
             // execute data, control IO with current data
             else if(rx_msg_mode==`MSG_MODE_EXEDATA) begin
                if(rx_msg_addr==0)
-                  proc_io_exe <= `HIGH;
+                  proc_ioctrl_exe <= `HIGH;
             end
             // set and execute data, control IO with new data
             else if(rx_msg_mode==`MSG_MODE_SEXDATA) begin
                if(rx_msg_addr==`IO_DATA_NUM) begin
-                  proc_io_set <= ~rx_msg_err;
-                  proc_io_exe <= ~rx_msg_err;
+                  proc_ioctrl_set <= ~rx_msg_err;
+                  proc_ioctrl_exe <= ~rx_msg_err;
                end
             end
+            
+            if(~rx_msg_err)
+               proc_ioctrl_bank <= rx_ch_addr[`IO_BANK_NBIT-1:0];            
          end
       end
       
-      if(proc_io_start) begin
+      if(proc_ioctrl_start) begin
          // set data
-         if(proc_io_set) begin
-            proc_io_dir  <= new_io_dir ;
-            proc_io_mask <= new_io_mask;
-            proc_io_data <= new_io_data; 
+         if(proc_ioctrl_set) begin
+            proc_io_dir [proc_ioctrl_bank] <= new_io_dir ;
+            proc_io_mask[proc_ioctrl_bank] <= new_io_mask;
+            proc_io_data[proc_ioctrl_bank] <= new_io_data; 
          end
          // execute data
-         if(proc_io_exe) begin
-            o_ioctrl_db   <= proc_io_set ? (new_io_data&~new_io_mask) : (proc_io_data&~proc_io_mask);
-            o_ioctrl_dir  <= proc_io_set ? new_io_dir  : proc_io_dir;
-            o_ioctrl_bank <= rx_ch_addr;
+         if(proc_ioctrl_exe) begin
+            o_ioctrl_db [proc_ioctrl_bank]  <= proc_ioctrl_set ? (new_io_data&~new_io_mask) : (proc_io_data[proc_ioctrl_bank]&~proc_io_mask[proc_ioctrl_bank]);
+            o_ioctrl_dir[proc_ioctrl_bank]  <= proc_ioctrl_set ? new_io_dir  : proc_io_dir[proc_ioctrl_bank];
          end
       end
    end
@@ -509,10 +524,10 @@ module pkt_decode
       mipi_div <= m_mipi_div;
    end
 
-   wire sclk[`MIPI_GP_NUM-1:0];
-   wire sdi[`MIPI_GP_NUM-1:0];
-   wire sdo[`MIPI_GP_NUM-1:0];
-   wire sdo_en[`MIPI_GP_NUM-1:0];
+   wire [`MIPI_GP_NUM-1:0] mipi_sclk;
+   wire [`MIPI_GP_NUM-1:0] mipi_sdi;
+   wire [`MIPI_GP_NUM-1:0] mipi_sdo;
+   wire [`MIPI_GP_NUM-1:0] mipi_sdo_en;
    
    generate
    genvar u;
@@ -531,10 +546,10 @@ module pkt_decode
             .i_buf_wdata(mipi_buf_wdata),
             .i_buf_raddr(mipi_buf_raddr),
             .o_buf_rdata(mipi_buf_rdata[u]),
-            .sclk       (sclk[u]),
-            .sdi        (sdi[u]),
-            .sdo        (sdo[u]),
-            .sdo_en     (sdo_en[u])
+            .sclk       (mipi_sclk[u]),
+            .sdi        (mipi_sdi[u]),
+            .sdo        (mipi_sdo[u]),
+            .sdo_en     (mipi_sdo_en[u])
          );
       end
    endgenerate
@@ -622,14 +637,15 @@ module pkt_decode
 
    ////////////////// IO Configuration
    reg proc_iocfg_start;
-   reg [`IOCFG_DATA_NBIT-1:0] io_cfg[0:`IO_UNIT_NBIT-1];
+   reg [`IOCFG_DATA_NBIT*`IO_UNIT_NBIT-1:0] io_cfg[`IO_BANK_NUM-1:0];
+   reg [`IO_BANK_NBIT-1:0] iocfg_bank;
    
-   always@(posedge clk) begin
+   always@(posedge clk) begin: io_config
       if(rx_msg_type==`MSG_TYPE_IOCFG) begin
          proc_iocfg_start <= rx_msg_eop;
-         if(rx_msg_mode==`MSG_MODE_IO) begin
-            if(rx_vd&~rx_msg_err&(rx_st==`ST_MSG_DATA))
-               io_cfg[rx_msg_addr-1'b1] <= rx_msg_data[`IOCFG_DATA_NBIT-1:0];
+         if(rx_msg_mode==`MSG_MODE_IO&~rx_msg_err&rx_msg_eop) begin
+            io_cfg[rx_ch_addr[`IO_BANK_NBIT-1:0]] <= rx_msg_data;
+            iocfg_bank <= rx_ch_addr[`IO_BANK_NBIT-1:0];
          end
       end
    end
@@ -638,7 +654,7 @@ module pkt_decode
    
    wire   tx_msg_sop;
    assign tx_msg_sop = proc_handshake_start |
-                       proc_io_start |
+                       proc_ioctrl_start |
                        proc_mipi_start |
                        proc_freq_start |
                        proc_iocfg_start;
@@ -711,7 +727,7 @@ module pkt_decode
             tx_buf_addr <= tx_buf_addr + 1'b1;
             if(tx_msg_type==`MSG_TYPE_IOCTRL) begin
                tx_st       <= `ST_MSG_DATA;
-               tx_msg_data <= {proc_io_mask,proc_io_dir,proc_io_data,{`MSG_DATA_MAX_NBIT-`IO_UNIT_NBIT*3{1'b0}}};
+               tx_msg_data <= {proc_io_mask[proc_ioctrl_bank],proc_io_dir[proc_ioctrl_bank],proc_io_data[proc_ioctrl_bank],{`MSG_DATA_MAX_NBIT-`IO_UNIT_NBIT*3{1'b0}}};
                tx_msg_addr <= `USB_ADDR_NBIT'd`IO_DATA_NUM-1'b1;
             end
             else if(tx_msg_type==`MSG_TYPE_MIPI) begin
@@ -726,7 +742,7 @@ module pkt_decode
             end
             else if(tx_msg_type==`MSG_TYPE_IOCFG) begin
                tx_st       <= `ST_MSG_DATA;
-               tx_msg_data <= {io_cfg[0],{`MSG_DATA_MAX_NBIT-`IOCFG_DATA_NBIT{1'b0}}};
+               tx_msg_data <= {io_cfg[iocfg_bank],{`MSG_DATA_MAX_NBIT-`IOCFG_DATA_NBIT*`IOCFG_DATA_NUM{1'b0}}};
                tx_msg_addr <= `USB_ADDR_NBIT'd`IOCFG_DATA_NUM-1'b1;
             end
          end
@@ -734,8 +750,6 @@ module pkt_decode
             tx_msg_addr <= tx_msg_addr - 1'b1;
             if(tx_msg_type==`MSG_TYPE_MIPI)
                tx_msg_data <= {tx_mipi_buf_rdata,{`MSG_DATA_MAX_NBIT-`USB_DATA_NBIT/2{1'b0}}};
-            else if(tx_msg_type==`MSG_TYPE_IOCFG)
-               tx_msg_data <= {io_cfg[`USB_ADDR_NBIT'd`IOCFG_DATA_NUM-tx_msg_addr],{`MSG_DATA_MAX_NBIT-`IOCFG_DATA_NBIT{1'b0}}};
             else
                tx_msg_data <= tx_msg_data<<(`USB_DATA_NBIT/2);
             
@@ -758,167 +772,33 @@ module pkt_decode
    end 
       
    ////////////////// IO Mapping
-   reg  t_io_dir[`IO_UNIT_NBIT-1:0];
-   reg  t_io_db[`IO_UNIT_NBIT-1:0];
-   wire [`IO_UNIT_NBIT-1:0] o_io_dir;
-   wire [`IO_UNIT_NBIT-1:0] o_io_db;
    
-   reg  [`MIPI_GP_NUM-1:0]  t_sdi[`IO_UNIT_NBIT-1:0];
-   wire [`IO_UNIT_NBIT-1:0] v_sdi[`MIPI_GP_NUM-1:0];
+   // P1 Mapping
+   io_map p1_mapping
+   (
+      .i_cfg       (io_cfg[0]      ),
+      .i_ioctrl_db (i_ioctrl_db[0] ),
+      .o_ioctrl_dir(o_ioctrl_dir[0]),
+      .o_ioctrl_db (o_ioctrl_db[0] ),
+      .mipi_sclk   (mipi_sclk      ),
+      .mipi_sdi    (mipi_sdi       ),
+      .mipi_sdo    (mipi_sdo       ),
+      .mipi_sdo_en (mipi_sdo_en    ),
+      .freq_io     (freq_io        ),
+      .i_io_db     (i_p1_io_db     ),
+      .o_io_dir    (o_p1_io_dir    ),
+      .o_io_db     (o_p1_io_db     )
+   );
    
-   reg  t_ioctrl_db[`IO_UNIT_NBIT-1:0];
-   
-   reg  [`FREQ_GP_NUM-1:0]  t_freq_io[`IO_UNIT_NBIT-1:0];
-   wire [`IO_UNIT_NBIT-1:0] v_freq_io[`FREQ_GP_NUM-1:0];
-   
-   generate
-   genvar m;
-   for(m=0;m<`IO_UNIT_NBIT;m=m+1)
-   begin: io_map
-      always@* begin
-         case(io_cfg[m])
-            `IOCFG_DATA_NBIT'h0: begin 
-               // default, IO, inout
-               t_io_db[m]  <= o_ioctrl_db[m];
-               t_io_dir[m] <= o_ioctrl_dir[m];
-               t_ioctrl_db[m] <= i_io_db[m];
-               // latch
-               t_sdi[m] <= {`MIPI_GP_NUM{1'b0}};
-               t_freq_io[m] <= {`FREQ_GP_NUM{1'b0}};
-            end
-            `IOCFG_DATA_NBIT'h1: begin 
-               // mipi_clk[0], output
-               t_io_db[m] <= sclk[0];
-               t_io_dir[m] <= `HIGH;
-               // latch
-               t_ioctrl_db[m] <= `LOW;
-               t_sdi[m] <= {`MIPI_GP_NUM{1'b0}};
-               t_freq_io[m] <= {`FREQ_GP_NUM{1'b0}};
-            end
-            `IOCFG_DATA_NBIT'h2: begin 
-               // mipi_clk[1], output
-               t_io_db[m] <= sclk[1];
-               t_io_dir[m] <= `HIGH;
-               // latch
-               t_ioctrl_db[m] <= `LOW;
-               t_sdi[m] <= {`MIPI_GP_NUM{1'b0}};
-               t_freq_io[m] <= {`FREQ_GP_NUM{1'b0}};
-            end
-            `IOCFG_DATA_NBIT'h3: begin 
-               // mipi_clk[2], output
-               t_io_db[m] <= sclk[2];
-               t_io_dir[m] <= `HIGH;
-               // latch
-               t_ioctrl_db[m] <= `LOW;
-               t_sdi[m] <= {`MIPI_GP_NUM{1'b0}};
-               t_freq_io[m] <= {`FREQ_GP_NUM{1'b0}};
-            end
-            `IOCFG_DATA_NBIT'h4: begin 
-               // mipi_clk[3], output
-               t_io_db[m] <= sclk[3];
-               t_io_dir[m] <= `HIGH;
-               // latch
-               t_ioctrl_db[m] <= `LOW;
-               t_sdi[m] <= {`MIPI_GP_NUM{1'b0}};
-               t_freq_io[m] <= {`FREQ_GP_NUM{1'b0}};
-            end
-            `IOCFG_DATA_NBIT'h5: begin 
-               // mipi_sda[0], inout
-               t_io_db[m]  <= sdo[0];
-               t_io_dir[m] <= sdo_en[0];
-               t_sdi[m] <= {{`MIPI_GP_NUM-1{1'b0}},i_io_db[m]};
-               // latch
-               t_ioctrl_db[m] <= `LOW;
-               t_freq_io[m] <= {`FREQ_GP_NUM{1'b0}};
-            end
-            `IOCFG_DATA_NBIT'h6: begin 
-               // mipi_sda[1], inout
-               t_io_db[m]  <= sdo[1];
-               t_io_dir[m] <= sdo_en[1];
-               t_sdi[m] <= {{`MIPI_GP_NUM-2{1'b0}},i_io_db[m],1'b0};
-               // latch
-               t_ioctrl_db[m] <= `LOW;
-               t_freq_io[m] <= {`FREQ_GP_NUM{1'b0}};
-            end
-            `IOCFG_DATA_NBIT'h7: begin 
-               // mipi_sda[2], inout
-               t_io_db[m]  <= sdo[2];
-               t_io_dir[m] <= sdo_en[2];
-               t_sdi[m] <= {{`MIPI_GP_NUM-3{1'b0}},i_io_db[m],2'b00};
-               // latch
-               t_ioctrl_db[m] <= `LOW;
-               t_freq_io[m] <= {`FREQ_GP_NUM{1'b0}};
-            end
-            `IOCFG_DATA_NBIT'h8: begin 
-               // mipi_sda[3], inout
-               t_io_db[m]  <= sdo[3];
-               t_io_dir[m] <= sdo_en[3];
-               t_sdi[m] <= {{`MIPI_GP_NUM-4{1'b0}},i_io_db[m],3'b000};
-               // latch
-               t_ioctrl_db[m] <= `LOW;
-               t_freq_io[m] <= {`FREQ_GP_NUM{1'b0}};
-            end
-            `IOCFG_DATA_NBIT'h19: begin
-               // counter[0], input
-               t_freq_io[m] <= {{`FREQ_GP_NUM-1{1'b0}},i_io_db[m]};
-               t_io_dir[m] <= `LOW;
-               // latch
-               t_io_db[m]  <= 1'bZ;
-               t_ioctrl_db[m] <= `LOW;
-               t_sdi[m] <= {`MIPI_GP_NUM{1'b0}};
-            end
-            `IOCFG_DATA_NBIT'h20: begin
-               // counter[1], input
-               t_freq_io[m] <= {{`FREQ_GP_NUM-2{1'b0}},i_io_db[m],1'b0};
-               t_io_dir[m] <= `LOW;
-               // latch
-               t_io_db[m]  <= 1'bZ;
-               t_ioctrl_db[m] <= `LOW;
-               t_sdi[m] <= {`MIPI_GP_NUM{1'b0}};
-            end
-            `IOCFG_DATA_NBIT'h21: begin
-               // counter[2], input
-               t_freq_io[m] <= {{`FREQ_GP_NUM-3{1'b0}},i_io_db[m],2'b00};
-               t_io_dir[m] <= `LOW;
-               // latch
-               t_io_db[m]  <= 1'bZ;
-               t_ioctrl_db[m] <= `LOW;
-               t_sdi[m] <= {`MIPI_GP_NUM{1'b0}};
-            end
-            `IOCFG_DATA_NBIT'h22: begin
-               // counter[3], input
-               t_freq_io[m] <= {{`FREQ_GP_NUM-4{1'b0}},i_io_db[m],3'b000};
-               t_io_dir[m] <= `LOW;
-               // latch
-               t_io_db[m]  <= 1'bZ;
-               t_ioctrl_db[m] <= `LOW;
-               t_sdi[m] <= {`MIPI_GP_NUM{1'b0}};
-            end
-            default: begin
-               t_io_db[m]  <= `LOW;
-               t_io_dir[m] <= `HIGH;
-               t_ioctrl_db[m] <= `LOW;
-               t_sdi[m] <= {`MIPI_GP_NUM{1'b0}};
-               t_freq_io[m] <= {`FREQ_GP_NUM{1'b0}};
-            end
-         endcase
-      end
-		assign o_io_dir[m] = t_io_dir[m];
-		assign o_io_db[m]  = t_io_db[m];
-		assign {v_sdi[3][m],v_sdi[2][m],v_sdi[1][m],v_sdi[0][m]} = t_sdi[m];
-		assign i_ioctrl_db[m] = t_ioctrl_db[m];
-		assign {v_freq_io[3][m],v_freq_io[2][m],v_freq_io[1][m],v_freq_io[0][m]} = t_freq_io[m];
-   end
-   endgenerate
-   
-   generate
-   genvar s;
-   for(s=0;s<`MIPI_GP_NUM;s=s+1)
-   begin: sdi_assign
-      assign sdi[s] = |v_sdi[s];
-      assign freq_io[s] = |v_freq_io[s];
-   end
-   endgenerate
+   // P2 Mapping
+   assign i_ioctrl_db[1]  = i_p2_io_db;
+   assign o_p2_io_dir     = o_ioctrl_dir[1];
+   assign o_p2_io_db      = o_ioctrl_db[1] ;
+
+   // P3 Mapping
+   assign i_ioctrl_db[2]  = i_p3_io_db;
+   assign o_p3_io_dir     = o_ioctrl_dir[2];
+   assign o_p3_io_db      = o_ioctrl_db[2] ;
    
 endmodule
 

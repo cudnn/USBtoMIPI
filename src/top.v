@@ -25,7 +25,9 @@ module top
    // Chip Enable
    OE,
    // IO Interface
-   IO_DB,
+   P1_IO_DB,
+   P2_IO_DB,
+   P3_IO_DB,
    // TEST POINT
    IO_1M,
    IO_EN,
@@ -48,7 +50,9 @@ module top
    
    output                         OE;
    
-   inout  [`IO_UNIT_NBIT-1:0]     IO_DB;
+   inout  [`IO_UNIT_NBIT-1:0]     P1_IO_DB;
+   inout  [`IO_UNIT_NBIT-1:0]     P2_IO_DB;
+   inout  [`IO_UNIT_NBIT-1:0]     P3_IO_DB;
    
    output                         IO_1M;
    input                          IO_EN;
@@ -91,13 +95,11 @@ module top
    );
    
    wire mipi_clk;      // 50MHz
-   wire freq_fast_clk; // 200MHz
-   wire freq_slow_clk;
+   wire freq_clk; // 200MHz
    mipi_clkpll  mipi_clk_gen (
-      .inclk0 (CLK2         ),
-      .c0     (mipi_clk     ),
-      .c1     (freq_fast_clk),
-      .c2     (freq_slow_clk)
+      .inclk0 (CLK2    ),
+      .c0     (mipi_clk),
+      .c1     (freq_clk)
    );
    
    assign OE = `HIGH;
@@ -173,72 +175,44 @@ module top
    wire [`USB_DATA_NBIT-1:0] pktdec_tx_data;
    wire                      pktdec_tx_eop ;
    
-   wire [`IO_UNIT_NBIT-1:0]  pktdec_o_io_dir;
-   wire [`IO_UNIT_NBIT-1:0]  pktdec_i_io_db;
-   wire [`IO_UNIT_NBIT-1:0]  pktdec_o_io_db;
+   wire [`IO_UNIT_NBIT-1:0]  pktdec_o_io_dir[2:0];
+   wire [`IO_UNIT_NBIT-1:0]  pktdec_i_io_db [2:0];
+   wire [`IO_UNIT_NBIT-1:0]  pktdec_o_io_db [2:0];
    
    pkt_decode u_cmd_decode
    (
-      .clk      (mclk           ),
-      .mipi_clk (mipi_clk       ),
-      .freq_clk (freq_fast_clk  ),
-      .o_io_dir (pktdec_o_io_dir),
-      .i_io_db  (pktdec_i_io_db ),
-      .o_io_db  (pktdec_o_io_db ),
-      .rx_vd    (rx_cache_vd    ),
-      .rx_data  (rx_cache_data  ),
-      .rx_sop   (rx_cache_sop   ),
-      .rx_eop   (rx_cache_eop   ),
-      .tx_vd    (pktdec_tx_vd   ),
-      .tx_addr  (pktdec_tx_addr ),
-      .tx_data  (pktdec_tx_data ),
-      .tx_eop   (pktdec_tx_eop  )
+      .clk        (mclk              ),
+      .mipi_clk   (mipi_clk          ),
+      .freq_clk   (freq_clk          ),
+      .o_p1_io_dir(pktdec_o_io_dir[0]),
+      .i_p1_io_db (pktdec_i_io_db [0]),
+      .o_p1_io_db (pktdec_o_io_db [0]),
+      .o_p2_io_dir(pktdec_o_io_dir[1]),
+      .i_p2_io_db (pktdec_i_io_db [1]),
+      .o_p2_io_db (pktdec_o_io_db [1]),
+      .o_p3_io_dir(pktdec_o_io_dir[2]),
+      .i_p3_io_db (pktdec_i_io_db [2]),
+      .o_p3_io_db (pktdec_o_io_db [2]),
+      .rx_vd      (rx_cache_vd       ),
+      .rx_data    (rx_cache_data     ),
+      .rx_sop     (rx_cache_sop      ),
+      .rx_eop     (rx_cache_eop      ),
+      .tx_vd      (pktdec_tx_vd      ),
+      .tx_addr    (pktdec_tx_addr    ),
+      .tx_data    (pktdec_tx_data    ),
+      .tx_eop     (pktdec_tx_eop     )
    );
-   
-//   reg freq_test[3:0];
-//   reg [15:0] freq_cnt[3:0];
-//   always@(posedge mclk) begin
-//      freq_cnt[0] <= freq_cnt[0] + 1'b1;
-//      if(freq_cnt[0]==123) begin
-//         freq_cnt[0] <= 0;
-//      end
-//      freq_test[0] <= ~freq_test[0];
-//      
-//      freq_cnt[1] <= freq_cnt[1] + 1'b1;
-//      if(freq_cnt[1]==5999) begin
-//         freq_test[1] <= ~freq_test[1];
-//         freq_cnt[1] <= 0;
-//      end
-//   end
-//   always@(posedge mipi_clk) begin
-//      freq_cnt[2] <= freq_cnt[2] + 1'b1;
-//      if(freq_cnt[2]==123) begin
-//         freq_cnt[2] <= 0;
-//      end
-//      freq_test[2] <= ~freq_test[2];
-//      
-//      freq_cnt[3] <= freq_cnt[3] + 1'b1;
-//      if(freq_cnt[3]==5999) begin
-//         freq_test[3] <= ~freq_test[3];
-//         freq_cnt[3] <= 0;
-//      end
-//   end
-
+  
    generate
    genvar m;
    for(m=0;m<`IO_UNIT_NBIT;m=m+1)
       begin: u
-         assign IO_DB[m] = pktdec_o_io_dir[m] ? pktdec_o_io_db[m] : 1'bZ;
-//         if(m==8)
-//         assign pktdec_i_io_db[m] = freq_test[0];
-//         else if(m==9)
-//         assign pktdec_i_io_db[m] = freq_test[1];
-//         else if(m==10)
-//         assign pktdec_i_io_db[m] = freq_test[2];
-//         else if(m==11)
-//         assign pktdec_i_io_db[m] = freq_test[3];
-//         else
-         assign pktdec_i_io_db[m] = IO_DB[m];
+         assign P1_IO_DB[m] = pktdec_o_io_dir[0][m] ? pktdec_o_io_db[0][m] : 1'bZ;
+         assign pktdec_i_io_db[0][m] = P1_IO_DB[m];
+         assign P2_IO_DB[m] = pktdec_o_io_dir[1][m] ? pktdec_o_io_db[1][m] : 1'bZ;
+         assign pktdec_i_io_db[1][m] = P2_IO_DB[m];
+         assign P3_IO_DB[m] = pktdec_o_io_dir[2][m] ? pktdec_o_io_db[2][m] : 1'bZ;
+         assign pktdec_i_io_db[2][m] = P3_IO_DB[m];
       end
    endgenerate
    
