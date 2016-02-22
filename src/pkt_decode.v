@@ -762,9 +762,18 @@ module pkt_decode
          `ST_MSG_END: begin
             tx_vd   <= `HIGH;
             tx_buf_addr <= tx_buf_addr + 1'b1;
-            tx_data <= {`MSG_END_N,`MSG_END_R};
-            tx_st   <= `ST_MSG_IDLE;
-            tx_eop  <= `HIGH;
+            
+            tx_msg_addr <= 0;
+            if(tx_msg_addr=={`USB_ADDR_NBIT{1'b1}})
+               tx_data <= {`MSG_END_N,`MSG_END_R};
+            else begin
+               tx_data <= 0; // clean TX BUFFER
+               if(tx_buf_addr=={`USB_ADDR_NBIT{1'b1}}) begin
+                  tx_vd   <= `LOW;
+                  tx_st   <= `ST_MSG_IDLE;
+                  tx_eop  <= `HIGH;
+               end
+            end
          end
          default:
             tx_st <= `ST_MSG_IDLE;
