@@ -236,7 +236,7 @@ set_location_assignment PIN_D4 -to OE
 set_global_assignment -name OPTIMIZATION_MODE BALANCED
 set_location_assignment PIN_C14 -to IO_EN
 set_location_assignment PIN_D14 -to IO_1M
-set_global_assignment -name SEED 16
+set_global_assignment -name SEED 10
 set_global_assignment -name VERILOG_FILE ../src/io_map.v
 set_global_assignment -name VERILOG_FILE ../src/freq.v
 set_global_assignment -name VERILOG_FILE ../src/mipi.v

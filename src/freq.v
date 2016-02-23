@@ -27,6 +27,7 @@ module freq_m
   
    o_freq,
    o_cnt,
+   o_err,
    done
 );
 
@@ -40,6 +41,7 @@ module freq_m
    
    output [`FREQ_DATA_NBIT-1:0]  o_freq;
    output [`FREQ_CNT_NBIT-1:0]   o_cnt;
+   output                        o_err;
    output                        done; 
    
    ////////////////// ARCH ////////////////////
@@ -64,6 +66,8 @@ module freq_m
    reg [`FREQ_DATA_NBIT-1:0] freq_cnt;
    reg                       freq_inproc;
    
+   reg                       o_err;
+   
    always@(posedge clk) begin
       if(m_inproc) begin
          freq_cnt <= freq_cnt + 1'b1;
@@ -79,6 +83,9 @@ module freq_m
          if(r_cnt==i_cnt || freq_cnt[`FREQ_DATA_NBIT-1:`FREQ_DATA_NBIT-`FREQ_TO_NBIT]>r_timeout) begin
             m_inproc   <= `LOW; // finish counting or timeout, stop counting
          end
+         
+         if(freq_cnt[`FREQ_DATA_NBIT-1:`FREQ_DATA_NBIT-`FREQ_TO_NBIT]>r_timeout)
+            o_err <= `HIGH;
       end
       else
          freq_inproc<= `LOW;      
@@ -89,6 +96,7 @@ module freq_m
          freq_inproc<= `LOW;
          r_cnt     <= 0;
          freq_cnt <= 0;
+         o_err <= `LOW;
       end
    end
 

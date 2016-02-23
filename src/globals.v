@@ -75,6 +75,8 @@
 `define MSG_FP_CODE_22      `MSG_STR_NBIT'h3232
 `define MSG_FP_CODE_23      `MSG_STR_NBIT'h3332
 
+`define MSG_FP_CODE_09      `MSG_STR_NBIT'h3930  // TIMEOUT
+
 `define MSG_FP_CODE_61      `MSG_STR_NBIT'h3136
 `define MSG_FP_CODE_62      `MSG_STR_NBIT'h3236
 

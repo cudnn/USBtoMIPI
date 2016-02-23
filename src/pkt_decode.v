@@ -262,45 +262,43 @@ module pkt_decode
          `MSG_TYPE_CNT: begin
             tx_msg_type  <= `MSG_TYPE_CNT;
             tx_buf_baddr <= `HIGH;
-            if(rx_msg_eop) begin
-               // set data
-               if(rx_msg_mode==`MSG_MODE_SETDATA) begin
-                  if(rx_msg_addr==`FREQ_RX_DATA_NUM) begin
-                     tx_msg_pf   <= rx_msg_err ? `MSG_FAIL       : `MSG_PASS;
-                     tx_pf_code  <= rx_msg_err ? `MSG_FP_CODE_03 : `MSG_FP_CODE_01; // 01: succeed; 03: error data received
-                  end
-                  else begin
-                     tx_msg_pf  <= `MSG_FAIL;
-                     tx_pf_code <= `MSG_FP_CODE_02; // fail code 02: error data length
-                  end
+            // set data
+            if(rx_msg_mode==`MSG_MODE_SETDATA) begin
+               if(rx_msg_addr==`FREQ_RX_DATA_NUM) begin
+                  tx_msg_pf   <= ~rx_msg_err ? `MSG_PASS       : `MSG_FAIL      ;
+                  tx_pf_code  <= ~rx_msg_err ? `MSG_FP_CODE_01 : `MSG_FP_CODE_03; // 01: succeed; 03: error data received
                end
-               // execute data, control IO with current data
-               else if(rx_msg_mode==`MSG_MODE_EXEDATA) begin
-                  if(rx_msg_addr==0) begin
-                     tx_msg_pf  <= `MSG_PASS;
-                     tx_pf_code <= `MSG_FP_CODE_11; // 11: succeed
-                  end
-                  else begin
-                     tx_msg_pf  <= `MSG_FAIL;
-                     tx_pf_code <= `MSG_FP_CODE_12; // fail code 12: error data length
-                  end
-               end
-               // set and execute data, control IO with new data
-               else if(rx_msg_mode==`MSG_MODE_SEXDATA) begin
-                  if(rx_msg_addr==`FREQ_RX_DATA_NUM) begin
-                     tx_msg_pf   <= rx_msg_err ? `MSG_FAIL       : `MSG_PASS;
-                     tx_pf_code  <= rx_msg_err ? `MSG_FP_CODE_23 : `MSG_FP_CODE_21; // 21: succeed; 23: error data received
-                  end
-                  else begin
-                     tx_msg_pf  <= `MSG_FAIL;
-                     tx_pf_code <= `MSG_FP_CODE_22;
-                  end
-               end
-               // Error Mode String
                else begin
                   tx_msg_pf  <= `MSG_FAIL;
-                  tx_pf_code <= `MSG_FP_CODE_00; // 00: error mode received
+                  tx_pf_code <= `MSG_FP_CODE_02; // fail code 02: error data length
                end
+            end
+            // execute data, control IO with current data
+            else if(rx_msg_mode==`MSG_MODE_EXEDATA) begin
+               if(rx_msg_addr==0) begin
+                  tx_msg_pf  <= ~freq_err ? `MSG_PASS       : `MSG_FAIL      ;
+                  tx_pf_code <= ~freq_err ? `MSG_FP_CODE_11 : `MSG_FP_CODE_09; // 11: succeed; 09: TIMEOUT
+               end
+               else begin
+                  tx_msg_pf  <= `MSG_FAIL;
+                  tx_pf_code <= `MSG_FP_CODE_12; // fail code 12: error data length
+               end
+            end
+            // set and execute data, control IO with new data
+            else if(rx_msg_mode==`MSG_MODE_SEXDATA) begin
+               if(rx_msg_addr==`FREQ_RX_DATA_NUM) begin
+                  tx_msg_pf   <= ~rx_msg_err ? (freq_err ? `MSG_FAIL       : `MSG_PASS      ) : `MSG_FAIL;
+                  tx_pf_code  <= ~rx_msg_err ? (freq_err ? `MSG_FP_CODE_09 : `MSG_FP_CODE_21) : `MSG_FP_CODE_23; // 21: succeed; 23: error data received; 09: TIMEOUT
+               end
+               else begin
+                  tx_msg_pf  <= `MSG_FAIL;
+                  tx_pf_code <= `MSG_FP_CODE_22;
+               end
+            end
+            // Error Mode String
+            else begin
+               tx_msg_pf  <= `MSG_FAIL;
+               tx_pf_code <= `MSG_FP_CODE_00; // 00: error mode received
             end
          end
          `MSG_TYPE_IOCFG: begin
@@ -623,6 +621,7 @@ module pkt_decode
    wire                       freq_done;
    wire [`FREQ_DATA_NBIT-1:0] freq_data;
    wire [`FREQ_CNT_NBIT-1:0]  freq_o_cnt;
+   wire                       freq_err;
    freq_m freq_measure
    (
       .clk      (freq_clk          ),
@@ -632,20 +631,19 @@ module pkt_decode
       .i_io     (freq_io[freq_bank]),
       .o_freq   (freq_data         ),
       .o_cnt    (freq_o_cnt        ),
+      .o_err    (freq_err          ),
       .done     (freq_done         )
    );
 
    ////////////////// IO Configuration
    reg proc_iocfg_start;
-   reg [`IOCFG_DATA_NBIT*`IO_UNIT_NBIT-1:0] io_cfg[`IO_BANK_NUM-1:0];
-   reg [`IO_BANK_NBIT-1:0] iocfg_bank;
+   reg [`IOCFG_DATA_NBIT*`IO_UNIT_NBIT-1:0] io_cfg;
    
    always@(posedge clk) begin: io_config
       if(rx_msg_type==`MSG_TYPE_IOCFG) begin
          proc_iocfg_start <= rx_msg_eop;
          if(rx_msg_mode==`MSG_MODE_IO&~rx_msg_err&rx_msg_eop) begin
-            io_cfg[rx_ch_addr[`IO_BANK_NBIT-1:0]] <= rx_msg_data;
-            iocfg_bank <= rx_ch_addr[`IO_BANK_NBIT-1:0];
+            io_cfg <= rx_msg_data;
          end
       end
    end
@@ -742,7 +740,7 @@ module pkt_decode
             end
             else if(tx_msg_type==`MSG_TYPE_IOCFG) begin
                tx_st       <= `ST_MSG_DATA;
-               tx_msg_data <= {io_cfg[iocfg_bank],{`MSG_DATA_MAX_NBIT-`IOCFG_DATA_NBIT*`IOCFG_DATA_NUM{1'b0}}};
+               tx_msg_data <= {io_cfg,{`MSG_DATA_MAX_NBIT-`IOCFG_DATA_NBIT*`IOCFG_DATA_NUM{1'b0}}};
                tx_msg_addr <= `USB_ADDR_NBIT'd`IOCFG_DATA_NUM-1'b1;
             end
          end
@@ -785,7 +783,7 @@ module pkt_decode
    // P1 Mapping
    io_map p1_mapping
    (
-      .i_cfg       (io_cfg[0]      ),
+      .i_cfg       (io_cfg         ),
       .i_ioctrl_db (i_ioctrl_db[0] ),
       .o_ioctrl_dir(o_ioctrl_dir[0]),
       .o_ioctrl_db (o_ioctrl_db[0] ),
