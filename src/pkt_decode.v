@@ -130,7 +130,7 @@ module pkt_decode
          `ST_MSG_HEAD: begin
             // Detect HEAD
             if(rx_vd&rx_data==`MSG_HEAD) begin
-               rx_st        <= `ST_MSG_TYPE;
+               rx_st <= `ST_MSG_TYPE;
             end
          end
          `ST_MSG_TYPE: begin
@@ -146,28 +146,28 @@ module pkt_decode
          `ST_MSG_MODE : begin
             if(rx_vd) begin
                if(rx_data[`MSG_STR_NBIT/2-1:0]==`MSG_END_N || rx_data[`MSG_STR_NBIT/2-1:0]==`MSG_END_R) begin
-                  rx_ch_addr   <= 0;
-                  rx_msg_mode  <= 0;
-                  rx_st        <= `ST_MSG_END;
-               end
-               else begin
-                  rx_msg_mode  <= rx_data;
-                  rx_st        <= `ST_MSG_CHADDR;
+                  rx_ch_addr  <= 0;
+                  rx_msg_mode <= 0;
+                  rx_st       <= `ST_MSG_END;
+               end            
+               else begin     
+                  rx_msg_mode <= rx_data;
+                  rx_st       <= `ST_MSG_CHADDR;
                end
             end
          end
          `ST_MSG_CHADDR: begin
             if(rx_vd) begin
                if(rx_data[`MSG_STR_NBIT/2-1:0]==`MSG_END_N || rx_data[`MSG_STR_NBIT/2-1:0]==`MSG_END_R) begin
-                  rx_ch_addr <= 0;
+                  rx_ch_addr     <= 0;
                   rx_msg_ch_addr <= 0;
-                  rx_st <= `ST_MSG_END;
+                  rx_st          <= `ST_MSG_END;
                end
                else begin   
-                  rx_ch_addr <= atoi_rx_data;
-                  rx_msg_err <= atoi_err;
+                  rx_ch_addr     <= atoi_rx_data;
+                  rx_msg_err     <= atoi_err;
                   rx_msg_ch_addr <= rx_data;
-                  rx_st      <= `ST_MSG_DATA;
+                  rx_st          <= `ST_MSG_DATA;
                end
             end
          end
@@ -206,28 +206,28 @@ module pkt_decode
    always@(posedge clk) begin: ins_exe
       case(rx_msg_type)
          `MSG_TYPE_HANDSHAKE: begin
-            tx_buf_baddr         <= `LOW;
-            tx_msg_type          <= `MSG_TYPE_HANDSHAKE;
-            tx_msg_pf            <= `MSG_PASS;
-            tx_pf_code           <= `MSG_FP_CODE_01; // pass code 01: handshake succeed
+            tx_buf_baddr <= `LOW;
+            tx_msg_type  <= `MSG_TYPE_HANDSHAKE;
+            tx_msg_pf    <= `MSG_PASS;
+            tx_pf_code   <= `MSG_FP_CODE_01; // pass code 01: handshake succeed
          end
          `MSG_TYPE_MIPI: begin
-            tx_msg_type    <= `MSG_TYPE_MIPI;
-            tx_buf_baddr   <= `HIGH;
+            tx_msg_type  <= `MSG_TYPE_MIPI;
+            tx_buf_baddr <= `HIGH;
             // set data
             if(rx_msg_mode==`MSG_MODE_SETDATA) begin
-               tx_msg_pf     <= rx_msg_err ? `MSG_FAIL       : `MSG_PASS;
-               tx_pf_code    <= rx_msg_err ? `MSG_FP_CODE_03 : `MSG_FP_CODE_01; // 01: succeed; 03: error data received
+               tx_msg_pf  <= rx_msg_err ? `MSG_FAIL       : `MSG_PASS;
+               tx_pf_code <= rx_msg_err ? `MSG_FP_CODE_03 : `MSG_FP_CODE_01; // 01: succeed; 03: error data received
             end
             // execute data, control IO with current data
             else if(rx_msg_mode==`MSG_MODE_EXEDATA) begin
-               tx_msg_pf       <= rx_msg_err ? `MSG_FAIL       : `MSG_PASS;
-               tx_pf_code      <= rx_msg_err ? `MSG_FP_CODE_13 : `MSG_FP_CODE_11; // 11: succeed; 13: error data received
+               tx_msg_pf  <= rx_msg_err ? `MSG_FAIL       : `MSG_PASS;
+               tx_pf_code <= rx_msg_err ? `MSG_FP_CODE_13 : `MSG_FP_CODE_11; // 11: succeed; 13: error data received
             end
             // set and execute data, control IO with new data
             else if(rx_msg_mode==`MSG_MODE_SEXDATA) begin
-               tx_msg_pf       <= rx_msg_err ? `MSG_FAIL       : `MSG_PASS;
-               tx_pf_code      <= rx_msg_err ? `MSG_FP_CODE_23 : `MSG_FP_CODE_21; // 21: succeed; 23: error data received
+               tx_msg_pf  <= rx_msg_err ? `MSG_FAIL       : `MSG_PASS;
+               tx_pf_code <= rx_msg_err ? `MSG_FP_CODE_23 : `MSG_FP_CODE_21; // 21: succeed; 23: error data received
             end
             // Error Mode String
             else begin
@@ -240,18 +240,18 @@ module pkt_decode
             tx_buf_baddr <= `HIGH;
             // set data
             if(rx_msg_mode==`MSG_MODE_SETDATA) begin
-               tx_msg_pf     <= rx_msg_err ? `MSG_FAIL       : `MSG_PASS;
-               tx_pf_code    <= rx_msg_err ? `MSG_FP_CODE_03 : `MSG_FP_CODE_01; // 01: succeed; 03: error data received
+               tx_msg_pf  <= rx_msg_err ? `MSG_FAIL       : `MSG_PASS;
+               tx_pf_code <= rx_msg_err ? `MSG_FP_CODE_03 : `MSG_FP_CODE_01; // 01: succeed; 03: error data received
             end
             // execute data, control IO with current data
             else if(rx_msg_mode==`MSG_MODE_EXEDATA) begin
-               tx_msg_pf       <= rx_msg_err ? `MSG_FAIL       : `MSG_PASS;
-               tx_pf_code      <= rx_msg_err ? `MSG_FP_CODE_13 : `MSG_FP_CODE_11; // 11: succeed; 13: error data received
+               tx_msg_pf  <= rx_msg_err ? `MSG_FAIL       : `MSG_PASS;
+               tx_pf_code <= rx_msg_err ? `MSG_FP_CODE_13 : `MSG_FP_CODE_11; // 11: succeed; 13: error data received
             end
             // set and execute data, control IO with new data
             else if(rx_msg_mode==`MSG_MODE_SEXDATA) begin
-               tx_msg_pf       <= rx_msg_err ? `MSG_FAIL       : `MSG_PASS;
-               tx_pf_code      <= rx_msg_err ? `MSG_FP_CODE_23 : `MSG_FP_CODE_21; // 21: succeed; 23: error data received
+               tx_msg_pf  <= rx_msg_err ? `MSG_FAIL       : `MSG_PASS;
+               tx_pf_code <= rx_msg_err ? `MSG_FP_CODE_23 : `MSG_FP_CODE_21; // 21: succeed; 23: error data received
             end
             // Error Mode String
             else begin
@@ -265,8 +265,8 @@ module pkt_decode
             // set data
             if(rx_msg_mode==`MSG_MODE_SETDATA) begin
                if(rx_msg_addr==`FREQ_RX_DATA_NUM) begin
-                  tx_msg_pf   <= ~rx_msg_err ? `MSG_PASS       : `MSG_FAIL      ;
-                  tx_pf_code  <= ~rx_msg_err ? `MSG_FP_CODE_01 : `MSG_FP_CODE_03; // 01: succeed; 03: error data received
+                  tx_msg_pf  <= ~rx_msg_err ? `MSG_PASS       : `MSG_FAIL      ;
+                  tx_pf_code <= ~rx_msg_err ? `MSG_FP_CODE_01 : `MSG_FP_CODE_03; // 01: succeed; 03: error data received
                end
                else begin
                   tx_msg_pf  <= `MSG_FAIL;
@@ -287,8 +287,8 @@ module pkt_decode
             // set and execute data, control IO with new data
             else if(rx_msg_mode==`MSG_MODE_SEXDATA) begin
                if(rx_msg_addr==`FREQ_RX_DATA_NUM) begin
-                  tx_msg_pf   <= ~rx_msg_err ? (freq_err ? `MSG_FAIL       : `MSG_PASS      ) : `MSG_FAIL;
-                  tx_pf_code  <= ~rx_msg_err ? (freq_err ? `MSG_FP_CODE_09 : `MSG_FP_CODE_21) : `MSG_FP_CODE_23; // 21: succeed; 23: error data received; 09: TIMEOUT
+                  tx_msg_pf  <= ~rx_msg_err ? (freq_err ? `MSG_FAIL       : `MSG_PASS      ) : `MSG_FAIL;
+                  tx_pf_code <= ~rx_msg_err ? (freq_err ? `MSG_FP_CODE_09 : `MSG_FP_CODE_21) : `MSG_FP_CODE_23; // 21: succeed; 23: error data received; 09: TIMEOUT
                end
                else begin
                   tx_msg_pf  <= `MSG_FAIL;
@@ -302,8 +302,8 @@ module pkt_decode
             end
          end
          `MSG_TYPE_IOCFG: begin
-            tx_msg_type    <= `MSG_TYPE_IOCFG;
-            tx_buf_baddr   <= `HIGH;
+            tx_msg_type  <= `MSG_TYPE_IOCFG;
+            tx_buf_baddr <= `HIGH;
             if(rx_msg_mode==`MSG_MODE_IO) begin
                tx_msg_pf  <= `MSG_PASS;
                tx_pf_code <= `MSG_FP_CODE_61;
@@ -358,9 +358,9 @@ module pkt_decode
    reg [`IO_UNIT_NBIT-1:0]   o_ioctrl_dir[`IO_BANK_NUM-1:0];
 
    always@(posedge clk) begin : ioctrl_proc
-      proc_ioctrl_start        <= `LOW;
-      proc_ioctrl_set          <= `LOW;
-      proc_ioctrl_exe          <= `LOW;
+      proc_ioctrl_start <= `LOW;
+      proc_ioctrl_set   <= `LOW;
+      proc_ioctrl_exe   <= `LOW;
 
       if(rx_msg_type==`MSG_TYPE_IOCTRL) begin
          proc_ioctrl_start <= rx_msg_eop;
@@ -397,34 +397,33 @@ module pkt_decode
          end
          // execute data
          if(proc_ioctrl_exe) begin
-            o_ioctrl_db [proc_ioctrl_bank]  <= proc_ioctrl_set ? (new_io_data&~new_io_mask) : (proc_io_data[proc_ioctrl_bank]&~proc_io_mask[proc_ioctrl_bank]);
-            o_ioctrl_dir[proc_ioctrl_bank]  <= proc_ioctrl_set ? new_io_dir  : proc_io_dir[proc_ioctrl_bank];
+            o_ioctrl_db [proc_ioctrl_bank] <= proc_ioctrl_set ? (new_io_data&~new_io_mask) : (proc_io_data[proc_ioctrl_bank]&~proc_io_mask[proc_ioctrl_bank]);
+            o_ioctrl_dir[proc_ioctrl_bank] <= proc_ioctrl_set ? new_io_dir  : proc_io_dir[proc_ioctrl_bank];
          end
       end
    end
    
    ////////////////// MIPI Process: MIPI clock domain - 50MHz
-   reg                            proc_mipi_start;
-   reg  [`MIPI_CMD_NBIT-1:0]      proc_mipi_cmd;
-   reg                            proc_mipi_set;
-   reg                            proc_mipi_exe;
-   reg  [2:0]                     prev_mipi_done;
-   
-   reg  [`MIPI_CLKDIV_NBIT-1:0]   m_mipi_div;
-   reg                            m_mipi_div_set;
-   reg                            m_mipi_start;
-   reg  [`MIPI_BANK_NBIT-1:0]     mipi_bank;
+   reg                          proc_mipi_start;
+   reg  [`MIPI_CMD_NBIT-1:0]    proc_mipi_cmd;
+   reg                          proc_mipi_set;
+   reg                          proc_mipi_exe;
+   reg  [2:0]                   prev_mipi_done;
+                                
+   reg  [`MIPI_CLKDIV_NBIT-1:0] m_mipi_div;
+   reg                          m_mipi_div_set;
+   reg                          m_mipi_start;
+   reg  [`MIPI_BANK_NBIT-1:0]   mipi_bank;
    
    always@(posedge clk) begin: mipi_proc
-      proc_mipi_start      <= `LOW;
-      mipi_buf_wr          <= `LOW;
-      prev_mipi_done       <= {prev_mipi_done[1:0],mipi_done[mipi_bank]};
+      proc_mipi_start <= `LOW;
+      mipi_buf_wr     <= `LOW;
+      prev_mipi_done  <= {prev_mipi_done[1:0],mipi_done[mipi_bank]};
 
       if(rx_msg_type==`MSG_TYPE_MIPI) begin
-         mipi_buf_wr    <= rx_vd&
-                         ~(rx_data[`MSG_STR_NBIT/2-1:0]==`MSG_END_N || rx_data[`MSG_STR_NBIT/2-1:0]==`MSG_END_R)&
-                          (rx_st==`ST_MSG_DATA)&
-                           proc_mipi_set;
+         mipi_buf_wr <= rx_vd&
+                      ~(rx_data[`MSG_STR_NBIT/2-1:0]==`MSG_END_N || rx_data[`MSG_STR_NBIT/2-1:0]==`MSG_END_R)&
+                       (rx_st==`ST_MSG_DATA)&proc_mipi_set;
          mipi_buf_waddr <= rx_msg_addr[`MIPI_BUF_ADDR_NBIT-1:0];
          mipi_buf_wdata <= atoi_rx_data;
          if(rx_vd&(rx_st==`ST_MSG_DATA)) begin
@@ -443,7 +442,7 @@ module pkt_decode
                proc_mipi_set <= ~rx_msg_err;
             else if(rx_msg_eop)
                proc_mipi_set <= `LOW;
-            proc_mipi_start <= rx_msg_eop;
+            proc_mipi_start  <= rx_msg_eop;
          end
          // execute data, control IO with current data
          else if(rx_msg_mode==`MSG_MODE_EXEDATA) begin
@@ -456,8 +455,8 @@ module pkt_decode
                proc_mipi_set <= ~rx_msg_err;
             else if(rx_msg_eop)
                proc_mipi_set <= `LOW;
-            proc_mipi_exe   <= ~rx_msg_err&rx_msg_eop;
-            proc_mipi_start <= ~rx_msg_err ? prev_mipi_done[2:1]==2'b01 : rx_msg_eop;
+            proc_mipi_exe    <= ~rx_msg_err&rx_msg_eop;
+            proc_mipi_start  <= ~rx_msg_err ? prev_mipi_done[2:1]==2'b01 : rx_msg_eop;
          end
          // Error Mode String
          else begin
@@ -465,7 +464,7 @@ module pkt_decode
          end       
          
          if(proc_mipi_start) begin
-            m_mipi_start <= `LOW;
+            m_mipi_start   <= `LOW;
             m_mipi_div_set <= `LOW;
          end
          else if(proc_mipi_exe) begin
@@ -510,12 +509,12 @@ module pkt_decode
    
    always@(posedge mipi_clk) begin
       d_mipi_div_set <= {d_mipi_div_set[1:0],m_mipi_div_set};
-      mipi_div_set   <= `LOW;
+      mipi_div_set <= `LOW;
       if(d_mipi_div_set[2:1]==2'b01)
          mipi_div_set <= `HIGH;
 
-      d_mipi_start   <= {d_mipi_start  [1:0],m_mipi_start  };
-      mipi_start     <= `LOW;
+      d_mipi_start <= {d_mipi_start  [1:0],m_mipi_start  };
+      mipi_start   <= `LOW;
       if(d_mipi_start[2:1]==2'b01)
          mipi_start <= `HIGH;
 
@@ -565,10 +564,10 @@ module pkt_decode
    reg [`FREQ_TO_NBIT-1:0]  proc_timeout;
    
    always@(posedge clk) begin: freq_proc
-      prev_freq_done <= {prev_freq_done[1:0],freq_done};
-      proc_freq_start<= `LOW;
-      proc_freq_set <= `LOW;
-      proc_freq_exe <= `LOW;
+      prev_freq_done  <= {prev_freq_done[1:0],freq_done};
+      proc_freq_start <= `LOW;
+      proc_freq_set   <= `LOW;
+      proc_freq_exe   <= `LOW;
       
       if(rx_msg_type==`MSG_TYPE_CNT) begin
          // set data
@@ -593,7 +592,7 @@ module pkt_decode
          end
          
          if(proc_freq_set) begin
-            proc_cnt <= rx_msg_data[`FREQ_CNT_NBIT+`FREQ_TO_NBIT-1:`FREQ_TO_NBIT];
+            proc_cnt     <= rx_msg_data[`FREQ_CNT_NBIT+`FREQ_TO_NBIT-1:`FREQ_TO_NBIT];
             proc_timeout <= rx_msg_data[`FREQ_TO_NBIT-1:0];
          end
       end
@@ -607,7 +606,7 @@ module pkt_decode
    reg [`FREQ_BANK_NBIT-1:0] freq_bank;
    always@(posedge freq_clk) begin
       d_freq_start <= {d_freq_start[1:0],proc_freq_exe};
-      freq_start <= `LOW;
+      freq_start   <= `LOW;
       if(d_freq_start[2:1]==2'b01) begin
          freq_start <= `HIGH;
          freq_bank  <= rx_ch_addr[`FREQ_BANK_NBIT-1:0];
@@ -657,9 +656,9 @@ module pkt_decode
                        proc_freq_start |
                        proc_iocfg_start;
    
-   reg                      tx_vd;
-   reg [`USB_DATA_NBIT-1:0] tx_data;
-   reg                      tx_eop;
+   reg                       tx_vd;
+   reg [`USB_DATA_NBIT-1:0]  tx_data;
+   reg                       tx_eop;
 
    reg  [`USB_ADDR_NBIT-1:0] tx_buf_addr; // low address of BUFFER
    wire [`USB_ADDR_NBIT:0]   tx_addr;
@@ -767,9 +766,9 @@ module pkt_decode
             else begin
                tx_data <= 0; // clean TX BUFFER
                if(tx_buf_addr=={`USB_ADDR_NBIT{1'b1}}) begin
-                  tx_vd   <= `LOW;
-                  tx_st   <= `ST_MSG_IDLE;
-                  tx_eop  <= `HIGH;
+                  tx_vd  <= `LOW;
+                  tx_st  <= `ST_MSG_IDLE;
+                  tx_eop <= `HIGH;
                end
             end
          end

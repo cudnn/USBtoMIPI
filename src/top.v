@@ -73,7 +73,7 @@ module top
    ////////////////// USB PORTs
    
    assign USB_XTALIN  = usb_clk; // 24MHz, CPU clock
-   assign USB_IFCLK   = ~mclk;   // 48MHz, GPIF clock, invert output IFCLK
+   assign USB_IFCLK   = ifclk;   // 48MHz, GPIF clock, invert output IFCLK
    assign USB_DB      = usb_wen ? usb_wdata : {`USB_DATA_NBIT{1'bZ}};
    assign USB_SLOE    = ~sloe;
    assign USB_SLRD    = ~slrd;
@@ -82,17 +82,18 @@ module top
    assign USB_FIFOADR = fifoadr;
    
    ////////////////// Clock Generation
-   
-   wire mclk;       // 48MHz
+   wire ifclk;      // 48MHz
+   wire mclk;       // 48MHz, inverted of ifclk
    wire usb_clk;    // 24MHz
    wire locked_sig;
    clk_gen  main_clk_gen (
       .areset (`LOW      ),
       .inclk0 (CLK1      ),
-      .c0     (mclk      ),
+      .c0     (ifclk     ),
       .c1     (usb_clk   ),
       .locked (locked_sig)
    );
+	assign mclk = ~ifclk;
    
    wire mipi_clk;      // 50MHz
    wire freq_clk; // 200MHz

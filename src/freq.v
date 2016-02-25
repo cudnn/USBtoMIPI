@@ -65,38 +65,32 @@ module freq_m
 
    reg [`FREQ_DATA_NBIT-1:0] freq_cnt;
    reg                       freq_inproc;
-   
-   reg                       o_err;
-   
+      
    always@(posedge clk) begin
       if(m_inproc) begin
          freq_cnt <= freq_cnt + 1'b1;
          if(io_posedge) begin
             if(~freq_inproc) begin
                freq_inproc <= `HIGH;
-               freq_cnt <= 0;
+               freq_cnt    <= 0;
             end
             else
                r_cnt <= r_cnt + 1'b1;
          end
          
          if(r_cnt==i_cnt || freq_cnt[`FREQ_DATA_NBIT-1:`FREQ_DATA_NBIT-`FREQ_TO_NBIT]>r_timeout) begin
-            m_inproc   <= `LOW; // finish counting or timeout, stop counting
+            m_inproc <= `LOW; // finish counting or timeout, stop counting
          end
-         
-         if(freq_cnt[`FREQ_DATA_NBIT-1:`FREQ_DATA_NBIT-`FREQ_TO_NBIT]>r_timeout)
-            o_err <= `HIGH;
       end
       else
          freq_inproc<= `LOW;      
       
       if(start) begin
-         r_timeout <= i_timeout;
-         m_inproc <= `HIGH;
-         freq_inproc<= `LOW;
-         r_cnt     <= 0;
-         freq_cnt <= 0;
-         o_err <= `LOW;
+         r_timeout   <= i_timeout;
+         m_inproc    <= `HIGH;
+         freq_inproc <= `LOW;
+         r_cnt       <= 0;
+         freq_cnt    <= 0;
       end
    end
 
@@ -104,14 +98,19 @@ module freq_m
    reg                        prev_m_inproc;
    reg [`FREQ_DATA_NBIT-1:0]  o_freq;
    reg [`FREQ_CNT_NBIT-1:0]   o_cnt;
+   reg                        o_err;
    
    always@(posedge clk) begin
       prev_m_inproc <= m_inproc;
       // negedge of inproc, done
-      if(prev_m_inproc&~m_inproc)
-         done <= `HIGH;
-      else if(start)
-         done <= `LOW;
+      if(prev_m_inproc&~m_inproc) begin
+         o_err <= (r_cnt!=i_cnt);
+         done  <= `HIGH;
+      end
+      else if(start) begin
+         o_err <= `LOW;
+         done  <= `LOW;
+      end
          
       if(m_inproc) begin
          o_freq <= freq_cnt;
