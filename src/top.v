@@ -69,7 +69,7 @@ module top
    ////////////////// USB PORTs
    
    assign USB_XTALIN  = usb_clk; // 24MHz, CPU clock
-   assign USB_IFCLK   = ~ifclk;  // 48MHz, GPIF clock, invert output IFCLK
+   assign USB_IFCLK   = ifclk;   // 48MHz, GPIF clock, invert output IFCLK
    assign USB_DB      = usb_wen ? usb_wdata : {`USB_DATA_NBIT{1'bZ}};
    assign USB_SLOE    = ~sloe;
    assign USB_SLRD    = ~slrd;
@@ -80,6 +80,7 @@ module top
    ////////////////// Clock Generation
    
    wire ifclk;      // 48MHz
+	wire mclk;       // inverted ifclk
    wire usb_clk;    // 24MHz
    wire mipi_clk;   // 52MHz
    wire locked_sig;
@@ -91,6 +92,8 @@ module top
       .c2     (),
       .locked (locked_sig)
    );
+	
+	assign mclk = ~ifclk;
    
    mipi_clkpll  mipi_clk_gen (
       .inclk0 (CLK2       ),
@@ -130,7 +133,7 @@ module top
 
    usb_slavefifo u_usb_slavefifo
    (
-      .ifclk        (ifclk           ),
+      .ifclk        (mclk            ),
       .sloe         (sloe            ),
       .slrd         (slrd            ),
       .f_empty      (out_ep_empty    ),
@@ -189,7 +192,7 @@ module top
       
    pkt_decode u_cmd_decode
    (
-      .clk      (ifclk           ),
+      .clk      (mclk            ),
       .mipi_clk (mipi_clk        ),
       .o_io_dir (pktdec_o_io_dir ),
       .i_io_db  (pktdec_i_io_db  ),
@@ -216,7 +219,7 @@ module top
 
    buffered_ram#(`USB_ADDR_NBIT+1,`USB_DATA_NBIT,"./tx_buf_512x16.mif")
    tx_buffer(
-      .inclk       (ifclk         ),
+      .inclk       (mclk          ),
       .in_wren     (pktdec_tx_vd  ),
       .in_wraddress(pktdec_tx_addr),
       .in_wrdata   (pktdec_tx_data),
