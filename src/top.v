@@ -14,7 +14,7 @@
 //
 ////////////////////////////////////////////////////////////////
 // 
-//  Revision: 1.0
+//  Revision: 1.3
 
 /////////////////////////// MODULE //////////////////////////////
 module top
@@ -22,8 +22,6 @@ module top
    // Clock Source
    CLK1,
    CLK2,
-   // Chip Enable
-   OE,
    // IO Interface
    P1_IO_DB,
    P2_IO_DB,
@@ -46,10 +44,8 @@ module top
 
    ////////////////// PORT ////////////////////
    input                          CLK1; // 48MHz
-   input                          CLK2; // 52MHz
-   
-   output                         OE;
-   
+   input                          CLK2; // 26MHz
+      
    inout  [`IO_UNIT_NBIT-1:0]     P1_IO_DB;
    inout  [`IO_UNIT_NBIT-1:0]     P2_IO_DB;
    inout  [`IO_UNIT_NBIT-1:0]     P3_IO_DB;
@@ -102,9 +98,7 @@ module top
       .c0     (mipi_clk),
       .c1     (freq_clk)
    );
-   
-   assign OE = `HIGH;
-   
+      
    ////////////////// TEST POINT
    reg [7:0] cnt;
    reg       s_1m;

@@ -114,7 +114,7 @@ set_location_assignment PIN_C1 -to FLASH_ASDO
 set_location_assignment PIN_D2 -to FLASH_NCS
 set_location_assignment PIN_H2 -to FLASH_DATA0
 set_location_assignment PIN_H1 -to FLASH_DCLK
-set_location_assignment PIN_E1 -to CLK1
+set_location_assignment PIN_M16 -to CLK1
 set_global_assignment -name ENABLE_OCT_DONE OFF
 set_global_assignment -name ENABLE_CONFIGURATION_PINS OFF
 set_global_assignment -name ENABLE_BOOT_SEL_PIN OFF
@@ -135,7 +135,7 @@ set_global_assignment -name RESERVE_DCLK_AFTER_CONFIGURATION "USE AS REGULAR IO"
 set_location_assignment PIN_R16 -to USB_XTALIN
 set_location_assignment PIN_N14 -to USB_DB[14]
 set_location_assignment PIN_P15 -to USB_SLWR
-set_location_assignment PIN_P16 -to USB_IFCLK
+set_location_assignment PIN_B14 -to USB_IFCLK
 set_location_assignment PIN_K11 -to USB_DB[12]
 set_location_assignment PIN_N16 -to USB_SLRD
 set_location_assignment PIN_N15 -to USB_DB[15]
@@ -163,7 +163,7 @@ set_location_assignment PIN_C15 -to USB_DB[1]
 set_location_assignment PIN_M2 -to CLK2
 set_location_assignment PIN_M1 -to CLK3
 set_location_assignment PIN_E15 -to USB_CLKOUT
-set_location_assignment PIN_M16 -to USB_FLAGA
+set_location_assignment PIN_P16 -to USB_FLAGA
 set_location_assignment PIN_M15 -to USB_FLAGB
 set_location_assignment PIN_E16 -to USB_FLAGC
 set_global_assignment -name ENABLE_SIGNALTAP OFF
@@ -208,7 +208,6 @@ set_location_assignment PIN_D12 -to P2_IO_DB[3]
 set_location_assignment PIN_A13 -to P2_IO_DB[4]
 set_location_assignment PIN_B13 -to P2_IO_DB[5]
 set_location_assignment PIN_A14 -to P2_IO_DB[6]
-set_location_assignment PIN_B14 -to P2_IO_DB[7]
 set_location_assignment PIN_E11 -to P2_IO_DB[8]
 set_location_assignment PIN_E10 -to P2_IO_DB[9]
 set_location_assignment PIN_A12 -to P2_IO_DB[10]
@@ -217,7 +216,7 @@ set_location_assignment PIN_A11 -to P2_IO_DB[12]
 set_location_assignment PIN_B11 -to P2_IO_DB[13]
 set_location_assignment PIN_C11 -to P2_IO_DB[14]
 set_location_assignment PIN_F10 -to P2_IO_DB[15]
-set_location_assignment PIN_F9  -to P2_IO_DB[16]
+set_location_assignment PIN_F9 -to P2_IO_DB[16]
 set_location_assignment PIN_F11 -to P2_IO_DB[17]
 set_location_assignment PIN_A15 -to P2_IO_DB[18]
 set_location_assignment PIN_A10 -to P2_IO_DB[19]
@@ -225,7 +224,6 @@ set_location_assignment PIN_L12 -to P2_IO_DB[20]
 set_location_assignment PIN_J11 -to P2_IO_DB[21]
 
 
-set_location_assignment PIN_E5 -to P3_IO_DB[0]
 set_location_assignment PIN_F5 -to P3_IO_DB[1]
 set_location_assignment PIN_B1 -to P3_IO_DB[2]
 set_location_assignment PIN_C2 -to P3_IO_DB[3]
@@ -350,7 +348,6 @@ set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to P3_IO_D
 set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to P3_IO_DB[30]
 set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to P3_IO_DB[31]
 
-set_location_assignment PIN_D4 -to OE
 set_global_assignment -name OPTIMIZATION_MODE BALANCED
 set_location_assignment PIN_C14 -to IO_EN
 set_location_assignment PIN_D14 -to IO_1M
@@ -379,4 +376,6 @@ set_global_assignment -name EDA_BOARD_DESIGN_BOUNDARY_SCAN_TOOL "<None>"
 set_global_assignment -name EDA_OUTPUT_DATA_FORMAT NONE -section_id eda_board_design_boundary_scan
 set_global_assignment -name EDA_BOARD_BOUNDARY_SCAN_OPERATION PRE_CONFIG -section_id eda_board_design_boundary_scan
 set_global_assignment -name CDF_FILE Chain1.cdf
+set_location_assignment PIN_D4 -to P2_IO_DB[0]
+set_location_assignment PIN_E5 -to P2_IO_DB[1]
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
