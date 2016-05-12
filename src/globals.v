@@ -54,7 +54,7 @@
 `define MSG_MODE_EXEDATA    `MSG_STR_NBIT'h3230  // "02"
 `define MSG_MODE_SEXDATA    `MSG_STR_NBIT'h3330  // "03"
 `define MSG_MODE_IO         `MSG_STR_NBIT'h3430  // "04"
-`define MSG_MODE_IO_CFGRTN  `MSG_STR_NBIT'h3530  // "05"
+`define MSG_MODE_RTN        `MSG_STR_NBIT'h3530  // "05"
 
 `define MSG_PASS            `MSG_STR_NBIT'h3530  // "05"
 `define MSG_FAIL            `MSG_STR_NBIT'h3730  // "07"

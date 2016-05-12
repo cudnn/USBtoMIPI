@@ -253,6 +253,10 @@ module pkt_decode
                tx_msg_pf  <= rx_msg_err ? `MSG_FAIL       : `MSG_PASS;
                tx_pf_code <= rx_msg_err ? `MSG_FP_CODE_23 : `MSG_FP_CODE_21; // 21: succeed; 23: error data received
             end
+            else if(rx_msg_mode==`MSG_MODE_RTN) begin
+               tx_msg_pf  <= rx_msg_err ? `MSG_FAIL       : `MSG_PASS;
+               tx_pf_code <= rx_msg_err ? `MSG_FP_CODE_23 : `MSG_FP_CODE_21; // 21: succeed; 23: error data received
+            end
             // Error Mode String
             else begin
                tx_msg_pf  <= `MSG_FAIL;
@@ -304,7 +308,7 @@ module pkt_decode
          `MSG_TYPE_IOCFG: begin
             tx_msg_type  <= `MSG_TYPE_IOCFG;
             tx_buf_baddr <= `HIGH;
-            if(rx_msg_mode==`MSG_MODE_IO || rx_msg_mode==`MSG_MODE_IO_CFGRTN) begin
+            if(rx_msg_mode==`MSG_MODE_IO || rx_msg_mode==`MSG_MODE_RTN) begin
                tx_msg_pf  <= `MSG_PASS;
                tx_pf_code <= `MSG_FP_CODE_61;
             end
