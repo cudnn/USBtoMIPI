@@ -14,7 +14,7 @@
 //
 ////////////////////////////////////////////////////////////////
 // 
-//  Revision: 1.0
+//  Revision: 1.3
 
 /////////////////////////// MODULE //////////////////////////////
 module top
@@ -24,6 +24,7 @@ module top
    CLK2,
    // Chip Enable
    OE,
+   V_1P8_EN,
    // MIPI Interface
    SCLK,
    SDA,
@@ -44,9 +45,10 @@ module top
 
    ////////////////// PORT ////////////////////
    input                          CLK1; // 48MHz
-   input                          CLK2; // 52MHz
+   input                          CLK2; // 26MHz
    
    output                         OE;
+   output                         V_1P8_EN;
    
    inout  [`IO_UNIT_NBIT-1:0]     IO_DB;
    
@@ -99,8 +101,6 @@ module top
       .inclk0 (CLK2       ),
       .c0     (mipi_clk   )
    );   
-
-   assign OE = `HIGH;
    
    ////////////////// USB PHY Slave FIFO Controller
    
@@ -168,10 +168,21 @@ module top
    genvar i;
       for(i=0;i<`IO_UNIT_NBIT;i=i+1)
       begin:io_ctrl
-         assign IO_DB[i] = pktdec_o_io_dir[i] ? pktdec_o_io_db[i] : 1'bZ;
-         assign pktdec_i_io_db[i] = IO_DB[i];
+         assign IO_DB[i] = pktdec_o_io_dir[i]&&(pktdec_o_io_bank==0) ? pktdec_o_io_db[i] : 1'bZ;
+         assign pktdec_i_io_db[i] = (pktdec_o_io_bank==0) ? IO_DB[i] : `LOW;
       end
    endgenerate
+   
+   reg OE;
+   reg V_1P8_EN;
+   always@(posedge mclk) begin
+      if(pktdec_o_io_bank==`IO_BANK_NBIT'd1) begin
+         if(pktdec_o_io_dir[0])
+            OE <= pktdec_o_io_db[0];
+         if(pktdec_o_io_dir[1])
+            V_1P8_EN <= pktdec_o_io_db[1];
+      end
+   end
 
    wire                       pktdec_sclk;
    reg                        pktdec_sdi;

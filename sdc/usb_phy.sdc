@@ -101,6 +101,9 @@ set_false_path -from {usb_slavefifo:u_usb_slavefifo|tx_st.01} -to [get_ports {US
 set_false_path -from {usb_slavefifo:u_usb_slavefifo|tx_st.10} -to [get_ports {USB_SLOE}]
 set_false_path -from {usb_slavefifo:u_usb_slavefifo|tx_st.11} -to [get_ports {USB_SLOE}]
 set_false_path -from {main_clk_gen|altpll_component|auto_generated|pll1|clk[0]} -to [get_ports {USB_IFCLK}]
+set_false_path -from {pkt_decode:u_cmd_decode|o_io_bank[*]} -to [get_ports {IO_DB[*]}]
+set_false_path -from {OE~reg0} -to [get_ports {OE}]
+set_false_path -from {V_1P8_EN~reg0} -to [get_ports {V_1P8_EN}]
 
 #**************************************************************
 # Set Multicycle Path
