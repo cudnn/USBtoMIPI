@@ -15,6 +15,7 @@
 
 `define HIGH 1'b1
 `define LOW  1'b0
+`define HZ   1'bz
 
 // SDRAM
 `define SDRAM_ADDR_NBIT  13

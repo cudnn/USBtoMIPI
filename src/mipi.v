@@ -86,7 +86,7 @@ module mipi
       end
    end
    
-   assign sclk = mipi_clk&sclk_en;
+   assign sclk = sclk_en ? mipi_clk : `HZ;
       
    ////////////////// RX
    

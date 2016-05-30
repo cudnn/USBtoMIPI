@@ -164,17 +164,30 @@ module top
    wire [`IO_UNIT_NBIT-1:0]  pktdec_i_io_db;
    wire [`IO_UNIT_NBIT-1:0]  pktdec_o_io_db;
    wire [`IO_BANK_NBIT-1:0]  pktdec_o_io_bank;
+   wire [`IO_UNIT_NBIT-1:0]  o_io_db;
+   
+   // P1
+   reg [`IO_UNIT_NBIT-1:0]  p1_o_io_dir;
+   reg [`IO_UNIT_NBIT-1:0]  p1_o_io_db;
+   always@(posedge mclk) begin
+      if(pktdec_o_io_bank==0) begin
+         p1_o_io_dir <= pktdec_o_io_dir;
+         p1_o_io_db  <= pktdec_o_io_db;
+      end
+   end
+   
    generate
    genvar i;
       for(i=0;i<`IO_UNIT_NBIT;i=i+1)
       begin:io_ctrl
-         assign IO_DB[i] = pktdec_o_io_dir[i]&&(pktdec_o_io_bank==0) ? pktdec_o_io_db[i] : 1'bZ;
+         assign IO_DB[i] = p1_o_io_dir[i] ? p1_o_io_db[i] : 1'bZ;
          assign pktdec_i_io_db[i] = (pktdec_o_io_bank==0) ? IO_DB[i] : `LOW;
       end
    endgenerate
-   
-   reg OE;
-   reg V_1P8_EN;
+
+   // P2   
+   reg OE=`HIGH;
+   reg V_1P8_EN=`LOW;
    always@(posedge mclk) begin
       if(pktdec_o_io_bank==`IO_BANK_NBIT'd1) begin
          if(pktdec_o_io_dir[0])
