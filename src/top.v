@@ -52,7 +52,7 @@ module top
    
    inout  [`IO_UNIT_NBIT-1:0]     IO_DB;
    
-   output [3:0]                   SCLK;
+   inout  [3:0]                   SCLK;
    inout  [3:0]                   SDA;
                                   
    output                         USB_XTALIN; // 24MHz
@@ -206,8 +206,8 @@ module top
    reg  [3:0]                 SDA;
    
    always@* begin
-      SCLK <= 4'b0000;
-      SDA  <= 4'b0000;
+      SCLK <= 4'bzzzz;
+      SDA  <= 4'bzzzz;
          
       SCLK[pktdec_mipi_bank] <= pktdec_sclk;
       SDA[pktdec_mipi_bank]  <= pktdec_sdo_en ? pktdec_sdo : 1'bZ;
