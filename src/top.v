@@ -206,11 +206,11 @@ module top
    reg  [3:0]                 SDA;
    
    always@* begin
-      SCLK <= 4'bzzzz;
-      SDA  <= 4'bzzzz;
+      SCLK <= 4'b0000;
+      SDA  <= 4'b0000;
          
       SCLK[pktdec_mipi_bank] <= pktdec_sclk;
-      SDA[pktdec_mipi_bank]  <= pktdec_sdo_en ? pktdec_sdo : 1'bZ;
+      SDA[pktdec_mipi_bank]  <= pktdec_sdo_en ? pktdec_sdo : `LOW;
       pktdec_sdi <= SDA[pktdec_mipi_bank];
    end
       
