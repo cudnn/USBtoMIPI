@@ -448,6 +448,8 @@ module pkt_decode
       mipi_div <= m_mipi_div;
    end
    
+   wire [`MIPI_BUF_ADDR_NBIT-1:0] mipi_data_num;
+   
    mipi mipi_u
    (
       .clk        (mipi_clk      ),
@@ -455,6 +457,7 @@ module pkt_decode
       .div        (mipi_div      ),
       .start      (mipi_start    ),
       .done       (mipi_done     ),
+      .num        (mipi_data_num ),
       .i_buf_clk  (clk           ),
       .i_buf_wr   (mipi_buf_wr   ),
       .i_buf_waddr(mipi_buf_waddr),
@@ -546,7 +549,7 @@ module pkt_decode
             else if(tx_msg_type==`MSG_TYPE_MIPI) begin
                tx_st       <= `ST_MSG_DATA;
                tx_msg_data <= {mipi_buf_rdata,{`MSG_DATA_MAX_NBIT-`USB_DATA_NBIT/2{1'b0}}};
-               tx_msg_addr <= `USB_ADDR_NBIT'd`MIPI_DATA_NUM-1'b1;
+               tx_msg_addr <= `USB_ADDR_NBIT'd4 + mipi_data_num;
             end
          end
          `ST_MSG_DATA: begin
@@ -559,11 +562,18 @@ module pkt_decode
                tx_st <= `ST_MSG_END;
          end
          `ST_MSG_END: begin
-            tx_vd   <= `HIGH;
+            tx_vd       <= `HIGH;
+            tx_data     <= 0;
             tx_buf_addr <= tx_buf_addr + 1'b1;
-            tx_data <= {`MSG_END_N,`MSG_END_R};
-            tx_st   <= `ST_MSG_IDLE;
-            tx_eop  <= `HIGH;
+            if(tx_msg_addr=={`USB_ADDR_NBIT{1'b1}}) begin
+               tx_data     <= {`MSG_END_N,`MSG_END_R};
+               tx_msg_addr <= 0;
+            end
+            if(tx_buf_addr=={`USB_ADDR_NBIT{1'b1}}) begin
+               tx_vd   <= `LOW;
+               tx_st   <= `ST_MSG_IDLE;
+               tx_eop  <= `HIGH;
+            end
          end
          default:
             tx_st <= `ST_MSG_IDLE;

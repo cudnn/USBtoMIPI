@@ -1,18 +1,18 @@
 # -------------------------------------------------------------------------- #
 #
 # Copyright (C) 1991-2015 Altera Corporation. All rights reserved.
-# Your use of Altera Corporation's design tools, logic functions 
-# and other software and tools, and its AMPP partner logic 
-# functions, and any output files from any of the foregoing 
-# (including device programming or simulation files), and any 
-# associated documentation or information are expressly subject 
-# to the terms and conditions of the Altera Program License 
+# Your use of Altera Corporation's design tools, logic functions
+# and other software and tools, and its AMPP partner logic
+# functions, and any output files from any of the foregoing
+# (including device programming or simulation files), and any
+# associated documentation or information are expressly subject
+# to the terms and conditions of the Altera Program License
 # Subscription Agreement, the Altera Quartus Prime License Agreement,
-# the Altera MegaCore Function License Agreement, or other 
-# applicable license agreement, including, without limitation, 
-# that your use is for the sole purpose of programming logic 
-# devices manufactured by Altera and sold by Altera or its 
-# authorized distributors.  Please refer to the applicable 
+# the Altera MegaCore Function License Agreement, or other
+# applicable license agreement, including, without limitation,
+# that your use is for the sole purpose of programming logic
+# devices manufactured by Altera and sold by Altera or its
+# authorized distributors.  Please refer to the applicable
 # agreement for further details.
 #
 # -------------------------------------------------------------------------- #
@@ -26,7 +26,7 @@
 # Notes:
 #
 # 1) The default values for assignments are stored in the file:
-#		usbtomipi_assignment_defaults.qdf
+#		usbtomipi_v2_assignment_defaults.qdf
 #    If this file doesn't exist, see file:
 #		assignment_defaults.qdf
 #
@@ -41,7 +41,7 @@ set_global_assignment -name FAMILY "Cyclone IV E"
 set_global_assignment -name DEVICE EP4CE10F17C8
 set_global_assignment -name TOP_LEVEL_ENTITY top
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION 15.1.0
-set_global_assignment -name PROJECT_CREATION_TIME_DATE "14:40:38  NOVEMBER 12, 2015"
+set_global_assignment -name PROJECT_CREATION_TIME_DATE "13:22:09  SEPTEMBER 18, 2016"
 set_global_assignment -name LAST_QUARTUS_VERSION 15.1.0
 set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
 set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
@@ -114,7 +114,7 @@ set_location_assignment PIN_C1 -to FLASH_ASDO
 set_location_assignment PIN_D2 -to FLASH_NCS
 set_location_assignment PIN_H2 -to FLASH_DATA0
 set_location_assignment PIN_H1 -to FLASH_DCLK
-set_location_assignment PIN_M16 -to CLK1
+set_location_assignment PIN_E1 -to CLK1
 set_global_assignment -name ENABLE_OCT_DONE OFF
 set_global_assignment -name ENABLE_CONFIGURATION_PINS OFF
 set_global_assignment -name ENABLE_BOOT_SEL_PIN OFF
@@ -135,7 +135,7 @@ set_global_assignment -name RESERVE_DCLK_AFTER_CONFIGURATION "USE AS REGULAR IO"
 set_location_assignment PIN_R16 -to USB_XTALIN
 set_location_assignment PIN_N14 -to USB_DB[14]
 set_location_assignment PIN_P15 -to USB_SLWR
-set_location_assignment PIN_B14 -to USB_IFCLK
+set_location_assignment PIN_P16 -to USB_IFCLK
 set_location_assignment PIN_K11 -to USB_DB[12]
 set_location_assignment PIN_N16 -to USB_SLRD
 set_location_assignment PIN_N15 -to USB_DB[15]
@@ -163,7 +163,7 @@ set_location_assignment PIN_C15 -to USB_DB[1]
 set_location_assignment PIN_M2 -to CLK2
 set_location_assignment PIN_M1 -to CLK3
 set_location_assignment PIN_E15 -to USB_CLKOUT
-set_location_assignment PIN_P16 -to USB_FLAGA
+set_location_assignment PIN_M16 -to USB_FLAGA
 set_location_assignment PIN_M15 -to USB_FLAGB
 set_location_assignment PIN_E16 -to USB_FLAGC
 set_global_assignment -name ENABLE_SIGNALTAP ON
@@ -397,167 +397,6 @@ set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[139
 set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[140] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|mipi_cmd[7]" -section_id mipi
 set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[141] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|mipi_op" -section_id mipi
 set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[142] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|mipi_start" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[143] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|parity:parity_u|i_data" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[144] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|parity:parity_u|i_strobe" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[145] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|parity:parity_u|o_parity" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[146] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sclk" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[147] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sdi" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[148] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sdo" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[149] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sdo_en" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[150] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|set" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[151] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sf_cnt[0]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[152] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sf_cnt[1]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[153] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sf_cnt[2]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[154] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sf_cnt[3]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[155] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sf_data[0]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[156] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sf_data[1]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[157] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sf_data[2]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[158] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sf_data[3]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[159] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sf_data[4]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[160] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sf_data[5]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[161] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sf_data[6]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[162] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sf_data[7]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[163] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|st.000" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[164] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|st.001" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[165] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|st.010" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[166] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|st.011" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[167] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|st.100" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[168] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|st.101" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[169] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|st.110" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[170] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|st.111" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[171] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|st_turns[0]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[172] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|st_turns[1]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[173] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|st_turns[2]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[174] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|st_turns[3]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[175] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|start" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[176] -to "pkt_decode:u_cmd_decode|proc_mipi_exe" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[177] -to "pkt_decode:u_cmd_decode|proc_mipi_set" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[178] -to "pkt_decode:u_cmd_decode|proc_mipi_start" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[179] -to "pkt_decode:u_cmd_decode|rx_data[0]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[180] -to "pkt_decode:u_cmd_decode|rx_data[10]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[181] -to "pkt_decode:u_cmd_decode|rx_data[11]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[182] -to "pkt_decode:u_cmd_decode|rx_data[12]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[183] -to "pkt_decode:u_cmd_decode|rx_data[13]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[184] -to "pkt_decode:u_cmd_decode|rx_data[14]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[185] -to "pkt_decode:u_cmd_decode|rx_data[15]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[186] -to "pkt_decode:u_cmd_decode|rx_data[1]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[187] -to "pkt_decode:u_cmd_decode|rx_data[2]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[188] -to "pkt_decode:u_cmd_decode|rx_data[3]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[189] -to "pkt_decode:u_cmd_decode|rx_data[4]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[190] -to "pkt_decode:u_cmd_decode|rx_data[5]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[191] -to "pkt_decode:u_cmd_decode|rx_data[6]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[192] -to "pkt_decode:u_cmd_decode|rx_data[7]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[193] -to "pkt_decode:u_cmd_decode|rx_data[8]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[194] -to "pkt_decode:u_cmd_decode|rx_data[9]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[195] -to "pkt_decode:u_cmd_decode|rx_eop" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[196] -to "pkt_decode:u_cmd_decode|rx_msg_eop" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[197] -to "pkt_decode:u_cmd_decode|rx_msg_err" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[198] -to "pkt_decode:u_cmd_decode|rx_msg_mode[0]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[199] -to "pkt_decode:u_cmd_decode|rx_msg_mode[10]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[200] -to "pkt_decode:u_cmd_decode|rx_msg_mode[11]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[201] -to "pkt_decode:u_cmd_decode|rx_msg_mode[12]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[202] -to "pkt_decode:u_cmd_decode|rx_msg_mode[13]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[203] -to "pkt_decode:u_cmd_decode|rx_msg_mode[14]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[204] -to "pkt_decode:u_cmd_decode|rx_msg_mode[15]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[205] -to "pkt_decode:u_cmd_decode|rx_msg_mode[1]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[206] -to "pkt_decode:u_cmd_decode|rx_msg_mode[2]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[207] -to "pkt_decode:u_cmd_decode|rx_msg_mode[3]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[208] -to "pkt_decode:u_cmd_decode|rx_msg_mode[4]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[209] -to "pkt_decode:u_cmd_decode|rx_msg_mode[5]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[210] -to "pkt_decode:u_cmd_decode|rx_msg_mode[6]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[211] -to "pkt_decode:u_cmd_decode|rx_msg_mode[7]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[212] -to "pkt_decode:u_cmd_decode|rx_msg_mode[8]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[213] -to "pkt_decode:u_cmd_decode|rx_msg_mode[9]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[214] -to "pkt_decode:u_cmd_decode|rx_msg_type[0]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[215] -to "pkt_decode:u_cmd_decode|rx_msg_type[10]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[216] -to "pkt_decode:u_cmd_decode|rx_msg_type[11]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[217] -to "pkt_decode:u_cmd_decode|rx_msg_type[12]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[218] -to "pkt_decode:u_cmd_decode|rx_msg_type[13]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[219] -to "pkt_decode:u_cmd_decode|rx_msg_type[14]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[220] -to "pkt_decode:u_cmd_decode|rx_msg_type[15]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[221] -to "pkt_decode:u_cmd_decode|rx_msg_type[1]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[222] -to "pkt_decode:u_cmd_decode|rx_msg_type[2]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[223] -to "pkt_decode:u_cmd_decode|rx_msg_type[3]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[224] -to "pkt_decode:u_cmd_decode|rx_msg_type[4]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[225] -to "pkt_decode:u_cmd_decode|rx_msg_type[5]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[226] -to "pkt_decode:u_cmd_decode|rx_msg_type[6]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[227] -to "pkt_decode:u_cmd_decode|rx_msg_type[7]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[228] -to "pkt_decode:u_cmd_decode|rx_msg_type[8]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[229] -to "pkt_decode:u_cmd_decode|rx_msg_type[9]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[230] -to "pkt_decode:u_cmd_decode|rx_sop" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[231] -to "pkt_decode:u_cmd_decode|rx_vd" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[232] -to "pkt_decode:u_cmd_decode|tx_addr[0]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[233] -to "pkt_decode:u_cmd_decode|tx_addr[1]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[234] -to "pkt_decode:u_cmd_decode|tx_addr[2]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[235] -to "pkt_decode:u_cmd_decode|tx_addr[3]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[236] -to "pkt_decode:u_cmd_decode|tx_addr[4]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[237] -to "pkt_decode:u_cmd_decode|tx_addr[5]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[238] -to "pkt_decode:u_cmd_decode|tx_addr[6]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[239] -to "pkt_decode:u_cmd_decode|tx_addr[7]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[240] -to "pkt_decode:u_cmd_decode|tx_addr[8]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[241] -to "pkt_decode:u_cmd_decode|tx_data[0]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[242] -to "pkt_decode:u_cmd_decode|tx_data[10]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[243] -to "pkt_decode:u_cmd_decode|tx_data[11]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[244] -to "pkt_decode:u_cmd_decode|tx_data[12]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[245] -to "pkt_decode:u_cmd_decode|tx_data[13]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[246] -to "pkt_decode:u_cmd_decode|tx_data[14]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[247] -to "pkt_decode:u_cmd_decode|tx_data[15]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[248] -to "pkt_decode:u_cmd_decode|tx_data[1]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[249] -to "pkt_decode:u_cmd_decode|tx_data[2]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[250] -to "pkt_decode:u_cmd_decode|tx_data[3]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[251] -to "pkt_decode:u_cmd_decode|tx_data[4]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[252] -to "pkt_decode:u_cmd_decode|tx_data[5]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[253] -to "pkt_decode:u_cmd_decode|tx_data[6]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[254] -to "pkt_decode:u_cmd_decode|tx_data[7]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[255] -to "pkt_decode:u_cmd_decode|tx_data[8]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[256] -to "pkt_decode:u_cmd_decode|tx_data[9]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[257] -to "pkt_decode:u_cmd_decode|tx_msg_addr[0]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[258] -to "pkt_decode:u_cmd_decode|tx_msg_addr[1]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[259] -to "pkt_decode:u_cmd_decode|tx_msg_addr[2]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[260] -to "pkt_decode:u_cmd_decode|tx_msg_addr[3]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[261] -to "pkt_decode:u_cmd_decode|tx_msg_addr[4]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[262] -to "pkt_decode:u_cmd_decode|tx_msg_addr[5]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[263] -to "pkt_decode:u_cmd_decode|tx_msg_addr[6]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[264] -to "pkt_decode:u_cmd_decode|tx_msg_addr[7]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[265] -to "pkt_decode:u_cmd_decode|tx_msg_pf[0]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[266] -to "pkt_decode:u_cmd_decode|tx_msg_pf[10]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[267] -to "pkt_decode:u_cmd_decode|tx_msg_pf[11]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[268] -to "pkt_decode:u_cmd_decode|tx_msg_pf[12]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[269] -to "pkt_decode:u_cmd_decode|tx_msg_pf[13]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[270] -to "pkt_decode:u_cmd_decode|tx_msg_pf[14]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[271] -to "pkt_decode:u_cmd_decode|tx_msg_pf[15]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[272] -to "pkt_decode:u_cmd_decode|tx_msg_pf[1]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[273] -to "pkt_decode:u_cmd_decode|tx_msg_pf[2]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[274] -to "pkt_decode:u_cmd_decode|tx_msg_pf[3]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[275] -to "pkt_decode:u_cmd_decode|tx_msg_pf[4]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[276] -to "pkt_decode:u_cmd_decode|tx_msg_pf[5]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[277] -to "pkt_decode:u_cmd_decode|tx_msg_pf[6]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[278] -to "pkt_decode:u_cmd_decode|tx_msg_pf[7]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[279] -to "pkt_decode:u_cmd_decode|tx_msg_pf[8]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[280] -to "pkt_decode:u_cmd_decode|tx_msg_pf[9]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[281] -to "pkt_decode:u_cmd_decode|tx_pf_code[0]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[282] -to "pkt_decode:u_cmd_decode|tx_pf_code[10]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[283] -to "pkt_decode:u_cmd_decode|tx_pf_code[11]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[284] -to "pkt_decode:u_cmd_decode|tx_pf_code[12]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[285] -to "pkt_decode:u_cmd_decode|tx_pf_code[13]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[286] -to "pkt_decode:u_cmd_decode|tx_pf_code[14]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[287] -to "pkt_decode:u_cmd_decode|tx_pf_code[15]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[288] -to "pkt_decode:u_cmd_decode|tx_pf_code[1]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[289] -to "pkt_decode:u_cmd_decode|tx_pf_code[2]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[290] -to "pkt_decode:u_cmd_decode|tx_pf_code[3]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[291] -to "pkt_decode:u_cmd_decode|tx_pf_code[4]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[292] -to "pkt_decode:u_cmd_decode|tx_pf_code[5]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[293] -to "pkt_decode:u_cmd_decode|tx_pf_code[6]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[294] -to "pkt_decode:u_cmd_decode|tx_pf_code[7]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[295] -to "pkt_decode:u_cmd_decode|tx_pf_code[8]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[296] -to "pkt_decode:u_cmd_decode|tx_pf_code[9]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[297] -to "pkt_decode:u_cmd_decode|tx_st.000" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[298] -to "pkt_decode:u_cmd_decode|tx_st.001" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[299] -to "pkt_decode:u_cmd_decode|tx_st.010" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[300] -to "pkt_decode:u_cmd_decode|tx_st.011" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[301] -to "pkt_decode:u_cmd_decode|tx_st.101" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[302] -to "pkt_decode:u_cmd_decode|tx_st.110" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[303] -to "pkt_decode:u_cmd_decode|tx_st.111" -section_id mipi
 set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[0] -to "pkt_decode:u_cmd_decode|itoa:itoa_u|i_int[0]" -section_id mipi
 set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[1] -to "pkt_decode:u_cmd_decode|itoa:itoa_u|i_int[1]" -section_id mipi
 set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[2] -to "pkt_decode:u_cmd_decode|itoa:itoa_u|i_int[2]" -section_id mipi
@@ -701,175 +540,9 @@ set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[139] -
 set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[140] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|mipi_cmd[7]" -section_id mipi
 set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[141] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|mipi_op" -section_id mipi
 set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[142] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|mipi_start" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[143] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|parity:parity_u|i_data" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[144] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|parity:parity_u|i_strobe" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[145] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|parity:parity_u|o_parity" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[146] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sclk" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[147] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sdi" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[148] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sdo" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[149] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sdo_en" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[150] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|set" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[151] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sf_cnt[0]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[152] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sf_cnt[1]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[153] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sf_cnt[2]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[154] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sf_cnt[3]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[155] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sf_data[0]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[156] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sf_data[1]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[157] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sf_data[2]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[158] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sf_data[3]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[159] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sf_data[4]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[160] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sf_data[5]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[161] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sf_data[6]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[162] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sf_data[7]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[163] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|st.000" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[164] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|st.001" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[165] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|st.010" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[166] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|st.011" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[167] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|st.100" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[168] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|st.101" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[169] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|st.110" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[170] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|st.111" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[171] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|st_turns[0]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[172] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|st_turns[1]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[173] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|st_turns[2]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[174] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|st_turns[3]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[175] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|start" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[176] -to "pkt_decode:u_cmd_decode|proc_mipi_exe" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[177] -to "pkt_decode:u_cmd_decode|proc_mipi_set" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[178] -to "pkt_decode:u_cmd_decode|proc_mipi_start" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[179] -to "pkt_decode:u_cmd_decode|rx_data[0]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[180] -to "pkt_decode:u_cmd_decode|rx_data[10]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[181] -to "pkt_decode:u_cmd_decode|rx_data[11]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[182] -to "pkt_decode:u_cmd_decode|rx_data[12]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[183] -to "pkt_decode:u_cmd_decode|rx_data[13]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[184] -to "pkt_decode:u_cmd_decode|rx_data[14]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[185] -to "pkt_decode:u_cmd_decode|rx_data[15]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[186] -to "pkt_decode:u_cmd_decode|rx_data[1]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[187] -to "pkt_decode:u_cmd_decode|rx_data[2]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[188] -to "pkt_decode:u_cmd_decode|rx_data[3]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[189] -to "pkt_decode:u_cmd_decode|rx_data[4]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[190] -to "pkt_decode:u_cmd_decode|rx_data[5]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[191] -to "pkt_decode:u_cmd_decode|rx_data[6]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[192] -to "pkt_decode:u_cmd_decode|rx_data[7]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[193] -to "pkt_decode:u_cmd_decode|rx_data[8]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[194] -to "pkt_decode:u_cmd_decode|rx_data[9]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[195] -to "pkt_decode:u_cmd_decode|rx_eop" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[196] -to "pkt_decode:u_cmd_decode|rx_msg_eop" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[197] -to "pkt_decode:u_cmd_decode|rx_msg_err" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[198] -to "pkt_decode:u_cmd_decode|rx_msg_mode[0]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[199] -to "pkt_decode:u_cmd_decode|rx_msg_mode[10]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[200] -to "pkt_decode:u_cmd_decode|rx_msg_mode[11]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[201] -to "pkt_decode:u_cmd_decode|rx_msg_mode[12]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[202] -to "pkt_decode:u_cmd_decode|rx_msg_mode[13]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[203] -to "pkt_decode:u_cmd_decode|rx_msg_mode[14]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[204] -to "pkt_decode:u_cmd_decode|rx_msg_mode[15]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[205] -to "pkt_decode:u_cmd_decode|rx_msg_mode[1]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[206] -to "pkt_decode:u_cmd_decode|rx_msg_mode[2]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[207] -to "pkt_decode:u_cmd_decode|rx_msg_mode[3]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[208] -to "pkt_decode:u_cmd_decode|rx_msg_mode[4]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[209] -to "pkt_decode:u_cmd_decode|rx_msg_mode[5]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[210] -to "pkt_decode:u_cmd_decode|rx_msg_mode[6]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[211] -to "pkt_decode:u_cmd_decode|rx_msg_mode[7]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[212] -to "pkt_decode:u_cmd_decode|rx_msg_mode[8]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[213] -to "pkt_decode:u_cmd_decode|rx_msg_mode[9]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[214] -to "pkt_decode:u_cmd_decode|rx_msg_type[0]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[215] -to "pkt_decode:u_cmd_decode|rx_msg_type[10]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[216] -to "pkt_decode:u_cmd_decode|rx_msg_type[11]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[217] -to "pkt_decode:u_cmd_decode|rx_msg_type[12]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[218] -to "pkt_decode:u_cmd_decode|rx_msg_type[13]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[219] -to "pkt_decode:u_cmd_decode|rx_msg_type[14]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[220] -to "pkt_decode:u_cmd_decode|rx_msg_type[15]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[221] -to "pkt_decode:u_cmd_decode|rx_msg_type[1]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[222] -to "pkt_decode:u_cmd_decode|rx_msg_type[2]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[223] -to "pkt_decode:u_cmd_decode|rx_msg_type[3]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[224] -to "pkt_decode:u_cmd_decode|rx_msg_type[4]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[225] -to "pkt_decode:u_cmd_decode|rx_msg_type[5]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[226] -to "pkt_decode:u_cmd_decode|rx_msg_type[6]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[227] -to "pkt_decode:u_cmd_decode|rx_msg_type[7]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[228] -to "pkt_decode:u_cmd_decode|rx_msg_type[8]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[229] -to "pkt_decode:u_cmd_decode|rx_msg_type[9]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[230] -to "pkt_decode:u_cmd_decode|rx_sop" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[231] -to "pkt_decode:u_cmd_decode|rx_vd" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[232] -to "pkt_decode:u_cmd_decode|tx_addr[0]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[233] -to "pkt_decode:u_cmd_decode|tx_addr[1]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[234] -to "pkt_decode:u_cmd_decode|tx_addr[2]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[235] -to "pkt_decode:u_cmd_decode|tx_addr[3]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[236] -to "pkt_decode:u_cmd_decode|tx_addr[4]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[237] -to "pkt_decode:u_cmd_decode|tx_addr[5]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[238] -to "pkt_decode:u_cmd_decode|tx_addr[6]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[239] -to "pkt_decode:u_cmd_decode|tx_addr[7]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[240] -to "pkt_decode:u_cmd_decode|tx_addr[8]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[241] -to "pkt_decode:u_cmd_decode|tx_data[0]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[242] -to "pkt_decode:u_cmd_decode|tx_data[10]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[243] -to "pkt_decode:u_cmd_decode|tx_data[11]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[244] -to "pkt_decode:u_cmd_decode|tx_data[12]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[245] -to "pkt_decode:u_cmd_decode|tx_data[13]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[246] -to "pkt_decode:u_cmd_decode|tx_data[14]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[247] -to "pkt_decode:u_cmd_decode|tx_data[15]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[248] -to "pkt_decode:u_cmd_decode|tx_data[1]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[249] -to "pkt_decode:u_cmd_decode|tx_data[2]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[250] -to "pkt_decode:u_cmd_decode|tx_data[3]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[251] -to "pkt_decode:u_cmd_decode|tx_data[4]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[252] -to "pkt_decode:u_cmd_decode|tx_data[5]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[253] -to "pkt_decode:u_cmd_decode|tx_data[6]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[254] -to "pkt_decode:u_cmd_decode|tx_data[7]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[255] -to "pkt_decode:u_cmd_decode|tx_data[8]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[256] -to "pkt_decode:u_cmd_decode|tx_data[9]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[257] -to "pkt_decode:u_cmd_decode|tx_msg_addr[0]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[258] -to "pkt_decode:u_cmd_decode|tx_msg_addr[1]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[259] -to "pkt_decode:u_cmd_decode|tx_msg_addr[2]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[260] -to "pkt_decode:u_cmd_decode|tx_msg_addr[3]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[261] -to "pkt_decode:u_cmd_decode|tx_msg_addr[4]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[262] -to "pkt_decode:u_cmd_decode|tx_msg_addr[5]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[263] -to "pkt_decode:u_cmd_decode|tx_msg_addr[6]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[264] -to "pkt_decode:u_cmd_decode|tx_msg_addr[7]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[265] -to "pkt_decode:u_cmd_decode|tx_msg_pf[0]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[266] -to "pkt_decode:u_cmd_decode|tx_msg_pf[10]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[267] -to "pkt_decode:u_cmd_decode|tx_msg_pf[11]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[268] -to "pkt_decode:u_cmd_decode|tx_msg_pf[12]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[269] -to "pkt_decode:u_cmd_decode|tx_msg_pf[13]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[270] -to "pkt_decode:u_cmd_decode|tx_msg_pf[14]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[271] -to "pkt_decode:u_cmd_decode|tx_msg_pf[15]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[272] -to "pkt_decode:u_cmd_decode|tx_msg_pf[1]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[273] -to "pkt_decode:u_cmd_decode|tx_msg_pf[2]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[274] -to "pkt_decode:u_cmd_decode|tx_msg_pf[3]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[275] -to "pkt_decode:u_cmd_decode|tx_msg_pf[4]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[276] -to "pkt_decode:u_cmd_decode|tx_msg_pf[5]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[277] -to "pkt_decode:u_cmd_decode|tx_msg_pf[6]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[278] -to "pkt_decode:u_cmd_decode|tx_msg_pf[7]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[279] -to "pkt_decode:u_cmd_decode|tx_msg_pf[8]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[280] -to "pkt_decode:u_cmd_decode|tx_msg_pf[9]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[281] -to "pkt_decode:u_cmd_decode|tx_pf_code[0]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[282] -to "pkt_decode:u_cmd_decode|tx_pf_code[10]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[283] -to "pkt_decode:u_cmd_decode|tx_pf_code[11]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[284] -to "pkt_decode:u_cmd_decode|tx_pf_code[12]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[285] -to "pkt_decode:u_cmd_decode|tx_pf_code[13]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[286] -to "pkt_decode:u_cmd_decode|tx_pf_code[14]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[287] -to "pkt_decode:u_cmd_decode|tx_pf_code[15]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[288] -to "pkt_decode:u_cmd_decode|tx_pf_code[1]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[289] -to "pkt_decode:u_cmd_decode|tx_pf_code[2]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[290] -to "pkt_decode:u_cmd_decode|tx_pf_code[3]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[291] -to "pkt_decode:u_cmd_decode|tx_pf_code[4]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[292] -to "pkt_decode:u_cmd_decode|tx_pf_code[5]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[293] -to "pkt_decode:u_cmd_decode|tx_pf_code[6]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[294] -to "pkt_decode:u_cmd_decode|tx_pf_code[7]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[295] -to "pkt_decode:u_cmd_decode|tx_pf_code[8]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[296] -to "pkt_decode:u_cmd_decode|tx_pf_code[9]" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[297] -to "pkt_decode:u_cmd_decode|tx_st.000" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[298] -to "pkt_decode:u_cmd_decode|tx_st.001" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[299] -to "pkt_decode:u_cmd_decode|tx_st.010" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[300] -to "pkt_decode:u_cmd_decode|tx_st.011" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[301] -to "pkt_decode:u_cmd_decode|tx_st.101" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[302] -to "pkt_decode:u_cmd_decode|tx_st.110" -section_id mipi
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[303] -to "pkt_decode:u_cmd_decode|tx_st.111" -section_id mipi
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_RAM_BLOCK_TYPE=AUTO" -section_id mipi
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_DATA_BITS=304" -section_id mipi
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_BITS=304" -section_id mipi
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STORAGE_QUALIFIER_BITS=304" -section_id mipi
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_NODE_INFO=805334529" -section_id mipi
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_POWER_UP_TRIGGER=0" -section_id mipi
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_INVERSION_MASK=00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" -section_id mipi
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_INVERSION_MASK_LENGTH=935" -section_id mipi
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STORAGE_QUALIFIER_INVERSION_MASK_LENGTH=0" -section_id mipi
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_SEGMENT_SIZE=512" -section_id mipi
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_ATTRIBUTE_MEM_MODE=OFF" -section_id mipi
@@ -878,43 +551,392 @@ set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STATE_BITS=11" -s
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_BUFFER_FULL_STOP=1" -section_id mipi
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_CURRENT_RESOURCE_WIDTH=1" -section_id mipi
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_INCREMENTAL_ROUTING=1" -section_id mipi
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[0] -to mipi|vcc -section_id mipi
 set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[1] -to mipi|gnd -section_id mipi
 set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[2] -to mipi|vcc -section_id mipi
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[3] -to mipi|vcc -section_id mipi
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[4] -to mipi|gnd -section_id mipi
 set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[5] -to mipi|vcc -section_id mipi
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[6] -to mipi|gnd -section_id mipi
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[7] -to mipi|gnd -section_id mipi
 set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[8] -to mipi|gnd -section_id mipi
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[9] -to mipi|gnd -section_id mipi
 set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[10] -to mipi|vcc -section_id mipi
 set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[11] -to mipi|gnd -section_id mipi
 set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[12] -to mipi|vcc -section_id mipi
 set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[13] -to mipi|gnd -section_id mipi
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[14] -to mipi|vcc -section_id mipi
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[15] -to mipi|vcc -section_id mipi
 set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[16] -to mipi|gnd -section_id mipi
 set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[17] -to mipi|gnd -section_id mipi
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[18] -to mipi|gnd -section_id mipi
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[19] -to mipi|vcc -section_id mipi
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[20] -to mipi|gnd -section_id mipi
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[21] -to mipi|gnd -section_id mipi
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[22] -to mipi|gnd -section_id mipi
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[23] -to mipi|gnd -section_id mipi
 set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[24] -to mipi|gnd -section_id mipi
 set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[25] -to mipi|gnd -section_id mipi
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[26] -to mipi|gnd -section_id mipi
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[27] -to mipi|gnd -section_id mipi
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[28] -to mipi|gnd -section_id mipi
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[29] -to mipi|gnd -section_id mipi
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[30] -to mipi|gnd -section_id mipi
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[31] -to mipi|vcc -section_id mipi
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_LEVEL=1" -section_id mipi
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_SAMPLE_DEPTH=512" -section_id mipi
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_IN_ENABLED=0" -section_id mipi
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_ADVANCED_TRIGGER_ENTITY=basic,1," -section_id mipi
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_LEVEL_PIPELINE=1" -section_id mipi
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_ENABLE_ADVANCED_TRIGGER=0" -section_id mipi
+set_global_assignment -name VERILOG_SHOW_LMF_MAPPING_MESSAGES OFF
+set_global_assignment -name VERILOG_MACRO "BRDV2=2"
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[143] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|mipi_wdata_num[0]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[144] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|mipi_wdata_num[1]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[145] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|mipi_wdata_num[2]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[146] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|mipi_wdata_num[3]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[147] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|mipi_wdata_num[4]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[143] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|mipi_wdata_num[0]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[144] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|mipi_wdata_num[1]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[145] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|mipi_wdata_num[2]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[146] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|mipi_wdata_num[3]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[147] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|mipi_wdata_num[4]" -section_id mipi
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[3] -to mipi|gnd -section_id mipi
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[7] -to mipi|vcc -section_id mipi
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[14] -to mipi|gnd -section_id mipi
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[15] -to mipi|gnd -section_id mipi
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[18] -to mipi|vcc -section_id mipi
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[19] -to mipi|gnd -section_id mipi
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[20] -to mipi|vcc -section_id mipi
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[23] -to mipi|vcc -section_id mipi
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[29] -to mipi|vcc -section_id mipi
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[30] -to mipi|vcc -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[148] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|num[0]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[149] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|num[1]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[150] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|num[2]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[151] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|num[3]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[152] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|num[4]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[153] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|parity:parity_u|i_data" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[154] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|parity:parity_u|i_strobe" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[155] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|parity:parity_u|o_parity" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[156] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sclk" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[157] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sdi" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[158] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sdo" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[159] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sdo_en" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[160] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|set" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[161] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sf_cnt[0]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[162] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sf_cnt[1]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[163] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sf_cnt[2]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[164] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sf_cnt[3]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[165] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sf_data[0]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[166] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sf_data[1]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[167] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sf_data[2]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[168] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sf_data[3]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[169] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sf_data[4]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[170] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sf_data[5]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[171] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sf_data[6]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[172] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sf_data[7]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[173] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|st.000" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[174] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|st.001" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[175] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|st.010" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[176] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|st.011" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[177] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|st.100" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[178] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|st.101" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[179] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|st.110" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[180] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|st.111" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[181] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|st_turns[0]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[182] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|st_turns[1]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[183] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|st_turns[2]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[184] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|st_turns[3]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[185] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|start" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[186] -to "pkt_decode:u_cmd_decode|proc_mipi_exe" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[187] -to "pkt_decode:u_cmd_decode|proc_mipi_set" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[188] -to "pkt_decode:u_cmd_decode|proc_mipi_start" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[189] -to "pkt_decode:u_cmd_decode|rx_data[0]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[190] -to "pkt_decode:u_cmd_decode|rx_data[10]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[191] -to "pkt_decode:u_cmd_decode|rx_data[11]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[192] -to "pkt_decode:u_cmd_decode|rx_data[12]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[193] -to "pkt_decode:u_cmd_decode|rx_data[13]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[194] -to "pkt_decode:u_cmd_decode|rx_data[14]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[195] -to "pkt_decode:u_cmd_decode|rx_data[15]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[196] -to "pkt_decode:u_cmd_decode|rx_data[1]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[197] -to "pkt_decode:u_cmd_decode|rx_data[2]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[198] -to "pkt_decode:u_cmd_decode|rx_data[3]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[199] -to "pkt_decode:u_cmd_decode|rx_data[4]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[200] -to "pkt_decode:u_cmd_decode|rx_data[5]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[201] -to "pkt_decode:u_cmd_decode|rx_data[6]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[202] -to "pkt_decode:u_cmd_decode|rx_data[7]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[203] -to "pkt_decode:u_cmd_decode|rx_data[8]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[204] -to "pkt_decode:u_cmd_decode|rx_data[9]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[205] -to "pkt_decode:u_cmd_decode|rx_eop" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[206] -to "pkt_decode:u_cmd_decode|rx_msg_eop" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[207] -to "pkt_decode:u_cmd_decode|rx_msg_err" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[208] -to "pkt_decode:u_cmd_decode|rx_msg_mode[0]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[209] -to "pkt_decode:u_cmd_decode|rx_msg_mode[10]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[210] -to "pkt_decode:u_cmd_decode|rx_msg_mode[11]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[211] -to "pkt_decode:u_cmd_decode|rx_msg_mode[12]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[212] -to "pkt_decode:u_cmd_decode|rx_msg_mode[13]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[213] -to "pkt_decode:u_cmd_decode|rx_msg_mode[14]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[214] -to "pkt_decode:u_cmd_decode|rx_msg_mode[15]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[215] -to "pkt_decode:u_cmd_decode|rx_msg_mode[1]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[216] -to "pkt_decode:u_cmd_decode|rx_msg_mode[2]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[217] -to "pkt_decode:u_cmd_decode|rx_msg_mode[3]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[218] -to "pkt_decode:u_cmd_decode|rx_msg_mode[4]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[219] -to "pkt_decode:u_cmd_decode|rx_msg_mode[5]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[220] -to "pkt_decode:u_cmd_decode|rx_msg_mode[6]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[221] -to "pkt_decode:u_cmd_decode|rx_msg_mode[7]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[222] -to "pkt_decode:u_cmd_decode|rx_msg_mode[8]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[223] -to "pkt_decode:u_cmd_decode|rx_msg_mode[9]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[224] -to "pkt_decode:u_cmd_decode|rx_msg_type[0]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[225] -to "pkt_decode:u_cmd_decode|rx_msg_type[10]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[226] -to "pkt_decode:u_cmd_decode|rx_msg_type[11]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[227] -to "pkt_decode:u_cmd_decode|rx_msg_type[12]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[228] -to "pkt_decode:u_cmd_decode|rx_msg_type[13]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[229] -to "pkt_decode:u_cmd_decode|rx_msg_type[14]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[230] -to "pkt_decode:u_cmd_decode|rx_msg_type[15]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[231] -to "pkt_decode:u_cmd_decode|rx_msg_type[1]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[232] -to "pkt_decode:u_cmd_decode|rx_msg_type[2]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[233] -to "pkt_decode:u_cmd_decode|rx_msg_type[3]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[234] -to "pkt_decode:u_cmd_decode|rx_msg_type[4]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[235] -to "pkt_decode:u_cmd_decode|rx_msg_type[5]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[236] -to "pkt_decode:u_cmd_decode|rx_msg_type[6]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[237] -to "pkt_decode:u_cmd_decode|rx_msg_type[7]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[238] -to "pkt_decode:u_cmd_decode|rx_msg_type[8]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[239] -to "pkt_decode:u_cmd_decode|rx_msg_type[9]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[240] -to "pkt_decode:u_cmd_decode|rx_sop" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[241] -to "pkt_decode:u_cmd_decode|rx_vd" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[242] -to "pkt_decode:u_cmd_decode|tx_addr[0]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[243] -to "pkt_decode:u_cmd_decode|tx_addr[1]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[244] -to "pkt_decode:u_cmd_decode|tx_addr[2]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[245] -to "pkt_decode:u_cmd_decode|tx_addr[3]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[246] -to "pkt_decode:u_cmd_decode|tx_addr[4]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[247] -to "pkt_decode:u_cmd_decode|tx_addr[5]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[248] -to "pkt_decode:u_cmd_decode|tx_addr[6]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[249] -to "pkt_decode:u_cmd_decode|tx_addr[7]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[250] -to "pkt_decode:u_cmd_decode|tx_addr[8]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[251] -to "pkt_decode:u_cmd_decode|tx_data[0]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[252] -to "pkt_decode:u_cmd_decode|tx_data[10]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[253] -to "pkt_decode:u_cmd_decode|tx_data[11]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[254] -to "pkt_decode:u_cmd_decode|tx_data[12]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[255] -to "pkt_decode:u_cmd_decode|tx_data[13]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[256] -to "pkt_decode:u_cmd_decode|tx_data[14]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[257] -to "pkt_decode:u_cmd_decode|tx_data[15]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[258] -to "pkt_decode:u_cmd_decode|tx_data[1]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[259] -to "pkt_decode:u_cmd_decode|tx_data[2]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[260] -to "pkt_decode:u_cmd_decode|tx_data[3]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[261] -to "pkt_decode:u_cmd_decode|tx_data[4]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[262] -to "pkt_decode:u_cmd_decode|tx_data[5]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[263] -to "pkt_decode:u_cmd_decode|tx_data[6]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[264] -to "pkt_decode:u_cmd_decode|tx_data[7]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[265] -to "pkt_decode:u_cmd_decode|tx_data[8]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[266] -to "pkt_decode:u_cmd_decode|tx_data[9]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[267] -to "pkt_decode:u_cmd_decode|tx_msg_addr[0]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[268] -to "pkt_decode:u_cmd_decode|tx_msg_addr[1]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[269] -to "pkt_decode:u_cmd_decode|tx_msg_addr[2]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[270] -to "pkt_decode:u_cmd_decode|tx_msg_addr[3]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[271] -to "pkt_decode:u_cmd_decode|tx_msg_addr[4]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[272] -to "pkt_decode:u_cmd_decode|tx_msg_addr[5]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[273] -to "pkt_decode:u_cmd_decode|tx_msg_addr[6]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[274] -to "pkt_decode:u_cmd_decode|tx_msg_addr[7]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[275] -to "pkt_decode:u_cmd_decode|tx_msg_pf[0]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[276] -to "pkt_decode:u_cmd_decode|tx_msg_pf[10]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[277] -to "pkt_decode:u_cmd_decode|tx_msg_pf[11]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[278] -to "pkt_decode:u_cmd_decode|tx_msg_pf[12]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[279] -to "pkt_decode:u_cmd_decode|tx_msg_pf[13]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[280] -to "pkt_decode:u_cmd_decode|tx_msg_pf[14]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[281] -to "pkt_decode:u_cmd_decode|tx_msg_pf[15]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[282] -to "pkt_decode:u_cmd_decode|tx_msg_pf[1]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[283] -to "pkt_decode:u_cmd_decode|tx_msg_pf[2]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[284] -to "pkt_decode:u_cmd_decode|tx_msg_pf[3]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[285] -to "pkt_decode:u_cmd_decode|tx_msg_pf[4]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[286] -to "pkt_decode:u_cmd_decode|tx_msg_pf[5]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[287] -to "pkt_decode:u_cmd_decode|tx_msg_pf[6]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[288] -to "pkt_decode:u_cmd_decode|tx_msg_pf[7]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[289] -to "pkt_decode:u_cmd_decode|tx_msg_pf[8]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[290] -to "pkt_decode:u_cmd_decode|tx_msg_pf[9]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[291] -to "pkt_decode:u_cmd_decode|tx_pf_code[0]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[292] -to "pkt_decode:u_cmd_decode|tx_pf_code[10]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[293] -to "pkt_decode:u_cmd_decode|tx_pf_code[11]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[294] -to "pkt_decode:u_cmd_decode|tx_pf_code[12]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[295] -to "pkt_decode:u_cmd_decode|tx_pf_code[13]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[296] -to "pkt_decode:u_cmd_decode|tx_pf_code[14]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[297] -to "pkt_decode:u_cmd_decode|tx_pf_code[15]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[298] -to "pkt_decode:u_cmd_decode|tx_pf_code[1]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[299] -to "pkt_decode:u_cmd_decode|tx_pf_code[2]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[300] -to "pkt_decode:u_cmd_decode|tx_pf_code[3]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[301] -to "pkt_decode:u_cmd_decode|tx_pf_code[4]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[302] -to "pkt_decode:u_cmd_decode|tx_pf_code[5]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[303] -to "pkt_decode:u_cmd_decode|tx_pf_code[6]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[304] -to "pkt_decode:u_cmd_decode|tx_pf_code[7]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[305] -to "pkt_decode:u_cmd_decode|tx_pf_code[8]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[306] -to "pkt_decode:u_cmd_decode|tx_pf_code[9]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[307] -to "pkt_decode:u_cmd_decode|tx_st.000" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[308] -to "pkt_decode:u_cmd_decode|tx_st.001" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[309] -to "pkt_decode:u_cmd_decode|tx_st.010" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[310] -to "pkt_decode:u_cmd_decode|tx_st.011" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[311] -to "pkt_decode:u_cmd_decode|tx_st.101" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[312] -to "pkt_decode:u_cmd_decode|tx_st.110" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[313] -to "pkt_decode:u_cmd_decode|tx_st.111" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[148] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|num[0]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[149] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|num[1]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[150] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|num[2]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[151] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|num[3]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[152] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|num[4]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[153] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|parity:parity_u|i_data" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[154] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|parity:parity_u|i_strobe" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[155] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|parity:parity_u|o_parity" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[156] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sclk" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[157] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sdi" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[158] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sdo" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[159] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sdo_en" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[160] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|set" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[161] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sf_cnt[0]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[162] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sf_cnt[1]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[163] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sf_cnt[2]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[164] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sf_cnt[3]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[165] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sf_data[0]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[166] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sf_data[1]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[167] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sf_data[2]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[168] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sf_data[3]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[169] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sf_data[4]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[170] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sf_data[5]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[171] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sf_data[6]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[172] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|sf_data[7]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[173] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|st.000" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[174] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|st.001" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[175] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|st.010" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[176] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|st.011" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[177] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|st.100" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[178] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|st.101" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[179] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|st.110" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[180] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|st.111" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[181] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|st_turns[0]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[182] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|st_turns[1]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[183] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|st_turns[2]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[184] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|st_turns[3]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[185] -to "pkt_decode:u_cmd_decode|mipi:mipi_u|start" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[186] -to "pkt_decode:u_cmd_decode|proc_mipi_exe" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[187] -to "pkt_decode:u_cmd_decode|proc_mipi_set" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[188] -to "pkt_decode:u_cmd_decode|proc_mipi_start" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[189] -to "pkt_decode:u_cmd_decode|rx_data[0]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[190] -to "pkt_decode:u_cmd_decode|rx_data[10]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[191] -to "pkt_decode:u_cmd_decode|rx_data[11]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[192] -to "pkt_decode:u_cmd_decode|rx_data[12]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[193] -to "pkt_decode:u_cmd_decode|rx_data[13]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[194] -to "pkt_decode:u_cmd_decode|rx_data[14]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[195] -to "pkt_decode:u_cmd_decode|rx_data[15]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[196] -to "pkt_decode:u_cmd_decode|rx_data[1]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[197] -to "pkt_decode:u_cmd_decode|rx_data[2]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[198] -to "pkt_decode:u_cmd_decode|rx_data[3]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[199] -to "pkt_decode:u_cmd_decode|rx_data[4]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[200] -to "pkt_decode:u_cmd_decode|rx_data[5]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[201] -to "pkt_decode:u_cmd_decode|rx_data[6]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[202] -to "pkt_decode:u_cmd_decode|rx_data[7]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[203] -to "pkt_decode:u_cmd_decode|rx_data[8]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[204] -to "pkt_decode:u_cmd_decode|rx_data[9]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[205] -to "pkt_decode:u_cmd_decode|rx_eop" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[206] -to "pkt_decode:u_cmd_decode|rx_msg_eop" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[207] -to "pkt_decode:u_cmd_decode|rx_msg_err" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[208] -to "pkt_decode:u_cmd_decode|rx_msg_mode[0]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[209] -to "pkt_decode:u_cmd_decode|rx_msg_mode[10]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[210] -to "pkt_decode:u_cmd_decode|rx_msg_mode[11]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[211] -to "pkt_decode:u_cmd_decode|rx_msg_mode[12]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[212] -to "pkt_decode:u_cmd_decode|rx_msg_mode[13]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[213] -to "pkt_decode:u_cmd_decode|rx_msg_mode[14]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[214] -to "pkt_decode:u_cmd_decode|rx_msg_mode[15]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[215] -to "pkt_decode:u_cmd_decode|rx_msg_mode[1]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[216] -to "pkt_decode:u_cmd_decode|rx_msg_mode[2]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[217] -to "pkt_decode:u_cmd_decode|rx_msg_mode[3]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[218] -to "pkt_decode:u_cmd_decode|rx_msg_mode[4]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[219] -to "pkt_decode:u_cmd_decode|rx_msg_mode[5]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[220] -to "pkt_decode:u_cmd_decode|rx_msg_mode[6]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[221] -to "pkt_decode:u_cmd_decode|rx_msg_mode[7]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[222] -to "pkt_decode:u_cmd_decode|rx_msg_mode[8]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[223] -to "pkt_decode:u_cmd_decode|rx_msg_mode[9]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[224] -to "pkt_decode:u_cmd_decode|rx_msg_type[0]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[225] -to "pkt_decode:u_cmd_decode|rx_msg_type[10]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[226] -to "pkt_decode:u_cmd_decode|rx_msg_type[11]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[227] -to "pkt_decode:u_cmd_decode|rx_msg_type[12]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[228] -to "pkt_decode:u_cmd_decode|rx_msg_type[13]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[229] -to "pkt_decode:u_cmd_decode|rx_msg_type[14]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[230] -to "pkt_decode:u_cmd_decode|rx_msg_type[15]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[231] -to "pkt_decode:u_cmd_decode|rx_msg_type[1]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[232] -to "pkt_decode:u_cmd_decode|rx_msg_type[2]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[233] -to "pkt_decode:u_cmd_decode|rx_msg_type[3]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[234] -to "pkt_decode:u_cmd_decode|rx_msg_type[4]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[235] -to "pkt_decode:u_cmd_decode|rx_msg_type[5]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[236] -to "pkt_decode:u_cmd_decode|rx_msg_type[6]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[237] -to "pkt_decode:u_cmd_decode|rx_msg_type[7]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[238] -to "pkt_decode:u_cmd_decode|rx_msg_type[8]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[239] -to "pkt_decode:u_cmd_decode|rx_msg_type[9]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[240] -to "pkt_decode:u_cmd_decode|rx_sop" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[241] -to "pkt_decode:u_cmd_decode|rx_vd" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[242] -to "pkt_decode:u_cmd_decode|tx_addr[0]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[243] -to "pkt_decode:u_cmd_decode|tx_addr[1]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[244] -to "pkt_decode:u_cmd_decode|tx_addr[2]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[245] -to "pkt_decode:u_cmd_decode|tx_addr[3]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[246] -to "pkt_decode:u_cmd_decode|tx_addr[4]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[247] -to "pkt_decode:u_cmd_decode|tx_addr[5]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[248] -to "pkt_decode:u_cmd_decode|tx_addr[6]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[249] -to "pkt_decode:u_cmd_decode|tx_addr[7]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[250] -to "pkt_decode:u_cmd_decode|tx_addr[8]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[251] -to "pkt_decode:u_cmd_decode|tx_data[0]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[252] -to "pkt_decode:u_cmd_decode|tx_data[10]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[253] -to "pkt_decode:u_cmd_decode|tx_data[11]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[254] -to "pkt_decode:u_cmd_decode|tx_data[12]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[255] -to "pkt_decode:u_cmd_decode|tx_data[13]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[256] -to "pkt_decode:u_cmd_decode|tx_data[14]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[257] -to "pkt_decode:u_cmd_decode|tx_data[15]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[258] -to "pkt_decode:u_cmd_decode|tx_data[1]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[259] -to "pkt_decode:u_cmd_decode|tx_data[2]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[260] -to "pkt_decode:u_cmd_decode|tx_data[3]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[261] -to "pkt_decode:u_cmd_decode|tx_data[4]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[262] -to "pkt_decode:u_cmd_decode|tx_data[5]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[263] -to "pkt_decode:u_cmd_decode|tx_data[6]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[264] -to "pkt_decode:u_cmd_decode|tx_data[7]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[265] -to "pkt_decode:u_cmd_decode|tx_data[8]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[266] -to "pkt_decode:u_cmd_decode|tx_data[9]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[267] -to "pkt_decode:u_cmd_decode|tx_msg_addr[0]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[268] -to "pkt_decode:u_cmd_decode|tx_msg_addr[1]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[269] -to "pkt_decode:u_cmd_decode|tx_msg_addr[2]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[270] -to "pkt_decode:u_cmd_decode|tx_msg_addr[3]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[271] -to "pkt_decode:u_cmd_decode|tx_msg_addr[4]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[272] -to "pkt_decode:u_cmd_decode|tx_msg_addr[5]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[273] -to "pkt_decode:u_cmd_decode|tx_msg_addr[6]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[274] -to "pkt_decode:u_cmd_decode|tx_msg_addr[7]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[275] -to "pkt_decode:u_cmd_decode|tx_msg_pf[0]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[276] -to "pkt_decode:u_cmd_decode|tx_msg_pf[10]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[277] -to "pkt_decode:u_cmd_decode|tx_msg_pf[11]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[278] -to "pkt_decode:u_cmd_decode|tx_msg_pf[12]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[279] -to "pkt_decode:u_cmd_decode|tx_msg_pf[13]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[280] -to "pkt_decode:u_cmd_decode|tx_msg_pf[14]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[281] -to "pkt_decode:u_cmd_decode|tx_msg_pf[15]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[282] -to "pkt_decode:u_cmd_decode|tx_msg_pf[1]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[283] -to "pkt_decode:u_cmd_decode|tx_msg_pf[2]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[284] -to "pkt_decode:u_cmd_decode|tx_msg_pf[3]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[285] -to "pkt_decode:u_cmd_decode|tx_msg_pf[4]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[286] -to "pkt_decode:u_cmd_decode|tx_msg_pf[5]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[287] -to "pkt_decode:u_cmd_decode|tx_msg_pf[6]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[288] -to "pkt_decode:u_cmd_decode|tx_msg_pf[7]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[289] -to "pkt_decode:u_cmd_decode|tx_msg_pf[8]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[290] -to "pkt_decode:u_cmd_decode|tx_msg_pf[9]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[291] -to "pkt_decode:u_cmd_decode|tx_pf_code[0]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[292] -to "pkt_decode:u_cmd_decode|tx_pf_code[10]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[293] -to "pkt_decode:u_cmd_decode|tx_pf_code[11]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[294] -to "pkt_decode:u_cmd_decode|tx_pf_code[12]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[295] -to "pkt_decode:u_cmd_decode|tx_pf_code[13]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[296] -to "pkt_decode:u_cmd_decode|tx_pf_code[14]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[297] -to "pkt_decode:u_cmd_decode|tx_pf_code[15]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[298] -to "pkt_decode:u_cmd_decode|tx_pf_code[1]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[299] -to "pkt_decode:u_cmd_decode|tx_pf_code[2]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[300] -to "pkt_decode:u_cmd_decode|tx_pf_code[3]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[301] -to "pkt_decode:u_cmd_decode|tx_pf_code[4]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[302] -to "pkt_decode:u_cmd_decode|tx_pf_code[5]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[303] -to "pkt_decode:u_cmd_decode|tx_pf_code[6]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[304] -to "pkt_decode:u_cmd_decode|tx_pf_code[7]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[305] -to "pkt_decode:u_cmd_decode|tx_pf_code[8]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[306] -to "pkt_decode:u_cmd_decode|tx_pf_code[9]" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[307] -to "pkt_decode:u_cmd_decode|tx_st.000" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[308] -to "pkt_decode:u_cmd_decode|tx_st.001" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[309] -to "pkt_decode:u_cmd_decode|tx_st.010" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[310] -to "pkt_decode:u_cmd_decode|tx_st.011" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[311] -to "pkt_decode:u_cmd_decode|tx_st.101" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[312] -to "pkt_decode:u_cmd_decode|tx_st.110" -section_id mipi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[313] -to "pkt_decode:u_cmd_decode|tx_st.111" -section_id mipi
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_DATA_BITS=314" -section_id mipi
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_BITS=314" -section_id mipi
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STORAGE_QUALIFIER_BITS=314" -section_id mipi
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_INVERSION_MASK=00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" -section_id mipi
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_INVERSION_MASK_LENGTH=965" -section_id mipi
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[0] -to mipi|gnd -section_id mipi
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[4] -to mipi|vcc -section_id mipi
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[6] -to mipi|vcc -section_id mipi
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[9] -to mipi|vcc -section_id mipi
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[21] -to mipi|vcc -section_id mipi
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[22] -to mipi|vcc -section_id mipi
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[26] -to mipi|vcc -section_id mipi
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[27] -to mipi|vcc -section_id mipi
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[28] -to mipi|vcc -section_id mipi
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[31] -to mipi|gnd -section_id mipi
 set_global_assignment -name SLD_FILE db/decode_auto_stripped.stp
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

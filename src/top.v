@@ -45,7 +45,7 @@ module top
 
    ////////////////// PORT ////////////////////
    input                          CLK1; // 48MHz
-   input                          CLK2; // 26MHz
+   input                          CLK2; // FPGA v2 - 50MHz, V3 - 26MHz
    
    output                         OE;
    output                         V_1P8_EN;
@@ -99,7 +99,11 @@ module top
    
    mipi_clkpll  mipi_clk_gen (
       .inclk0 (CLK2       ),
+`ifdef BRDV3
       .c0     (mipi_clk   )
+`else
+		.c1     (mipi_clk   )
+`endif
    );   
    
    ////////////////// USB PHY Slave FIFO Controller

@@ -26,6 +26,7 @@ module mipi
    // control 
    start,
    done,
+   num,
    // BUFFER Interface
    i_buf_clk,
    i_buf_wr,
@@ -47,6 +48,7 @@ module mipi
                                          // range from 2 to 255 correspond to 24MHz ~ 188KHz 
    input                            start;
    output                           done;
+   output [`MIPI_BUF_ADDR_NBIT-1:0] num; // data number
    
    input                            i_buf_clk  ;
    input                            i_buf_wr   ;
@@ -86,7 +88,7 @@ module mipi
       end
    end
    
-   assign sclk = sclk_en ? mipi_clk : `HZ;
+   assign sclk = sclk_en&mipi_clk;
       
    ////////////////// RX
    
@@ -119,7 +121,21 @@ module mipi
       .b_in_wrdata (mipi_buf_wdata),
       .b_out_rddata(mipi_buf_rdata)
    );
-     
+   
+   // User data length
+   reg  [`MIPI_BUF_ADDR_NBIT-1:0] i_wdata_num;
+   always@(posedge i_buf_clk) begin
+      if(i_buf_wr&~in_process)
+         i_wdata_num <= i_buf_waddr - `MIPI_DATA_BASEADDR;
+   end
+   
+   reg  [`MIPI_BUF_ADDR_NBIT-1:0] mipi_wdata_num; // clock transfer
+   always@(posedge clk) begin
+      mipi_wdata_num <= i_wdata_num;
+      if(i_wdata_num<0)
+         mipi_wdata_num <= {`MIPI_BUF_ADDR_NBIT{1'b1}};
+   end
+      
    // PARITY BIT
    reg  pb_strobe;
    reg  pb_data;
@@ -152,6 +168,7 @@ module mipi
    reg  [`MIPI_CMD_NBIT-1:0]      mipi_cmd;
    reg  [`MIPI_BUF_ADDR_NBIT-1:0] mipi_buf_upaddr;
    reg  [`MIPI_BUF_ADDR_NBIT-1:0] mipi_buf_raddr;
+   reg  [`MIPI_BUF_ADDR_NBIT-1:0] num;
 
    wire   clk_en;
    assign clk_en = (clk_cnt==0);
@@ -171,6 +188,7 @@ module mipi
                   sf_cnt         <= 4'd1; // two bits of SSC, {HIGH LOW}
                   sf_data        <= `MIPI_SSC_PAT;
                   mipi_buf_raddr <= `MIPI_SA_BASEADDR;
+                  num            <= 0;
                end
             end
             `ST_MIPI_START: begin
@@ -240,14 +258,17 @@ module mipi
                   sf_cnt  <= 4'd`MIPI_ADDR_NBIT;
                   sf_data <= mipi_buf_rdata;
                   // register 0 write: next st IDLE
-                  if((mipi_cmd&`MIPI_CMD_ZERO_MASK)==`MIPI_CMD_WRZERO_PAT)
-                     st <= `ST_MIPI_END;
+                  if((mipi_cmd&`MIPI_CMD_ZERO_MASK)==`MIPI_CMD_WRZERO_PAT) begin
+                     st  <= `ST_MIPI_END;
+                     num <= `MIPI_BUF_ADDR_NBIT'd1;
+                  end
                   // register write&read: next st DATA
                   else if((mipi_cmd&`MIPI_CMD_REG_MASK)==`MIPI_CMD_WR_PAT || 
                           (mipi_cmd&`MIPI_CMD_REG_MASK)==`MIPI_CMD_RD_PAT) begin
                      st       <= mipi_op ? `ST_MIPI_BUSPARK : `ST_MIPI_DATA;
                      sf_cnt   <= 4'd`MIPI_DATA_NBIT;
                      st_turns <= 4'd0; // one byte data, D0
+                     num      <= `MIPI_BUF_ADDR_NBIT'd1;                     
                   end
                   // register extended write&read long: next st ADDR
                   else if((mipi_cmd&`MIPI_CMD_EXTL_MASK)==`MIPI_CMD_EXTWRL_PAT || 
@@ -255,6 +276,9 @@ module mipi
                      st             <= `ST_MIPI_ADDR;
                      st_turns       <= 4'd1; // two bytes address, A1 A0
                      mipi_buf_raddr <= `MIPI_ADDR_BASEADDR + 1'b1;
+                     num            <= mipi_cmd[2:0] + 1'b1; 
+                     if(~mipi_wdata_num[`MIPI_BUF_ADDR_NBIT-1]&&(mipi_cmd&`MIPI_CMD_EXTL_MASK)==`MIPI_CMD_EXTWRL_PAT)
+                        num         <= mipi_wdata_num[2:0] + 1'b1; 
                   end
                   // register extended write&read: next st ADDR
                   else if((mipi_cmd&`MIPI_CMD_EXT_MASK)==`MIPI_CMD_EXTWR_PAT || 
@@ -262,6 +286,9 @@ module mipi
                      st             <= `ST_MIPI_ADDR;
                      st_turns       <= 4'd0; // one byte address, A0
                      mipi_buf_raddr <= `MIPI_DATA_BASEADDR;
+                     num            <= mipi_cmd[3:0] + 1'b1; 
+                     if(~mipi_wdata_num[`MIPI_BUF_ADDR_NBIT-1]&&(mipi_cmd&`MIPI_CMD_EXT_MASK)==`MIPI_CMD_EXTWR_PAT)
+                        num         <= mipi_wdata_num[3:0] + 1'b1;
                   end
                end
             end
@@ -275,13 +302,19 @@ module mipi
                   if(st_turns==0) begin
                      st     <= mipi_op ? `ST_MIPI_BUSPARK : `ST_MIPI_DATA;
                      sf_cnt <= 4'd`MIPI_DATA_NBIT;
-                     if((mipi_cmd&`MIPI_CMD_EXTL_MASK)==`MIPI_CMD_EXTWRL_PAT || 
-                          (mipi_cmd&`MIPI_CMD_EXTL_MASK)==`MIPI_CMD_EXTRDL_PAT) begin
+                     if((mipi_cmd&`MIPI_CMD_EXTL_MASK)==`MIPI_CMD_EXTWRL_PAT) begin // write all the data from USER
+                        st_turns        <= mipi_wdata_num[`MIPI_BUF_ADDR_NBIT-1] ? mipi_cmd[2:0] : mipi_wdata_num[2:0]; 
+                        mipi_buf_upaddr <= `MIPI_DATA_BASEADDR + (mipi_wdata_num[`MIPI_BUF_ADDR_NBIT-1] ? mipi_cmd[2:0] : mipi_wdata_num[2:0]);
+                     end
+                     else if((mipi_cmd&`MIPI_CMD_EXTL_MASK)==`MIPI_CMD_EXTRDL_PAT) begin // read data, number set by BC[2:0]
                         st_turns        <= mipi_cmd[2:0];
                         mipi_buf_upaddr <= `MIPI_DATA_BASEADDR + mipi_cmd[2:0];
                      end
-                     else if((mipi_cmd&`MIPI_CMD_EXT_MASK)==`MIPI_CMD_EXTWR_PAT || 
-                             (mipi_cmd&`MIPI_CMD_EXT_MASK)==`MIPI_CMD_EXTRD_PAT) begin
+                     else if((mipi_cmd&`MIPI_CMD_EXT_MASK)==`MIPI_CMD_EXTWR_PAT) begin // write all the data from USER
+                        st_turns        <= mipi_wdata_num[`MIPI_BUF_ADDR_NBIT-1] ? mipi_cmd[3:0] : mipi_wdata_num[3:0]; 
+                        mipi_buf_upaddr <= `MIPI_DATA_BASEADDR + (mipi_wdata_num[`MIPI_BUF_ADDR_NBIT-1] ? mipi_cmd[3:0] : mipi_wdata_num[3:0]);
+                     end
+                     else if((mipi_cmd&`MIPI_CMD_EXT_MASK)==`MIPI_CMD_EXTRD_PAT) begin // read data, number set by BC[3:0]
                         st_turns        <= mipi_cmd[3:0];
                         mipi_buf_upaddr <= `MIPI_DATA_BASEADDR + mipi_cmd[3:0];
                      end
