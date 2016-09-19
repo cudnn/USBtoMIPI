@@ -223,6 +223,9 @@ module pkt_decode
    reg                            m_mipi_div_set;
    reg                            m_mipi_start;
    reg  [`MIPI_BANK_NBIT-1:0]     mipi_bank;
+   reg                            mipi_cus_mode;
+   reg                            mipi_cus_ssc;
+   reg  [`MIPI_ADDR_NBIT-1:0]     mipi_cus_nbit;
    
    always@(posedge clk) begin
       proc_handshake_start <= `LOW;
@@ -256,8 +259,13 @@ module pkt_decode
                   m_mipi_div_set <= (rx_msg_mode!=`MSG_MODE_EXEDATA);
                   m_mipi_div     <= atoi_rx_data;
                end
-               else if(rx_msg_addr==`MIPI_CMD_BASEADDR) begin
+               if(rx_msg_addr==`MIPI_SA_BASEADDR) begin
+                  mipi_cus_ssc <= atoi_rx_data[0]; // HIGH - SSC enable, LOW - SSC disable
+               end
+               if(rx_msg_addr==`MIPI_CMD_BASEADDR)
                   proc_mipi_cmd <= atoi_rx_data;
+               if(rx_msg_addr==`MIPI_ADDR_BASEADDR) begin
+                  mipi_cus_nbit <= atoi_rx_data; // data length, nbit
                end
             end
             
@@ -307,9 +315,11 @@ module pkt_decode
                   (proc_mipi_cmd&`MIPI_CMD_EXTL_MASK)==`MIPI_CMD_EXTWRL_PAT || 
                   (proc_mipi_cmd&`MIPI_CMD_EXTL_MASK)==`MIPI_CMD_EXTRDL_PAT ||
                   (proc_mipi_cmd&`MIPI_CMD_EXT_MASK) ==`MIPI_CMD_EXTWR_PAT  || 
-                  (proc_mipi_cmd&`MIPI_CMD_EXT_MASK) ==`MIPI_CMD_EXTRD_PAT) begin
+                  (proc_mipi_cmd&`MIPI_CMD_EXT_MASK) ==`MIPI_CMD_EXTRD_PAT  ||
+                  (proc_mipi_cmd&`MIPI_CMD_EXT_MASK) ==`MIPI_CMD_CUS_PAT) begin
                   m_mipi_start <= `HIGH;
                   mipi_bank    <= rx_ch_addr[`MIPI_BANK_NBIT-1:0];
+                  mipi_cus_mode<= (proc_mipi_cmd&`MIPI_CMD_EXT_MASK) ==`MIPI_CMD_CUS_PAT;
                end
             end            
          end
@@ -458,6 +468,9 @@ module pkt_decode
       .start      (mipi_start    ),
       .done       (mipi_done     ),
       .num        (mipi_data_num ),
+      .cusmode    (mipi_cus_mode ),
+      .cusssc     (mipi_cus_ssc  ),
+      .cusnbit    (mipi_cus_nbit ),
       .i_buf_clk  (clk           ),
       .i_buf_wr   (mipi_buf_wr   ),
       .i_buf_waddr(mipi_buf_waddr),

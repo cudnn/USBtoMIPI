@@ -1,5 +1,5 @@
 Assembler report for usbtomipi_v2
-Sun Sep 18 16:35:42 2016
+Mon Sep 19 23:04:41 2016
 Quartus Prime Version 15.1.0 Build 185 10/21/2015 SJ Standard Edition
 
 
@@ -9,11 +9,10 @@ Quartus Prime Version 15.1.0 Build 185 10/21/2015 SJ Standard Edition
   1. Legal Notice
   2. Assembler Summary
   3. Assembler Settings
-  4. Assembler Encrypted IP Cores Summary
-  5. Assembler Generated Files
-  6. Assembler Device Options: X:/USBToMIPI/FPGA/prj/output_files/usbtomipi_v2.sof
-  7. Assembler Device Options: X:/USBToMIPI/FPGA/prj/output_files/usbtomipi_v2.pof
-  8. Assembler Messages
+  4. Assembler Generated Files
+  5. Assembler Device Options: D:/HWorks/USBToMIPI/FPGA/prj/output_files/usbtomipi_v2.sof
+  6. Assembler Device Options: D:/HWorks/USBToMIPI/FPGA/prj/output_files/usbtomipi_v2.pof
+  7. Assembler Messages
 
 
 
@@ -40,7 +39,7 @@ agreement for further details.
 +---------------------------------------------------------------+
 ; Assembler Summary                                             ;
 +-----------------------+---------------------------------------+
-; Assembler Status      ; Successful - Sun Sep 18 16:35:42 2016 ;
+; Assembler Status      ; Successful - Mon Sep 19 23:04:41 2016 ;
 ; Revision Name         ; usbtomipi_v2                          ;
 ; Top-level Entity Name ; top                                   ;
 ; Family                ; Cyclone IV E                          ;
@@ -55,47 +54,37 @@ agreement for further details.
 +--------+---------+---------------+
 
 
-+------------------------------------------------+
-; Assembler Encrypted IP Cores Summary           ;
-+--------+------------------------+--------------+
-; Vendor ; IP Core Name           ; License Type ;
-+--------+------------------------+--------------+
-; Altera ; Signal Tap (6AF7 BCE1) ; Licensed     ;
-; Altera ; Signal Tap (6AF7 BCEC) ; Licensed     ;
-+--------+------------------------+--------------+
++------------------------------------------------------------+
+; Assembler Generated Files                                  ;
++------------------------------------------------------------+
+; File Name                                                  ;
++------------------------------------------------------------+
+; D:/HWorks/USBToMIPI/FPGA/prj/output_files/usbtomipi_v2.sof ;
+; D:/HWorks/USBToMIPI/FPGA/prj/output_files/usbtomipi_v2.pof ;
++------------------------------------------------------------+
 
 
-+-----------------------------------------------------+
-; Assembler Generated Files                           ;
-+-----------------------------------------------------+
-; File Name                                           ;
-+-----------------------------------------------------+
-; X:/USBToMIPI/FPGA/prj/output_files/usbtomipi_v2.sof ;
-; X:/USBToMIPI/FPGA/prj/output_files/usbtomipi_v2.pof ;
-+-----------------------------------------------------+
++--------------------------------------------------------------------------------------+
+; Assembler Device Options: D:/HWorks/USBToMIPI/FPGA/prj/output_files/usbtomipi_v2.sof ;
++----------------+---------------------------------------------------------------------+
+; Option         ; Setting                                                             ;
++----------------+---------------------------------------------------------------------+
+; Device         ; EP4CE10F17C8                                                        ;
+; JTAG usercode  ; 0x0014A0C0                                                          ;
+; Checksum       ; 0x0014A0C0                                                          ;
++----------------+---------------------------------------------------------------------+
 
 
-+-------------------------------------------------------------------------------+
-; Assembler Device Options: X:/USBToMIPI/FPGA/prj/output_files/usbtomipi_v2.sof ;
-+----------------+--------------------------------------------------------------+
-; Option         ; Setting                                                      ;
-+----------------+--------------------------------------------------------------+
-; Device         ; EP4CE10F17C8                                                 ;
-; JTAG usercode  ; 0x0036F9A9                                                   ;
-; Checksum       ; 0x0036F9A9                                                   ;
-+----------------+--------------------------------------------------------------+
-
-
-+-------------------------------------------------------------------------------+
-; Assembler Device Options: X:/USBToMIPI/FPGA/prj/output_files/usbtomipi_v2.pof ;
-+--------------------+----------------------------------------------------------+
-; Option             ; Setting                                                  ;
-+--------------------+----------------------------------------------------------+
-; Device             ; EPCS16                                                   ;
-; JTAG usercode      ; 0x00000000                                               ;
-; Checksum           ; 0x1E0E4368                                               ;
-; Compression Ratio  ; 2                                                        ;
-+--------------------+----------------------------------------------------------+
++--------------------------------------------------------------------------------------+
+; Assembler Device Options: D:/HWorks/USBToMIPI/FPGA/prj/output_files/usbtomipi_v2.pof ;
++--------------------+-----------------------------------------------------------------+
+; Option             ; Setting                                                         ;
++--------------------+-----------------------------------------------------------------+
+; Device             ; EPCS16                                                          ;
+; JTAG usercode      ; 0x00000000                                                      ;
+; Checksum           ; 0x1E484DA8                                                      ;
+; Compression Ratio  ; 3                                                               ;
++--------------------+-----------------------------------------------------------------+
 
 
 +--------------------+
@@ -104,14 +93,14 @@ agreement for further details.
 Info: *******************************************************************
 Info: Running Quartus Prime Assembler
     Info: Version 15.1.0 Build 185 10/21/2015 SJ Standard Edition
-    Info: Processing started: Sun Sep 18 16:35:36 2016
+    Info: Processing started: Mon Sep 19 23:04:38 2016
 Info: Command: quartus_asm --read_settings_files=off --write_settings_files=off usbtomipi -c usbtomipi_v2
 Info (115031): Writing out detailed assembly data for power analysis
 Info (115030): Assembler is generating device programming files
 Info: Quartus Prime Assembler was successful. 0 errors, 0 warnings
-    Info: Peak virtual memory: 759 megabytes
-    Info: Processing ended: Sun Sep 18 16:35:42 2016
-    Info: Elapsed time: 00:00:06
-    Info: Total CPU time (on all processors): 00:00:06
+    Info: Peak virtual memory: 739 megabytes
+    Info: Processing ended: Mon Sep 19 23:04:41 2016
+    Info: Elapsed time: 00:00:03
+    Info: Total CPU time (on all processors): 00:00:02
 
 

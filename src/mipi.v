@@ -27,6 +27,9 @@ module mipi
    start,
    done,
    num,
+   cusmode,
+   cusssc ,
+   cusnbit,
    // BUFFER Interface
    i_buf_clk,
    i_buf_wr,
@@ -42,13 +45,16 @@ module mipi
 );
 
    ////////////////// PORT ////////////////////
-   input                            clk; // high frequency clock input, 48MHz
-   input                            set; // set signale of clock cycle
-   input  [`MIPI_CLKDIV_NBIT-1:0]   div; // value of clock cycle
-                                         // range from 2 to 255 correspond to 24MHz ~ 188KHz 
-   input                            start;
-   output                           done;
-   output [`MIPI_BUF_ADDR_NBIT-1:0] num; // data number
+   input                            clk;     // high frequency clock input, 48MHz
+   input                            set;     // set signale of clock cycle
+   input  [`MIPI_CLKDIV_NBIT-1:0]   div;     // value of clock cycle
+                                             // range from 2 to 255 correspond to 24MHz ~ 188KHz 
+   input                            start;   // start of mipi 
+   output                           done;    // done of mipi
+   output [`MIPI_BUF_ADDR_NBIT-1:0] num;     // data number
+   input                            cusmode; // custum mode
+   input                            cusssc ;
+   input  [`MIPI_ADDR_NBIT-1:0]     cusnbit;
    
    input                            i_buf_clk  ;
    input                            i_buf_wr   ;
@@ -189,6 +195,13 @@ module mipi
                   sf_data        <= `MIPI_SSC_PAT;
                   mipi_buf_raddr <= `MIPI_SA_BASEADDR;
                   num            <= 0;
+                  /////// custom mode ///////
+                  if(cusmode) begin
+                     sf_data        <= ~cusssc ? `MIPI_BUF_DATA_NBIT'd0 : `MIPI_SSC_PAT;
+                     mipi_buf_raddr <= `MIPI_ADDR_BASEADDR+1'b1;
+                     num            <= mipi_wdata_num[3:0] + 1'b1;
+                  end
+                  ///////             ///////
                end
             end
             `ST_MIPI_START: begin
@@ -199,6 +212,19 @@ module mipi
                   sf_cnt         <= 4'd`MIPI_SA_NBIT-1'b1;
                   sf_data        <= {mipi_buf_rdata[`MIPI_SA_NBIT-1:0],{`MIPI_BUF_DATA_NBIT-`MIPI_SA_NBIT{1'b0}}}; // 4-bit slave address
                   mipi_buf_raddr <= `MIPI_CMD_BASEADDR;
+                  /////// custom mode ///////
+                  if(cusmode) begin 
+                     st                <= `ST_MIPI_DATA;
+                     sf_data           <= mipi_buf_rdata;
+                     mipi_buf_raddr    <= mipi_buf_raddr + 1'b1;
+                     if(cusnbit!=0) begin
+                        sf_cnt         <= cusnbit[6:3]==0 ? cusnbit[2:0]-1'b1 : 4'd`MIPI_DATA_NBIT-1'b1;
+                        st_turns       <= cusnbit[2:0]==0 ? cusnbit[6:3]-1'b1 : cusnbit[6:3];
+                     end
+                     else
+                        st <= `ST_MIPI_END;                     
+                  end
+                  ///////             ///////
                end
             end
             `ST_MIPI_SA: begin
@@ -329,6 +355,11 @@ module mipi
                sf_data <= {sf_data[`MIPI_BUF_DATA_NBIT-2:0],(mipi_op ? sdi : 1'b0)};
                if(sf_cnt==0) begin
                   sf_cnt   <= 4'd`MIPI_DATA_NBIT;
+                  /////// custom mode ///////
+                  if(cusmode) begin 
+                     sf_cnt <= (st_turns==1)&&(cusnbit[2:0]!=0) ? cusnbit[2:0]-1'b1 : 4'd`MIPI_DATA_NBIT-1'b1;
+                  end
+                  ///////             ///////
                   sf_data  <= mipi_op ? `MIPI_BUF_DATA_NBIT'd0 : mipi_buf_rdata;
                   st_turns <= st_turns - 1'b1;
                   mipi_buf_raddr <= mipi_buf_raddr + 1'b1;
@@ -429,6 +460,10 @@ module mipi
             pb_strobe      <= sf_cnt!=0;
             pb_data        <= sf_data[`MIPI_BUF_DATA_NBIT-1];
             sdo            <= ~mipi_op ? (sf_cnt==0 ? pb_parity : sf_data[`MIPI_BUF_DATA_NBIT-1]) : `LOW;
+            /////// custom mode ///////
+            if(cusmode) 
+               sdo         <= sf_data[`MIPI_BUF_DATA_NBIT-1];
+            ///////             ///////                  
             sdo_en         <= ~mipi_op;
             sclk_en        <= `HIGH;
             done           <= `LOW;
@@ -455,6 +490,10 @@ module mipi
             sdo            <= `LOW;
             sdo_en         <= (clk_cnt>=(clk_div>>1)); // as the same behavior as BUSPARK
             sclk_en        <= `HIGH;
+            /////// custom mode ///////
+            if(cusmode&&(mipi_buf_rdata!=`MIPI_BP_PAT))
+               sdo_en      <= `LOW;
+            ///////             ///////                  
             done           <= `HIGH;
             mipi_buf_wr    <= `LOW;
             mipi_buf_waddr <= 0;
