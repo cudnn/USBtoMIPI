@@ -1,5 +1,5 @@
 Analysis & Synthesis report for usbtomipi_v2
-Mon Sep 19 23:04:03 2016
+Tue Sep 20 21:58:40 2016
 Quartus Prime Version 15.1.0 Build 185 10/21/2015 SJ Standard Edition
 
 
@@ -67,15 +67,15 @@ agreement for further details.
 +--------------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                         ;
 +------------------------------------+-------------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Mon Sep 19 23:04:03 2016           ;
+; Analysis & Synthesis Status        ; Successful - Tue Sep 20 21:58:40 2016           ;
 ; Quartus Prime Version              ; 15.1.0 Build 185 10/21/2015 SJ Standard Edition ;
 ; Revision Name                      ; usbtomipi_v2                                    ;
 ; Top-level Entity Name              ; top                                             ;
 ; Family                             ; Cyclone IV E                                    ;
-; Total logic elements               ; 1,348                                           ;
-;     Total combinational functions  ; 1,113                                           ;
-;     Dedicated logic registers      ; 721                                             ;
-; Total registers                    ; 721                                             ;
+; Total logic elements               ; 1,354                                           ;
+;     Total combinational functions  ; 1,123                                           ;
+;     Dedicated logic registers      ; 717                                             ;
+; Total registers                    ; 717                                             ;
 ; Total pins                         ; 70                                              ;
 ; Total virtual pins                 ; 0                                               ;
 ; Total memory bits                  ; 8,448                                           ;
@@ -189,37 +189,38 @@ agreement for further details.
 +----------------------------+-------------+
 
 
-+------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis Source Files Read                                                                                                                                 ;
-+--------------------------------------+-----------------+------------------------------+----------------------------------------------------------------------+---------+
-; File Name with User-Entered Path     ; Used in Netlist ; File Type                    ; File Name with Absolute Path                                         ; Library ;
-+--------------------------------------+-----------------+------------------------------+----------------------------------------------------------------------+---------+
-; ../src/mipi.v                        ; yes             ; User Verilog HDL File        ; D:/HWorks/USBToMIPI/FPGA/src/mipi.v                                  ;         ;
-; ../src/buffered_ram.v                ; yes             ; User Verilog HDL File        ; D:/HWorks/USBToMIPI/FPGA/src/buffered_ram.v                          ;         ;
-; ../src/pkt_decode.v                  ; yes             ; User Verilog HDL File        ; D:/HWorks/USBToMIPI/FPGA/src/pkt_decode.v                            ;         ;
-; ../src/usb.v                         ; yes             ; User Verilog HDL File        ; D:/HWorks/USBToMIPI/FPGA/src/usb.v                                   ;         ;
-; ../src/top.v                         ; yes             ; User Verilog HDL File        ; D:/HWorks/USBToMIPI/FPGA/src/top.v                                   ;         ;
-; ../src/core/clk_gen.v                ; yes             ; User Wizard-Generated File   ; D:/HWorks/USBToMIPI/FPGA/src/core/clk_gen.v                          ;         ;
-; ../src/core/mipi_clkpll.v            ; yes             ; User Wizard-Generated File   ; D:/HWorks/USBToMIPI/FPGA/src/core/mipi_clkpll.v                      ;         ;
-; /hworks/usbtomipi/fpga/src/globals.v ; yes             ; Auto-Found Verilog HDL File  ; /hworks/usbtomipi/fpga/src/globals.v                                 ;         ;
-; altpll.tdf                           ; yes             ; Megafunction                 ; c:/altera/15.1/quartus/libraries/megafunctions/altpll.tdf            ;         ;
-; aglobal151.inc                       ; yes             ; Megafunction                 ; c:/altera/15.1/quartus/libraries/megafunctions/aglobal151.inc        ;         ;
-; stratix_pll.inc                      ; yes             ; Megafunction                 ; c:/altera/15.1/quartus/libraries/megafunctions/stratix_pll.inc       ;         ;
-; stratixii_pll.inc                    ; yes             ; Megafunction                 ; c:/altera/15.1/quartus/libraries/megafunctions/stratixii_pll.inc     ;         ;
-; cycloneii_pll.inc                    ; yes             ; Megafunction                 ; c:/altera/15.1/quartus/libraries/megafunctions/cycloneii_pll.inc     ;         ;
-; db/clk_gen_altpll.v                  ; yes             ; Auto-Generated Megafunction  ; D:/HWorks/USBToMIPI/FPGA/prj/db/clk_gen_altpll.v                     ;         ;
-; db/mipi_clkpll_altpll.v              ; yes             ; Auto-Generated Megafunction  ; D:/HWorks/USBToMIPI/FPGA/prj/db/mipi_clkpll_altpll.v                 ;         ;
-; altsyncram.tdf                       ; yes             ; Megafunction                 ; c:/altera/15.1/quartus/libraries/megafunctions/altsyncram.tdf        ;         ;
-; stratix_ram_block.inc                ; yes             ; Megafunction                 ; c:/altera/15.1/quartus/libraries/megafunctions/stratix_ram_block.inc ;         ;
-; lpm_mux.inc                          ; yes             ; Megafunction                 ; c:/altera/15.1/quartus/libraries/megafunctions/lpm_mux.inc           ;         ;
-; lpm_decode.inc                       ; yes             ; Megafunction                 ; c:/altera/15.1/quartus/libraries/megafunctions/lpm_decode.inc        ;         ;
-; a_rdenreg.inc                        ; yes             ; Megafunction                 ; c:/altera/15.1/quartus/libraries/megafunctions/a_rdenreg.inc         ;         ;
-; altrom.inc                           ; yes             ; Megafunction                 ; c:/altera/15.1/quartus/libraries/megafunctions/altrom.inc            ;         ;
-; altram.inc                           ; yes             ; Megafunction                 ; c:/altera/15.1/quartus/libraries/megafunctions/altram.inc            ;         ;
-; altdpram.inc                         ; yes             ; Megafunction                 ; c:/altera/15.1/quartus/libraries/megafunctions/altdpram.inc          ;         ;
-; db/altsyncram_23u1.tdf               ; yes             ; Auto-Generated Megafunction  ; D:/HWorks/USBToMIPI/FPGA/prj/db/altsyncram_23u1.tdf                  ;         ;
-; db/altsyncram_jur1.tdf               ; yes             ; Auto-Generated Megafunction  ; D:/HWorks/USBToMIPI/FPGA/prj/db/altsyncram_jur1.tdf                  ;         ;
-+--------------------------------------+-----------------+------------------------------+----------------------------------------------------------------------+---------+
++----------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Source Files Read                                                                                                                                     ;
++--------------------------------------+-----------------+----------------------------------+----------------------------------------------------------------------+---------+
+; File Name with User-Entered Path     ; Used in Netlist ; File Type                        ; File Name with Absolute Path                                         ; Library ;
++--------------------------------------+-----------------+----------------------------------+----------------------------------------------------------------------+---------+
+; ../src/mipi.v                        ; yes             ; User Verilog HDL File            ; D:/HWorks/USBToMIPI/FPGA/src/mipi.v                                  ;         ;
+; ../src/buffered_ram.v                ; yes             ; User Verilog HDL File            ; D:/HWorks/USBToMIPI/FPGA/src/buffered_ram.v                          ;         ;
+; ../src/pkt_decode.v                  ; yes             ; User Verilog HDL File            ; D:/HWorks/USBToMIPI/FPGA/src/pkt_decode.v                            ;         ;
+; ../src/usb.v                         ; yes             ; User Verilog HDL File            ; D:/HWorks/USBToMIPI/FPGA/src/usb.v                                   ;         ;
+; ../src/top.v                         ; yes             ; User Verilog HDL File            ; D:/HWorks/USBToMIPI/FPGA/src/top.v                                   ;         ;
+; ../src/core/clk_gen.v                ; yes             ; User Wizard-Generated File       ; D:/HWorks/USBToMIPI/FPGA/src/core/clk_gen.v                          ;         ;
+; ../src/tx_buf_512x16.mif             ; yes             ; User Memory Initialization File  ; D:/HWorks/USBToMIPI/FPGA/src/tx_buf_512x16.mif                       ;         ;
+; ../src/core/mipi_clkpll.v            ; yes             ; User Wizard-Generated File       ; D:/HWorks/USBToMIPI/FPGA/src/core/mipi_clkpll.v                      ;         ;
+; /hworks/usbtomipi/fpga/src/globals.v ; yes             ; Auto-Found Verilog HDL File      ; /hworks/usbtomipi/fpga/src/globals.v                                 ;         ;
+; altpll.tdf                           ; yes             ; Megafunction                     ; c:/altera/15.1/quartus/libraries/megafunctions/altpll.tdf            ;         ;
+; aglobal151.inc                       ; yes             ; Megafunction                     ; c:/altera/15.1/quartus/libraries/megafunctions/aglobal151.inc        ;         ;
+; stratix_pll.inc                      ; yes             ; Megafunction                     ; c:/altera/15.1/quartus/libraries/megafunctions/stratix_pll.inc       ;         ;
+; stratixii_pll.inc                    ; yes             ; Megafunction                     ; c:/altera/15.1/quartus/libraries/megafunctions/stratixii_pll.inc     ;         ;
+; cycloneii_pll.inc                    ; yes             ; Megafunction                     ; c:/altera/15.1/quartus/libraries/megafunctions/cycloneii_pll.inc     ;         ;
+; db/clk_gen_altpll.v                  ; yes             ; Auto-Generated Megafunction      ; D:/HWorks/USBToMIPI/FPGA/prj/db/clk_gen_altpll.v                     ;         ;
+; db/mipi_clkpll_altpll.v              ; yes             ; Auto-Generated Megafunction      ; D:/HWorks/USBToMIPI/FPGA/prj/db/mipi_clkpll_altpll.v                 ;         ;
+; altsyncram.tdf                       ; yes             ; Megafunction                     ; c:/altera/15.1/quartus/libraries/megafunctions/altsyncram.tdf        ;         ;
+; stratix_ram_block.inc                ; yes             ; Megafunction                     ; c:/altera/15.1/quartus/libraries/megafunctions/stratix_ram_block.inc ;         ;
+; lpm_mux.inc                          ; yes             ; Megafunction                     ; c:/altera/15.1/quartus/libraries/megafunctions/lpm_mux.inc           ;         ;
+; lpm_decode.inc                       ; yes             ; Megafunction                     ; c:/altera/15.1/quartus/libraries/megafunctions/lpm_decode.inc        ;         ;
+; a_rdenreg.inc                        ; yes             ; Megafunction                     ; c:/altera/15.1/quartus/libraries/megafunctions/a_rdenreg.inc         ;         ;
+; altrom.inc                           ; yes             ; Megafunction                     ; c:/altera/15.1/quartus/libraries/megafunctions/altrom.inc            ;         ;
+; altram.inc                           ; yes             ; Megafunction                     ; c:/altera/15.1/quartus/libraries/megafunctions/altram.inc            ;         ;
+; altdpram.inc                         ; yes             ; Megafunction                     ; c:/altera/15.1/quartus/libraries/megafunctions/altdpram.inc          ;         ;
+; db/altsyncram_23u1.tdf               ; yes             ; Auto-Generated Megafunction      ; D:/HWorks/USBToMIPI/FPGA/prj/db/altsyncram_23u1.tdf                  ;         ;
+; db/altsyncram_jur1.tdf               ; yes             ; Auto-Generated Megafunction      ; D:/HWorks/USBToMIPI/FPGA/prj/db/altsyncram_jur1.tdf                  ;         ;
++--------------------------------------+-----------------+----------------------------------+----------------------------------------------------------------------+---------+
 
 
 +-------------------------------------------------------------------------------------------------------------------------------------------+
@@ -227,20 +228,20 @@ agreement for further details.
 +---------------------------------------------+---------------------------------------------------------------------------------------------+
 ; Resource                                    ; Usage                                                                                       ;
 +---------------------------------------------+---------------------------------------------------------------------------------------------+
-; Estimated Total logic elements              ; 1,348                                                                                       ;
+; Estimated Total logic elements              ; 1,354                                                                                       ;
 ;                                             ;                                                                                             ;
-; Total combinational functions               ; 1113                                                                                        ;
+; Total combinational functions               ; 1123                                                                                        ;
 ; Logic element usage by number of LUT inputs ;                                                                                             ;
-;     -- 4 input functions                    ; 510                                                                                         ;
-;     -- 3 input functions                    ; 241                                                                                         ;
-;     -- <=2 input functions                  ; 362                                                                                         ;
+;     -- 4 input functions                    ; 507                                                                                         ;
+;     -- 3 input functions                    ; 249                                                                                         ;
+;     -- <=2 input functions                  ; 367                                                                                         ;
 ;                                             ;                                                                                             ;
 ; Logic elements by mode                      ;                                                                                             ;
-;     -- normal mode                          ; 1027                                                                                        ;
-;     -- arithmetic mode                      ; 86                                                                                          ;
+;     -- normal mode                          ; 1033                                                                                        ;
+;     -- arithmetic mode                      ; 90                                                                                          ;
 ;                                             ;                                                                                             ;
-; Total registers                             ; 721                                                                                         ;
-;     -- Dedicated logic registers            ; 721                                                                                         ;
+; Total registers                             ; 717                                                                                         ;
+;     -- Dedicated logic registers            ; 717                                                                                         ;
 ;     -- I/O registers                        ; 0                                                                                           ;
 ;                                             ;                                                                                             ;
 ; I/O pins                                    ; 70                                                                                          ;
@@ -252,8 +253,8 @@ agreement for further details.
 ;     -- PLLs                                 ; 2                                                                                           ;
 ;                                             ;                                                                                             ;
 ; Maximum fan-out node                        ; clk_gen:main_clk_gen|altpll:altpll_component|clk_gen_altpll:auto_generated|wire_pll1_clk[0] ;
-; Maximum fan-out                             ; 660                                                                                         ;
-; Total fan-out                               ; 6485                                                                                        ;
+; Maximum fan-out                             ; 656                                                                                         ;
+; Total fan-out                               ; 6493                                                                                        ;
 ; Average fan-out                             ; 3.15                                                                                        ;
 +---------------------------------------------+---------------------------------------------------------------------------------------------+
 
@@ -263,7 +264,7 @@ agreement for further details.
 +--------------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+-----------------------------------------------------------------------------------------------------------------------------------------+--------------+
 ; Compilation Hierarchy Node                       ; LC Combinationals ; LC Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                                                     ; Library Name ;
 +--------------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+-----------------------------------------------------------------------------------------------------------------------------------------+--------------+
-; |top                                             ; 1113 (18)         ; 721 (66)     ; 8448        ; 0            ; 0       ; 0         ; 70   ; 0            ; |top                                                                                                                                    ; work         ;
+; |top                                             ; 1123 (18)         ; 717 (66)     ; 8448        ; 0            ; 0       ; 0         ; 70   ; 0            ; |top                                                                                                                                    ; work         ;
 ;    |buffered_ram:tx_buffer|                      ; 0 (0)             ; 0 (0)        ; 8192        ; 0            ; 0       ; 0         ; 0    ; 0            ; |top|buffered_ram:tx_buffer                                                                                                             ; work         ;
 ;       |altsyncram:buffered_ram_altsyncram|       ; 0 (0)             ; 0 (0)        ; 8192        ; 0            ; 0       ; 0         ; 0    ; 0            ; |top|buffered_ram:tx_buffer|altsyncram:buffered_ram_altsyncram                                                                          ; work         ;
 ;          |altsyncram_jur1:auto_generated|        ; 0 (0)             ; 0 (0)        ; 8192        ; 0            ; 0       ; 0         ; 0    ; 0            ; |top|buffered_ram:tx_buffer|altsyncram:buffered_ram_altsyncram|altsyncram_jur1:auto_generated                                           ; work         ;
@@ -273,10 +274,10 @@ agreement for further details.
 ;    |mipi_clkpll:mipi_clk_gen|                    ; 0 (0)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |top|mipi_clkpll:mipi_clk_gen                                                                                                           ; work         ;
 ;       |altpll:altpll_component|                  ; 0 (0)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |top|mipi_clkpll:mipi_clk_gen|altpll:altpll_component                                                                                   ; work         ;
 ;          |mipi_clkpll_altpll:auto_generated|     ; 0 (0)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |top|mipi_clkpll:mipi_clk_gen|altpll:altpll_component|mipi_clkpll_altpll:auto_generated                                                 ; work         ;
-;    |pkt_decode:u_cmd_decode|                     ; 1057 (664)        ; 632 (555)    ; 256         ; 0            ; 0       ; 0         ; 0    ; 0            ; |top|pkt_decode:u_cmd_decode                                                                                                            ; work         ;
-;       |atoi:atoi_u|                              ; 24 (24)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |top|pkt_decode:u_cmd_decode|atoi:atoi_u                                                                                                ; work         ;
+;    |pkt_decode:u_cmd_decode|                     ; 1067 (669)        ; 628 (551)    ; 256         ; 0            ; 0       ; 0         ; 0    ; 0            ; |top|pkt_decode:u_cmd_decode                                                                                                            ; work         ;
+;       |atoi:atoi_u|                              ; 23 (23)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |top|pkt_decode:u_cmd_decode|atoi:atoi_u                                                                                                ; work         ;
 ;       |itoa:itoa_u|                              ; 16 (16)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |top|pkt_decode:u_cmd_decode|itoa:itoa_u                                                                                                ; work         ;
-;       |mipi:mipi_u|                              ; 353 (350)         ; 77 (76)      ; 256         ; 0            ; 0       ; 0         ; 0    ; 0            ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u                                                                                                ; work         ;
+;       |mipi:mipi_u|                              ; 359 (356)         ; 77 (76)      ; 256         ; 0            ; 0       ; 0         ; 0    ; 0            ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u                                                                                                ; work         ;
 ;          |buffered_ram_tdp:mipi_buffer|          ; 0 (0)             ; 0 (0)        ; 256         ; 0            ; 0       ; 0         ; 0    ; 0            ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|buffered_ram_tdp:mipi_buffer                                                                   ; work         ;
 ;             |altsyncram:buffered_ram_altsyncram| ; 0 (0)             ; 0 (0)        ; 256         ; 0            ; 0       ; 0         ; 0    ; 0            ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|buffered_ram_tdp:mipi_buffer|altsyncram:buffered_ram_altsyncram                                ; work         ;
 ;                |altsyncram_23u1:auto_generated|  ; 0 (0)             ; 0 (0)        ; 256         ; 0            ; 0       ; 0         ; 0    ; 0            ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|buffered_ram_tdp:mipi_buffer|altsyncram:buffered_ram_altsyncram|altsyncram_23u1:auto_generated ; work         ;
@@ -391,7 +392,7 @@ Encoding Type:  One-Hot
 ; pkt_decode:u_cmd_decode|tx_msg_pf[4,5,8,12,13]          ; Merged with pkt_decode:u_cmd_decode|tx_msg_pf[10] ;
 ; pkt_decode:u_cmd_decode|tx_pf_code[4,5,12,13]           ; Merged with pkt_decode:u_cmd_decode|tx_msg_pf[10] ;
 ; pkt_decode:u_cmd_decode|tx_msg_pf[0]                    ; Stuck at GND due to stuck port data_in            ;
-; pkt_decode:u_cmd_decode|proc_mipi_cmd[3]                ; Lost fanout                                       ;
+; pkt_decode:u_cmd_decode|proc_mipi_cmd[3..7]             ; Lost fanout                                       ;
 ; pkt_decode:u_cmd_decode|tx_st~6                         ; Lost fanout                                       ;
 ; pkt_decode:u_cmd_decode|tx_st~7                         ; Lost fanout                                       ;
 ; pkt_decode:u_cmd_decode|tx_st~8                         ; Lost fanout                                       ;
@@ -418,7 +419,7 @@ Encoding Type:  One-Hot
 ; usb_slavefifo:u_usb_slavefifo|tx_st~5                   ; Lost fanout                                       ;
 ; usb_slavefifo:u_usb_slavefifo|tx_st~6                   ; Lost fanout                                       ;
 ; pkt_decode:u_cmd_decode|tx_msg_pf[10]                   ; Stuck at VCC due to stuck port data_in            ;
-; Total Number of Removed Registers = 53                  ;                                                   ;
+; Total Number of Removed Registers = 57                  ;                                                   ;
 +---------------------------------------------------------+---------------------------------------------------+
 
 
@@ -427,12 +428,12 @@ Encoding Type:  One-Hot
 +----------------------------------------------+-------+
 ; Statistic                                    ; Value ;
 +----------------------------------------------+-------+
-; Total registers                              ; 721   ;
+; Total registers                              ; 717   ;
 ; Number of registers using Synchronous Clear  ; 54    ;
 ; Number of registers using Synchronous Load   ; 106   ;
 ; Number of registers using Asynchronous Clear ; 0     ;
 ; Number of registers using Asynchronous Load  ; 0     ;
-; Number of registers using Clock Enable       ; 626   ;
+; Number of registers using Clock Enable       ; 621   ;
 ; Number of registers using Preset             ; 0     ;
 +----------------------------------------------+-------+
 
@@ -454,40 +455,40 @@ Encoding Type:  One-Hot
 +--------------------+-----------+---------------+----------------------+------------------------+------------+-------------------------------------------------------------+
 ; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                  ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+-------------------------------------------------------------+
-; 4:1                ; 7 bits    ; 14 LEs        ; 14 LEs               ; 0 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|clk_cnt[5]         ;
-; 4:1                ; 72 bits   ; 144 LEs       ; 144 LEs              ; 0 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_msg_data[33]                ;
-; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_msg_data[85]                ;
-; 5:1                ; 8 bits    ; 24 LEs        ; 8 LEs                ; 16 LEs                 ; Yes        ; |top|usb_slavefifo:u_usb_slavefifo|tx_cache_addr[7]         ;
-; 5:1                ; 16 bits   ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|rx_msg_type[1]                 ;
-; 5:1                ; 104 bits  ; 312 LEs       ; 104 LEs              ; 208 LEs                ; Yes        ; |top|pkt_decode:u_cmd_decode|rx_msg_data[38]                ;
-; 5:1                ; 16 bits   ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|rx_msg_mode[10]                ;
-; 5:1                ; 16 bits   ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|rx_msg_ch_addr[12]             ;
+; 4:1                ; 7 bits    ; 14 LEs        ; 14 LEs               ; 0 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|clk_cnt[1]         ;
+; 4:1                ; 72 bits   ; 144 LEs       ; 144 LEs              ; 0 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_msg_data[11]                ;
+; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_msg_data[81]                ;
+; 5:1                ; 8 bits    ; 24 LEs        ; 8 LEs                ; 16 LEs                 ; Yes        ; |top|usb_slavefifo:u_usb_slavefifo|tx_cache_addr[0]         ;
+; 5:1                ; 16 bits   ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|rx_msg_type[10]                ;
+; 5:1                ; 104 bits  ; 312 LEs       ; 104 LEs              ; 208 LEs                ; Yes        ; |top|pkt_decode:u_cmd_decode|rx_msg_data[75]                ;
+; 5:1                ; 16 bits   ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|rx_msg_mode[4]                 ;
+; 5:1                ; 16 bits   ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|rx_msg_ch_addr[10]             ;
 ; 6:1                ; 2 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_data[7]                     ;
-; 6:1                ; 8 bits    ; 32 LEs        ; 16 LEs               ; 16 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_msg_data[89]                ;
-; 6:1                ; 8 bits    ; 32 LEs        ; 16 LEs               ; 16 LEs                 ; Yes        ; |top|usb_slavefifo:u_usb_slavefifo|tx_delay_cnt[6]          ;
-; 7:1                ; 2 bits    ; 8 LEs         ; 6 LEs                ; 2 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_data[5]                     ;
-; 7:1                ; 2 bits    ; 8 LEs         ; 6 LEs                ; 2 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_data[6]                     ;
-; 7:1                ; 2 bits    ; 8 LEs         ; 8 LEs                ; 0 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_data[1]                     ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 16 LEs               ; 16 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_msg_data[92]                ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 16 LEs               ; 16 LEs                 ; Yes        ; |top|usb_slavefifo:u_usb_slavefifo|tx_delay_cnt[5]          ;
+; 7:1                ; 2 bits    ; 8 LEs         ; 6 LEs                ; 2 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_data[13]                    ;
+; 7:1                ; 2 bits    ; 8 LEs         ; 6 LEs                ; 2 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_data[14]                    ;
+; 7:1                ; 2 bits    ; 8 LEs         ; 8 LEs                ; 0 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_data[10]                    ;
 ; 7:1                ; 2 bits    ; 8 LEs         ; 6 LEs                ; 2 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_data[12]                    ;
-; 7:1                ; 3 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_data[11]                    ;
+; 7:1                ; 3 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_data[2]                     ;
 ; 8:1                ; 8 bits    ; 40 LEs        ; 8 LEs                ; 32 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|rx_ch_addr[7]                  ;
 ; 8:1                ; 2 bits    ; 10 LEs        ; 6 LEs                ; 4 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|mipi_buf_upaddr[0] ;
-; 8:1                ; 2 bits    ; 10 LEs        ; 2 LEs                ; 8 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_msg_addr[7]                 ;
-; 8:1                ; 6 bits    ; 30 LEs        ; 18 LEs               ; 12 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_msg_addr[3]                 ;
-; 10:1               ; 2 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_pf_code[9]                  ;
-; 12:1               ; 4 bits    ; 32 LEs        ; 12 LEs               ; 20 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|num[1]             ;
-; 13:1               ; 2 bits    ; 16 LEs        ; 6 LEs                ; 10 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|sf_data[6]         ;
-; 13:1               ; 3 bits    ; 24 LEs        ; 6 LEs                ; 18 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|sf_data[2]         ;
-; 15:1               ; 3 bits    ; 30 LEs        ; 15 LEs               ; 15 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|sf_cnt[1]          ;
-; 17:1               ; 2 bits    ; 22 LEs        ; 2 LEs                ; 20 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|mipi_buf_raddr[4]  ;
-; 20:1               ; 3 bits    ; 39 LEs        ; 18 LEs               ; 21 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|st_turns[0]        ;
+; 8:1                ; 2 bits    ; 10 LEs        ; 2 LEs                ; 8 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_msg_addr[6]                 ;
+; 8:1                ; 6 bits    ; 30 LEs        ; 18 LEs               ; 12 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_msg_addr[4]                 ;
+; 10:1               ; 2 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_msg_pf[9]                   ;
+; 12:1               ; 4 bits    ; 32 LEs        ; 16 LEs               ; 16 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|num[3]             ;
+; 11:1               ; 2 bits    ; 14 LEs        ; 8 LEs                ; 6 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|sf_cnt[2]          ;
+; 15:1               ; 2 bits    ; 20 LEs        ; 10 LEs               ; 10 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|sf_data[6]         ;
+; 15:1               ; 3 bits    ; 30 LEs        ; 9 LEs                ; 21 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|sf_data[2]         ;
+; 17:1               ; 2 bits    ; 22 LEs        ; 2 LEs                ; 20 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|mipi_buf_raddr[3]  ;
+; 20:1               ; 3 bits    ; 39 LEs        ; 18 LEs               ; 21 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|st_turns[1]        ;
 ; 3:1                ; 5 bits    ; 10 LEs        ; 10 LEs               ; 0 LEs                  ; No         ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|comb               ;
-; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |top|pkt_decode:u_cmd_decode|atoi:atoi_u|char_err[0]        ;
 ; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |top|pkt_decode:u_cmd_decode|atoi:atoi_u|char_offset[1][0]  ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |top|pkt_decode:u_cmd_decode|atoi:atoi_u|char_offset[0][0]  ;
 ; 6:1                ; 2 bits    ; 8 LEs         ; 6 LEs                ; 2 LEs                  ; No         ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|mipi_buf_upaddr    ;
 ; 8:1                ; 4 bits    ; 20 LEs        ; 12 LEs               ; 8 LEs                  ; No         ; |top|usb_slavefifo:u_usb_slavefifo|Selector19               ;
 ; 10:1               ; 3 bits    ; 18 LEs        ; 12 LEs               ; 6 LEs                  ; No         ; |top|pkt_decode:u_cmd_decode|Selector222                    ;
-; 11:1               ; 2 bits    ; 14 LEs        ; 6 LEs                ; 8 LEs                  ; No         ; |top|pkt_decode:u_cmd_decode|Selector221                    ;
+; 11:1               ; 2 bits    ; 14 LEs        ; 6 LEs                ; 8 LEs                  ; No         ; |top|pkt_decode:u_cmd_decode|Selector225                    ;
 ; 11:1               ; 3 bits    ; 21 LEs        ; 12 LEs               ; 9 LEs                  ; No         ; |top|pkt_decode:u_cmd_decode|Selector1                      ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+-------------------------------------------------------------+
 
@@ -1507,31 +1508,31 @@ Note: In order to hide this table in the UI and the text report file, please set
 ; Type                  ; Count                       ;
 +-----------------------+-----------------------------+
 ; boundary_port         ; 70                          ;
-; cycloneiii_ff         ; 721                         ;
-;     ENA               ; 494                         ;
+; cycloneiii_ff         ; 717                         ;
+;     ENA               ; 489                         ;
 ;     ENA SCLR          ; 34                          ;
 ;     ENA SLD           ; 98                          ;
 ;     SCLR              ; 13                          ;
 ;     SCLR SLD          ; 7                           ;
 ;     SLD               ; 1                           ;
-;     plain             ; 74                          ;
+;     plain             ; 75                          ;
 ; cycloneiii_io_obuf    ; 56                          ;
-; cycloneiii_lcell_comb ; 1118                        ;
-;     arith             ; 86                          ;
+; cycloneiii_lcell_comb ; 1128                        ;
+;     arith             ; 90                          ;
 ;         1 data inputs ; 4                           ;
-;         2 data inputs ; 66                          ;
+;         2 data inputs ; 70                          ;
 ;         3 data inputs ; 16                          ;
-;     normal            ; 1032                        ;
+;     normal            ; 1038                        ;
 ;         0 data inputs ; 4                           ;
-;         1 data inputs ; 17                          ;
+;         1 data inputs ; 18                          ;
 ;         2 data inputs ; 276                         ;
-;         3 data inputs ; 225                         ;
-;         4 data inputs ; 510                         ;
+;         3 data inputs ; 233                         ;
+;         4 data inputs ; 507                         ;
 ; cycloneiii_pll        ; 2                           ;
 ; cycloneiii_ram_block  ; 24                          ;
 ;                       ;                             ;
-; Max LUT depth         ; 7.00                        ;
-; Average LUT depth     ; 2.58                        ;
+; Max LUT depth         ; 6.00                        ;
+; Average LUT depth     ; 2.53                        ;
 +-----------------------+-----------------------------+
 
 
@@ -1540,7 +1541,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------+--------------+
 ; Partition Name ; Elapsed Time ;
 +----------------+--------------+
-; Top            ; 00:00:07     ;
+; Top            ; 00:00:06     ;
 +----------------+--------------+
 
 
@@ -1550,19 +1551,19 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 15.1.0 Build 185 10/21/2015 SJ Standard Edition
-    Info: Processing started: Mon Sep 19 23:03:31 2016
+    Info: Processing started: Tue Sep 20 21:58:07 2016
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off usbtomipi -c usbtomipi_v2
 Info (20030): Parallel compilation is enabled and will use 2 of the 2 processors detected
 Info (12021): Found 2 design units, including 2 entities, in source file /hworks/usbtomipi/fpga/src/mipi.v
     Info (12023): Found entity 1: mipi File: D:/HWorks/USBToMIPI/FPGA/src/mipi.v Line: 20
-    Info (12023): Found entity 2: parity File: D:/HWorks/USBToMIPI/FPGA/src/mipi.v Line: 524
+    Info (12023): Found entity 2: parity File: D:/HWorks/USBToMIPI/FPGA/src/mipi.v Line: 532
 Info (12021): Found 2 design units, including 2 entities, in source file /hworks/usbtomipi/fpga/src/buffered_ram.v
     Info (12023): Found entity 1: buffered_ram File: D:/HWorks/USBToMIPI/FPGA/src/buffered_ram.v Line: 22
     Info (12023): Found entity 2: buffered_ram_tdp File: D:/HWorks/USBToMIPI/FPGA/src/buffered_ram.v Line: 104
 Info (12021): Found 3 design units, including 3 entities, in source file /hworks/usbtomipi/fpga/src/pkt_decode.v
     Info (12023): Found entity 1: pkt_decode File: D:/HWorks/USBToMIPI/FPGA/src/pkt_decode.v Line: 21
-    Info (12023): Found entity 2: atoi File: D:/HWorks/USBToMIPI/FPGA/src/pkt_decode.v Line: 614
-    Info (12023): Found entity 3: itoa File: D:/HWorks/USBToMIPI/FPGA/src/pkt_decode.v Line: 686
+    Info (12023): Found entity 2: atoi File: D:/HWorks/USBToMIPI/FPGA/src/pkt_decode.v Line: 615
+    Info (12023): Found entity 3: itoa File: D:/HWorks/USBToMIPI/FPGA/src/pkt_decode.v Line: 687
 Info (12021): Found 1 design units, including 1 entities, in source file /hworks/usbtomipi/fpga/src/usb.v
     Info (12023): Found entity 1: usb_slavefifo File: D:/HWorks/USBToMIPI/FPGA/src/usb.v Line: 20
 Info (12021): Found 1 design units, including 1 entities, in source file /hworks/usbtomipi/fpga/src/top.v
@@ -1710,7 +1711,10 @@ Info (12128): Elaborating entity "mipi_clkpll_altpll" for hierarchy "mipi_clkpll
 Info (12128): Elaborating entity "usb_slavefifo" for hierarchy "usb_slavefifo:u_usb_slavefifo" File: D:/HWorks/USBToMIPI/FPGA/src/top.v Line: 158
 Info (12128): Elaborating entity "pkt_decode" for hierarchy "pkt_decode:u_cmd_decode" File: D:/HWorks/USBToMIPI/FPGA/src/top.v Line: 242
 Info (12128): Elaborating entity "atoi" for hierarchy "pkt_decode:u_cmd_decode|atoi:atoi_u" File: D:/HWorks/USBToMIPI/FPGA/src/pkt_decode.v Line: 111
-Info (12128): Elaborating entity "mipi" for hierarchy "pkt_decode:u_cmd_decode|mipi:mipi_u" File: D:/HWorks/USBToMIPI/FPGA/src/pkt_decode.v Line: 484
+Info (12128): Elaborating entity "mipi" for hierarchy "pkt_decode:u_cmd_decode|mipi:mipi_u" File: D:/HWorks/USBToMIPI/FPGA/src/pkt_decode.v Line: 485
+Warning (10230): Verilog HDL assignment warning at mipi.v(223): truncated value with size 32 to match size of target (4) File: D:/HWorks/USBToMIPI/FPGA/src/mipi.v Line: 223
+Warning (10230): Verilog HDL assignment warning at mipi.v(224): truncated value with size 5 to match size of target (4) File: D:/HWorks/USBToMIPI/FPGA/src/mipi.v Line: 224
+Warning (10230): Verilog HDL assignment warning at mipi.v(366): truncated value with size 32 to match size of target (4) File: D:/HWorks/USBToMIPI/FPGA/src/mipi.v Line: 366
 Info (12128): Elaborating entity "buffered_ram_tdp" for hierarchy "pkt_decode:u_cmd_decode|mipi:mipi_u|buffered_ram_tdp:mipi_buffer" File: D:/HWorks/USBToMIPI/FPGA/src/mipi.v Line: 129
 Info (12128): Elaborating entity "altsyncram" for hierarchy "pkt_decode:u_cmd_decode|mipi:mipi_u|buffered_ram_tdp:mipi_buffer|altsyncram:buffered_ram_altsyncram" File: D:/HWorks/USBToMIPI/FPGA/src/buffered_ram.v Line: 163
 Info (12130): Elaborated megafunction instantiation "pkt_decode:u_cmd_decode|mipi:mipi_u|buffered_ram_tdp:mipi_buffer|altsyncram:buffered_ram_altsyncram" File: D:/HWorks/USBToMIPI/FPGA/src/buffered_ram.v Line: 163
@@ -1740,7 +1744,7 @@ Info (12021): Found 1 design units, including 1 entities, in source file db/alts
     Info (12023): Found entity 1: altsyncram_23u1 File: D:/HWorks/USBToMIPI/FPGA/prj/db/altsyncram_23u1.tdf Line: 28
 Info (12128): Elaborating entity "altsyncram_23u1" for hierarchy "pkt_decode:u_cmd_decode|mipi:mipi_u|buffered_ram_tdp:mipi_buffer|altsyncram:buffered_ram_altsyncram|altsyncram_23u1:auto_generated" File: c:/altera/15.1/quartus/libraries/megafunctions/altsyncram.tdf Line: 792
 Info (12128): Elaborating entity "parity" for hierarchy "pkt_decode:u_cmd_decode|mipi:mipi_u|parity:parity_u" File: D:/HWorks/USBToMIPI/FPGA/src/mipi.v Line: 156
-Info (12128): Elaborating entity "itoa" for hierarchy "pkt_decode:u_cmd_decode|itoa:itoa_u" File: D:/HWorks/USBToMIPI/FPGA/src/pkt_decode.v Line: 513
+Info (12128): Elaborating entity "itoa" for hierarchy "pkt_decode:u_cmd_decode|itoa:itoa_u" File: D:/HWorks/USBToMIPI/FPGA/src/pkt_decode.v Line: 514
 Info (12128): Elaborating entity "buffered_ram" for hierarchy "buffered_ram:tx_buffer" File: D:/HWorks/USBToMIPI/FPGA/src/top.v Line: 256
 Info (12128): Elaborating entity "altsyncram" for hierarchy "buffered_ram:tx_buffer|altsyncram:buffered_ram_altsyncram" File: D:/HWorks/USBToMIPI/FPGA/src/buffered_ram.v Line: 77
 Info (12130): Elaborated megafunction instantiation "buffered_ram:tx_buffer|altsyncram:buffered_ram_altsyncram" File: D:/HWorks/USBToMIPI/FPGA/src/buffered_ram.v Line: 77
@@ -1797,23 +1801,23 @@ Warning (13024): Output pins are stuck at VCC or GND
     Warning (13410): Pin "USB_PKEND" is stuck at VCC File: D:/HWorks/USBToMIPI/FPGA/src/top.v Line: 66
     Warning (13410): Pin "USB_FIFOADR[0]" is stuck at GND File: D:/HWorks/USBToMIPI/FPGA/src/top.v Line: 67
 Info (286030): Timing-Driven Synthesis is running
-Info (17049): 26 registers lost all their fanouts during netlist optimizations.
+Info (17049): 30 registers lost all their fanouts during netlist optimizations.
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 2 node(s), including 0 DDIO, 2 PLL, 0 transceiver and 0 LCELL
 Warning (15899): PLL "clk_gen:main_clk_gen|altpll:altpll_component|clk_gen_altpll:auto_generated|pll1" has parameters clk2_multiply_by and clk2_divide_by specified but port CLK[2] is not connected File: D:/HWorks/USBToMIPI/FPGA/prj/db/clk_gen_altpll.v Line: 51
 Warning (15897): PLL "mipi_clkpll:mipi_clk_gen|altpll:altpll_component|mipi_clkpll_altpll:auto_generated|pll1" has parameter compensate_clock set to clock0 but port CLK[0] is not connected File: D:/HWorks/USBToMIPI/FPGA/prj/db/mipi_clkpll_altpll.v Line: 44
 Warning (15899): PLL "mipi_clkpll:mipi_clk_gen|altpll:altpll_component|mipi_clkpll_altpll:auto_generated|pll1" has parameters clk0_multiply_by and clk0_divide_by specified but port CLK[0] is not connected File: D:/HWorks/USBToMIPI/FPGA/prj/db/mipi_clkpll_altpll.v Line: 44
-Info (21057): Implemented 1519 device resources after synthesis - the final resource count might be different
+Info (21057): Implemented 1525 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 4 input pins
     Info (21059): Implemented 10 output pins
     Info (21060): Implemented 56 bidirectional pins
-    Info (21061): Implemented 1423 logic cells
+    Info (21061): Implemented 1429 logic cells
     Info (21064): Implemented 24 RAM segments
     Info (21065): Implemented 2 PLLs
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 25 warnings
-    Info: Peak virtual memory: 827 megabytes
-    Info: Processing ended: Mon Sep 19 23:04:04 2016
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 28 warnings
+    Info: Peak virtual memory: 839 megabytes
+    Info: Processing ended: Tue Sep 20 21:58:40 2016
     Info: Elapsed time: 00:00:33
-    Info: Total CPU time (on all processors): 00:00:54
+    Info: Total CPU time (on all processors): 00:00:55
 
 

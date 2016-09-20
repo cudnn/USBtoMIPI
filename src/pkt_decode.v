@@ -262,8 +262,10 @@ module pkt_decode
                if(rx_msg_addr==`MIPI_SA_BASEADDR) begin
                   mipi_cus_ssc <= atoi_rx_data[0]; // HIGH - SSC enable, LOW - SSC disable
                end
-               if(rx_msg_addr==`MIPI_CMD_BASEADDR)
+               if(rx_msg_addr==`MIPI_CMD_BASEADDR) begin
                   proc_mipi_cmd <= atoi_rx_data;
+                  mipi_cus_mode<= (atoi_rx_data&`MIPI_CMD_EXT_MASK) ==`MIPI_CMD_CUS_PAT;
+               end                   
                if(rx_msg_addr==`MIPI_ADDR_BASEADDR) begin
                   mipi_cus_nbit <= atoi_rx_data; // data length, nbit
                end
@@ -319,7 +321,6 @@ module pkt_decode
                   (proc_mipi_cmd&`MIPI_CMD_EXT_MASK) ==`MIPI_CMD_CUS_PAT) begin
                   m_mipi_start <= `HIGH;
                   mipi_bank    <= rx_ch_addr[`MIPI_BANK_NBIT-1:0];
-                  mipi_cus_mode<= (proc_mipi_cmd&`MIPI_CMD_EXT_MASK) ==`MIPI_CMD_CUS_PAT;
                end
             end            
          end

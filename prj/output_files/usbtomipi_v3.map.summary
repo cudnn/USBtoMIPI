@@ -1,10 +1,10 @@
-Analysis & Synthesis Status : Successful - Mon Sep 19 23:08:15 2016
+Analysis & Synthesis Status : Successful - Tue Sep 20 21:29:44 2016
 Quartus Prime Version : 15.1.0 Build 185 10/21/2015 SJ Standard Edition
 Revision Name : usbtomipi_v3
 Top-level Entity Name : top
 Family : Cyclone IV E
-Total logic elements : 1,348
-    Total combinational functions : 1,113
+Total logic elements : 1,363
+    Total combinational functions : 1,128
     Dedicated logic registers : 721
 Total registers : 721
 Total pins : 70

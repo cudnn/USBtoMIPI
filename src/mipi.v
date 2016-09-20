@@ -138,7 +138,7 @@ module mipi
    reg  [`MIPI_BUF_ADDR_NBIT-1:0] mipi_wdata_num; // clock transfer
    always@(posedge clk) begin
       mipi_wdata_num <= i_wdata_num;
-      if(i_wdata_num<0)
+      if(~cusmode&&(i_wdata_num<0))
          mipi_wdata_num <= {`MIPI_BUF_ADDR_NBIT{1'b1}};
    end
       
@@ -199,7 +199,7 @@ module mipi
                   if(cusmode) begin
                      sf_data        <= ~cusssc ? `MIPI_BUF_DATA_NBIT'd0 : `MIPI_SSC_PAT;
                      mipi_buf_raddr <= `MIPI_ADDR_BASEADDR+1'b1;
-                     num            <= mipi_wdata_num[3:0] + 1'b1;
+                     num            <= mipi_wdata_num + 1'b1;
                   end
                   ///////             ///////
                end
@@ -218,8 +218,10 @@ module mipi
                      sf_data           <= mipi_buf_rdata;
                      mipi_buf_raddr    <= mipi_buf_raddr + 1'b1;
                      if(cusnbit!=0) begin
-                        sf_cnt         <= cusnbit[6:3]==0 ? cusnbit[2:0]-1'b1 : 4'd`MIPI_DATA_NBIT-1'b1;
-                        st_turns       <= cusnbit[2:0]==0 ? cusnbit[6:3]-1'b1 : cusnbit[6:3];
+//                        sf_cnt         <= cusnbit[6:3]==0 ? cusnbit[2:0]-1'b1 : 4'd`MIPI_DATA_NBIT-1'b1;
+//                        st_turns       <= cusnbit[2:0]==0 ? cusnbit[6:3]-1'b1 : cusnbit[6:3];
+                        sf_cnt         <= cusnbit[6:2]==0 ? cusnbit[1:0]-1'b1 : 4'd`MIPI_DATA_NBIT/2-1'b1;
+                        st_turns       <= cusnbit[1:0]==0 ? cusnbit[6:2]-1'b1 : cusnbit[6:2];
                      end
                      else
                         st <= `ST_MIPI_END;                     
@@ -353,11 +355,15 @@ module mipi
             `ST_MIPI_DATA: begin
                sf_cnt  <= sf_cnt - 1'b1;
                sf_data <= {sf_data[`MIPI_BUF_DATA_NBIT-2:0],(mipi_op ? sdi : 1'b0)};
+               /////// custom mode ///////
+               if(cusmode) 
+                  sf_data <= {sf_data[`MIPI_BUF_DATA_NBIT-3:0],sf_data[`MIPI_BUF_DATA_NBIT-1],sdi};
+               ///////             ///////
                if(sf_cnt==0) begin
                   sf_cnt   <= 4'd`MIPI_DATA_NBIT;
                   /////// custom mode ///////
                   if(cusmode) begin 
-                     sf_cnt <= (st_turns==1)&&(cusnbit[2:0]!=0) ? cusnbit[2:0]-1'b1 : 4'd`MIPI_DATA_NBIT-1'b1;
+                     sf_cnt <= (st_turns==1)&&(cusnbit[1:0]!=0) ? cusnbit[1:0]-1'b1 : 4'd`MIPI_DATA_NBIT/2-1'b1;
                   end
                   ///////             ///////
                   sf_data  <= mipi_op ? `MIPI_BUF_DATA_NBIT'd0 : mipi_buf_rdata;
@@ -460,11 +466,13 @@ module mipi
             pb_strobe      <= sf_cnt!=0;
             pb_data        <= sf_data[`MIPI_BUF_DATA_NBIT-1];
             sdo            <= ~mipi_op ? (sf_cnt==0 ? pb_parity : sf_data[`MIPI_BUF_DATA_NBIT-1]) : `LOW;
-            /////// custom mode ///////
-            if(cusmode) 
-               sdo         <= sf_data[`MIPI_BUF_DATA_NBIT-1];
-            ///////             ///////                  
             sdo_en         <= ~mipi_op;
+            /////// custom mode ///////
+            if(cusmode) begin
+               sdo         <= sf_data[`MIPI_BUF_DATA_NBIT-2];
+               sdo_en      <=~sf_data[`MIPI_BUF_DATA_NBIT-1];
+            end
+            ///////             ///////                  
             sclk_en        <= `HIGH;
             done           <= `LOW;
             mipi_buf_wr    <= mipi_op&(sf_cnt==0);
