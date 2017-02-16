@@ -85,6 +85,8 @@ module top
 	wire mclk;       // inverted ifclk
    wire usb_clk;    // 24MHz
    wire mipi_clk;   // 52MHz
+   wire fast_clk;
+   
    wire locked_sig;
    clk_gen  main_clk_gen (
       .areset (`LOW      ),
@@ -97,13 +99,15 @@ module top
 	
 	assign mclk = ~ifclk;
    
-   mipi_clkpll  mipi_clk_gen (
-      .inclk0 (CLK2       ),
 `ifdef BRDV3
-      .c0     (mipi_clk   )
+   mipi_clkpll_v3  
 `else
-		.c1     (mipi_clk   )
+   mipi_clkpll_v2  
 `endif
+   mipi_clk_gen (
+      .inclk0 (CLK2    ),
+      .c0     (mipi_clk),
+		.c1     (fast_clk)
    );   
    
    ////////////////// USB PHY Slave FIFO Controller
@@ -221,6 +225,7 @@ module top
    pkt_decode u_cmd_decode
    (
       .clk      (mclk            ),
+      .fast_clk (fast_clk        ),
       .mipi_clk (mipi_clk        ),
       .o_io_dir (pktdec_o_io_dir ),
       .i_io_db  (pktdec_i_io_db  ),

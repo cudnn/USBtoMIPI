@@ -3,8 +3,8 @@ PLLJITTER	31
 PLLSPEmax	84
 PLLSPEmin	-53
 
-PLL_Name	mipi_clkpll:mipi_clk_gen|altpll:altpll_component|mipi_clkpll_altpll:auto_generated|pll1
-PLLJITTER	NA
+PLL_Name	mipi_clkpll_v3:mipi_clk_gen|altpll:altpll_component|mipi_clkpll_v3_altpll:auto_generated|pll1
+PLLJITTER	42
 PLLSPEmax	84
 PLLSPEmin	-53
 
