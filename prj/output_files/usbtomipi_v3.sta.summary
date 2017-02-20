@@ -3,15 +3,15 @@ TimeQuest Timing Analyzer Summary
 ------------------------------------------------------------
 
 Type  : Slow 1200mV 85C Model Setup 'mipi_clkpll_v3:mipi_clk_gen|altpll:altpll_component|mipi_clkpll_v3_altpll:auto_generated|wire_pll1_clk[1]'
-Slack : 0.506
+Slack : 0.515
 TNS   : 0.000
 
 Type  : Slow 1200mV 85C Model Setup 'clk_gen:main_clk_gen|altpll:altpll_component|clk_gen_altpll:auto_generated|wire_pll1_clk[0]'
-Slack : 0.584
+Slack : 0.738
 TNS   : 0.000
 
 Type  : Slow 1200mV 85C Model Setup 'mipi_clkpll_v3:mipi_clk_gen|altpll:altpll_component|mipi_clkpll_v3_altpll:auto_generated|wire_pll1_clk[0]'
-Slack : 3.104
+Slack : 2.753
 TNS   : 0.000
 
 Type  : Slow 1200mV 85C Model Setup 'clk_gen:main_clk_gen|altpll:altpll_component|clk_gen_altpll:auto_generated|wire_pll1_clk[1]'
@@ -19,7 +19,7 @@ Slack : 14.226
 TNS   : 0.000
 
 Type  : Slow 1200mV 85C Model Hold 'clk_gen:main_clk_gen|altpll:altpll_component|clk_gen_altpll:auto_generated|wire_pll1_clk[0]'
-Slack : 0.404
+Slack : 0.402
 TNS   : 0.000
 
 Type  : Slow 1200mV 85C Model Hold 'mipi_clkpll_v3:mipi_clk_gen|altpll:altpll_component|mipi_clkpll_v3_altpll:auto_generated|wire_pll1_clk[0]'
@@ -27,7 +27,7 @@ Slack : 0.452
 TNS   : 0.000
 
 Type  : Slow 1200mV 85C Model Hold 'mipi_clkpll_v3:mipi_clk_gen|altpll:altpll_component|mipi_clkpll_v3_altpll:auto_generated|wire_pll1_clk[1]'
-Slack : 0.499
+Slack : 0.500
 TNS   : 0.000
 
 Type  : Slow 1200mV 85C Model Hold 'clk_gen:main_clk_gen|altpll:altpll_component|clk_gen_altpll:auto_generated|wire_pll1_clk[1]'
@@ -36,14 +36,14 @@ TNS   : 0.000
 
 Type  : Slow 1200mV 85C Model Minimum Pulse Width 'mipi_clkpll_v3:mipi_clk_gen|altpll:altpll_component|mipi_clkpll_v3_altpll:auto_generated|wire_pll1_clk[1]'
 Slack : -0.084
-TNS   : -4.704
+TNS   : -4.956
 
 Type  : Slow 1200mV 85C Model Minimum Pulse Width 'mipi_clkpll_v3:mipi_clk_gen|altpll:altpll_component|mipi_clkpll_v3_altpll:auto_generated|wire_pll1_clk[0]'
-Slack : 9.317
+Slack : 9.330
 TNS   : 0.000
 
 Type  : Slow 1200mV 85C Model Minimum Pulse Width 'clk_gen:main_clk_gen|altpll:altpll_component|clk_gen_altpll:auto_generated|wire_pll1_clk[0]'
-Slack : 10.171
+Slack : 10.168
 TNS   : 0.000
 
 Type  : Slow 1200mV 85C Model Minimum Pulse Width 'CLK1'
@@ -55,15 +55,15 @@ Slack : 19.089
 TNS   : 0.000
 
 Type  : Slow 1200mV 0C Model Setup 'mipi_clkpll_v3:mipi_clk_gen|altpll:altpll_component|mipi_clkpll_v3_altpll:auto_generated|wire_pll1_clk[1]'
-Slack : 0.651
+Slack : 0.655
 TNS   : 0.000
 
 Type  : Slow 1200mV 0C Model Setup 'clk_gen:main_clk_gen|altpll:altpll_component|clk_gen_altpll:auto_generated|wire_pll1_clk[0]'
-Slack : 0.938
+Slack : 1.136
 TNS   : 0.000
 
 Type  : Slow 1200mV 0C Model Setup 'mipi_clkpll_v3:mipi_clk_gen|altpll:altpll_component|mipi_clkpll_v3_altpll:auto_generated|wire_pll1_clk[0]'
-Slack : 4.334
+Slack : 3.924
 TNS   : 0.000
 
 Type  : Slow 1200mV 0C Model Setup 'clk_gen:main_clk_gen|altpll:altpll_component|clk_gen_altpll:auto_generated|wire_pll1_clk[1]'
@@ -71,15 +71,15 @@ Slack : 15.044
 TNS   : 0.000
 
 Type  : Slow 1200mV 0C Model Hold 'clk_gen:main_clk_gen|altpll:altpll_component|clk_gen_altpll:auto_generated|wire_pll1_clk[0]'
-Slack : 0.371
+Slack : 0.372
 TNS   : 0.000
 
 Type  : Slow 1200mV 0C Model Hold 'mipi_clkpll_v3:mipi_clk_gen|altpll:altpll_component|mipi_clkpll_v3_altpll:auto_generated|wire_pll1_clk[0]'
-Slack : 0.400
+Slack : 0.401
 TNS   : 0.000
 
 Type  : Slow 1200mV 0C Model Hold 'mipi_clkpll_v3:mipi_clk_gen|altpll:altpll_component|mipi_clkpll_v3_altpll:auto_generated|wire_pll1_clk[1]'
-Slack : 0.468
+Slack : 0.470
 TNS   : 0.000
 
 Type  : Slow 1200mV 0C Model Hold 'clk_gen:main_clk_gen|altpll:altpll_component|clk_gen_altpll:auto_generated|wire_pll1_clk[1]'
@@ -88,14 +88,14 @@ TNS   : 0.000
 
 Type  : Slow 1200mV 0C Model Minimum Pulse Width 'mipi_clkpll_v3:mipi_clk_gen|altpll:altpll_component|mipi_clkpll_v3_altpll:auto_generated|wire_pll1_clk[1]'
 Slack : -0.084
-TNS   : -4.704
+TNS   : -4.956
 
 Type  : Slow 1200mV 0C Model Minimum Pulse Width 'mipi_clkpll_v3:mipi_clk_gen|altpll:altpll_component|mipi_clkpll_v3_altpll:auto_generated|wire_pll1_clk[0]'
-Slack : 9.290
+Slack : 9.330
 TNS   : 0.000
 
 Type  : Slow 1200mV 0C Model Minimum Pulse Width 'clk_gen:main_clk_gen|altpll:altpll_component|clk_gen_altpll:auto_generated|wire_pll1_clk[0]'
-Slack : 10.126
+Slack : 10.123
 TNS   : 0.000
 
 Type  : Slow 1200mV 0C Model Minimum Pulse Width 'CLK1'
@@ -107,15 +107,15 @@ Slack : 19.086
 TNS   : 0.000
 
 Type  : Fast 1200mV 0C Model Setup 'mipi_clkpll_v3:mipi_clk_gen|altpll:altpll_component|mipi_clkpll_v3_altpll:auto_generated|wire_pll1_clk[1]'
-Slack : 1.584
+Slack : 1.589
 TNS   : 0.000
 
 Type  : Fast 1200mV 0C Model Setup 'clk_gen:main_clk_gen|altpll:altpll_component|clk_gen_altpll:auto_generated|wire_pll1_clk[0]'
-Slack : 2.999
+Slack : 3.071
 TNS   : 0.000
 
 Type  : Fast 1200mV 0C Model Setup 'mipi_clkpll_v3:mipi_clk_gen|altpll:altpll_component|mipi_clkpll_v3_altpll:auto_generated|wire_pll1_clk[0]'
-Slack : 11.264
+Slack : 11.076
 TNS   : 0.000
 
 Type  : Fast 1200mV 0C Model Setup 'clk_gen:main_clk_gen|altpll:altpll_component|clk_gen_altpll:auto_generated|wire_pll1_clk[1]'
@@ -123,15 +123,15 @@ Slack : 17.454
 TNS   : 0.000
 
 Type  : Fast 1200mV 0C Model Hold 'clk_gen:main_clk_gen|altpll:altpll_component|clk_gen_altpll:auto_generated|wire_pll1_clk[0]'
-Slack : 0.153
+Slack : 0.151
 TNS   : 0.000
 
 Type  : Fast 1200mV 0C Model Hold 'mipi_clkpll_v3:mipi_clk_gen|altpll:altpll_component|mipi_clkpll_v3_altpll:auto_generated|wire_pll1_clk[0]'
-Slack : 0.186
+Slack : 0.187
 TNS   : 0.000
 
 Type  : Fast 1200mV 0C Model Hold 'mipi_clkpll_v3:mipi_clk_gen|altpll:altpll_component|mipi_clkpll_v3_altpll:auto_generated|wire_pll1_clk[1]'
-Slack : 0.192
+Slack : 0.194
 TNS   : 0.000
 
 Type  : Fast 1200mV 0C Model Hold 'clk_gen:main_clk_gen|altpll:altpll_component|clk_gen_altpll:auto_generated|wire_pll1_clk[1]'
@@ -143,7 +143,7 @@ Slack : 0.403
 TNS   : 0.000
 
 Type  : Fast 1200mV 0C Model Minimum Pulse Width 'mipi_clkpll_v3:mipi_clk_gen|altpll:altpll_component|mipi_clkpll_v3_altpll:auto_generated|wire_pll1_clk[0]'
-Slack : 9.354
+Slack : 9.352
 TNS   : 0.000
 
 Type  : Fast 1200mV 0C Model Minimum Pulse Width 'CLK1'
@@ -151,7 +151,7 @@ Slack : 9.840
 TNS   : 0.000
 
 Type  : Fast 1200mV 0C Model Minimum Pulse Width 'clk_gen:main_clk_gen|altpll:altpll_component|clk_gen_altpll:auto_generated|wire_pll1_clk[0]'
-Slack : 10.146
+Slack : 10.144
 TNS   : 0.000
 
 Type  : Fast 1200mV 0C Model Minimum Pulse Width 'CLK2'

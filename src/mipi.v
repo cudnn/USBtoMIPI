@@ -39,6 +39,7 @@ module mipi
    o_buf_rdata,
    // MIPI Interface
    sclk,
+   ssc,
    sdi,
    sdo,
    sdo_en
@@ -64,6 +65,7 @@ module mipi
    output [`MIPI_BUF_DATA_NBIT-1:0] o_buf_rdata;
      
    output                           sclk;
+   output                           ssc;
    input                            sdi;
    output                           sdo;
    output                           sdo_en;
@@ -390,6 +392,7 @@ module mipi
    end
 
    reg in_process;
+   reg ssc;
    reg sdo;
    reg sdo_en;
    reg sclk_en;
@@ -405,6 +408,7 @@ module mipi
             in_process     <= `LOW;
             pb_strobe      <= `LOW;
             pb_data        <= `LOW;
+            ssc            <= `LOW;
             sdo            <= `LOW;
             sdo_en         <= `LOW;
             sclk_en        <= `LOW;
@@ -417,7 +421,8 @@ module mipi
             in_process     <= `HIGH;
             pb_strobe      <= `LOW;
             pb_data        <= `LOW;
-            sdo            <= sf_data[`MIPI_BUF_DATA_NBIT-1];
+            ssc            <= sf_data[`MIPI_BUF_DATA_NBIT-1];
+            sdo            <= `LOW;
             sdo_en         <= `HIGH;
             sclk_en        <= `LOW;
             done           <= `LOW;
@@ -429,6 +434,7 @@ module mipi
             in_process     <= `HIGH;
             pb_strobe      <= `HIGH;
             pb_data        <= sf_data[`MIPI_BUF_DATA_NBIT-1];
+            ssc            <= `LOW;
             sdo            <= sf_data[`MIPI_BUF_DATA_NBIT-1];
             sdo_en         <= `HIGH;
             sclk_en        <= `HIGH;
@@ -441,6 +447,7 @@ module mipi
             in_process     <= `HIGH;
             pb_strobe      <= sf_cnt!=0;
             pb_data        <= sf_data[`MIPI_BUF_DATA_NBIT-1];
+            ssc            <= `LOW;
             sdo            <= sf_cnt==0 ? pb_parity : sf_data[`MIPI_BUF_DATA_NBIT-1];
             sdo_en         <= `HIGH;
             sclk_en        <= `HIGH;
@@ -453,6 +460,7 @@ module mipi
             in_process     <= `HIGH;
             pb_strobe      <= sf_cnt!=0;
             pb_data        <= sf_data[`MIPI_BUF_DATA_NBIT-1];
+            ssc            <= `LOW;
             sdo            <= sf_cnt==0 ? pb_parity : sf_data[`MIPI_BUF_DATA_NBIT-1];
             sdo_en         <= `HIGH;
             sclk_en        <= `HIGH;
@@ -465,6 +473,7 @@ module mipi
             in_process     <= `HIGH;
             pb_strobe      <= sf_cnt!=0;
             pb_data        <= sf_data[`MIPI_BUF_DATA_NBIT-1];
+            ssc            <= `LOW;
             sdo            <= ~mipi_op ? (sf_cnt==0 ? pb_parity : sf_data[`MIPI_BUF_DATA_NBIT-1]) : `LOW;
             sdo_en         <= ~mipi_op;
             /////// custom mode ///////
@@ -483,6 +492,7 @@ module mipi
             in_process     <= `HIGH;
             pb_strobe      <= sf_cnt!=0;
             pb_data        <= `LOW;
+            ssc            <= `LOW;
             sdo            <= `LOW;
             sdo_en         <= (clk_cnt>=(clk_div>>1)); // output LOW while the first half cycle
             sclk_en        <= `HIGH;
@@ -495,6 +505,7 @@ module mipi
             in_process     <= `HIGH;
             pb_strobe      <= `LOW;
             pb_data        <= `LOW;
+            ssc            <= `LOW;
             sdo            <= `LOW;
             sdo_en         <= (clk_cnt>=(clk_div>>1)); // as the same behavior as BUSPARK
             sclk_en        <= `HIGH;

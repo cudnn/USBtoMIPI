@@ -219,7 +219,7 @@ module top
          
       SCLK[pktdec_mipi_bank] <= pktdec_sclk;
       SDA[pktdec_mipi_bank]  <= pktdec_sdo_en ? pktdec_sdo : `LOW;
-      pktdec_sdi <= SDA[pktdec_mipi_bank];
+      pktdec_sdi <= pktdec_sdo_en ? `LOW : SDA[pktdec_mipi_bank];
    end
       
    pkt_decode u_cmd_decode

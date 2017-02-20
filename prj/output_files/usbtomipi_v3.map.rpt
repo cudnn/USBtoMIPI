@@ -1,5 +1,5 @@
 Analysis & Synthesis report for usbtomipi_v3
-Wed Feb 15 13:42:47 2017
+Mon Feb 20 21:25:02 2017
 Quartus Prime Version 15.1.0 Build 185 10/21/2015 SJ Standard Edition
 
 
@@ -21,29 +21,32 @@ Quartus Prime Version 15.1.0 Build 185 10/21/2015 SJ Standard Edition
  13. State Machine - |top|pkt_decode:u_cmd_decode|mipi:mipi_u|st
  14. State Machine - |top|usb_slavefifo:u_usb_slavefifo|tx_st
  15. Registers Removed During Synthesis
- 16. General Register Statistics
- 17. Inverted Register Statistics
- 18. Multiplexer Restructuring Statistics (Restructuring Performed)
- 19. Source assignments for pkt_decode:u_cmd_decode|mipi:mipi_u|buffered_ram_tdp:mipi_buffer|altsyncram:buffered_ram_altsyncram|altsyncram_23u1:auto_generated
- 20. Source assignments for buffered_ram:tx_buffer|altsyncram:buffered_ram_altsyncram|altsyncram_jur1:auto_generated
- 21. Parameter Settings for User Entity Instance: clk_gen:main_clk_gen|altpll:altpll_component
- 22. Parameter Settings for User Entity Instance: mipi_clkpll_v3:mipi_clk_gen|altpll:altpll_component
- 23. Parameter Settings for User Entity Instance: pkt_decode:u_cmd_decode|atoi:atoi_u
- 24. Parameter Settings for User Entity Instance: pkt_decode:u_cmd_decode|mipi:mipi_u|buffered_ram_tdp:mipi_buffer
- 25. Parameter Settings for User Entity Instance: pkt_decode:u_cmd_decode|mipi:mipi_u|buffered_ram_tdp:mipi_buffer|altsyncram:buffered_ram_altsyncram
- 26. Parameter Settings for User Entity Instance: pkt_decode:u_cmd_decode|iodelay:sclk_delay
- 27. Parameter Settings for User Entity Instance: pkt_decode:u_cmd_decode|iodelay:sdo_delay
- 28. Parameter Settings for User Entity Instance: pkt_decode:u_cmd_decode|itoa:itoa_u
- 29. Parameter Settings for User Entity Instance: buffered_ram:tx_buffer
- 30. Parameter Settings for User Entity Instance: buffered_ram:tx_buffer|altsyncram:buffered_ram_altsyncram
- 31. altpll Parameter Settings by Entity Instance
- 32. altsyncram Parameter Settings by Entity Instance
- 33. Port Connectivity Checks: "pkt_decode:u_cmd_decode|iodelay:sdo_delay"
- 34. Port Connectivity Checks: "pkt_decode:u_cmd_decode|iodelay:sclk_delay"
- 35. Port Connectivity Checks: "clk_gen:main_clk_gen"
- 36. Post-Synthesis Netlist Statistics for Top Partition
- 37. Elapsed Time Per Partition
- 38. Analysis & Synthesis Messages
+ 16. Removed Registers Triggering Further Register Optimizations
+ 17. General Register Statistics
+ 18. Inverted Register Statistics
+ 19. Multiplexer Restructuring Statistics (Restructuring Performed)
+ 20. Source assignments for pkt_decode:u_cmd_decode|mipi:mipi_u|buffered_ram_tdp:mipi_buffer|altsyncram:buffered_ram_altsyncram|altsyncram_23u1:auto_generated
+ 21. Source assignments for buffered_ram:tx_buffer|altsyncram:buffered_ram_altsyncram|altsyncram_jur1:auto_generated
+ 22. Parameter Settings for User Entity Instance: clk_gen:main_clk_gen|altpll:altpll_component
+ 23. Parameter Settings for User Entity Instance: mipi_clkpll_v3:mipi_clk_gen|altpll:altpll_component
+ 24. Parameter Settings for User Entity Instance: pkt_decode:u_cmd_decode|atoi:atoi_u
+ 25. Parameter Settings for User Entity Instance: pkt_decode:u_cmd_decode|mipi:mipi_u|buffered_ram_tdp:mipi_buffer
+ 26. Parameter Settings for User Entity Instance: pkt_decode:u_cmd_decode|mipi:mipi_u|buffered_ram_tdp:mipi_buffer|altsyncram:buffered_ram_altsyncram
+ 27. Parameter Settings for User Entity Instance: pkt_decode:u_cmd_decode|iodelay:sclk_delay
+ 28. Parameter Settings for User Entity Instance: pkt_decode:u_cmd_decode|iodelay:sdo_delay
+ 29. Parameter Settings for User Entity Instance: pkt_decode:u_cmd_decode|iodelay:sdi_delay
+ 30. Parameter Settings for User Entity Instance: pkt_decode:u_cmd_decode|itoa:itoa_u
+ 31. Parameter Settings for User Entity Instance: buffered_ram:tx_buffer
+ 32. Parameter Settings for User Entity Instance: buffered_ram:tx_buffer|altsyncram:buffered_ram_altsyncram
+ 33. altpll Parameter Settings by Entity Instance
+ 34. altsyncram Parameter Settings by Entity Instance
+ 35. Port Connectivity Checks: "pkt_decode:u_cmd_decode|iodelay:sdi_delay"
+ 36. Port Connectivity Checks: "pkt_decode:u_cmd_decode|iodelay:sdo_delay"
+ 37. Port Connectivity Checks: "pkt_decode:u_cmd_decode|iodelay:sclk_delay"
+ 38. Port Connectivity Checks: "clk_gen:main_clk_gen"
+ 39. Post-Synthesis Netlist Statistics for Top Partition
+ 40. Elapsed Time Per Partition
+ 41. Analysis & Synthesis Messages
 
 
 
@@ -70,15 +73,15 @@ agreement for further details.
 +--------------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                         ;
 +------------------------------------+-------------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Wed Feb 15 13:42:47 2017           ;
+; Analysis & Synthesis Status        ; Successful - Mon Feb 20 21:25:02 2017           ;
 ; Quartus Prime Version              ; 15.1.0 Build 185 10/21/2015 SJ Standard Edition ;
 ; Revision Name                      ; usbtomipi_v3                                    ;
 ; Top-level Entity Name              ; top                                             ;
 ; Family                             ; Cyclone IV E                                    ;
-; Total logic elements               ; 1,447                                           ;
-;     Total combinational functions  ; 1,154                                           ;
-;     Dedicated logic registers      ; 782                                             ;
-; Total registers                    ; 782                                             ;
+; Total logic elements               ; 1,432                                           ;
+;     Total combinational functions  ; 1,134                                           ;
+;     Dedicated logic registers      ; 786                                             ;
+; Total registers                    ; 786                                             ;
 ; Total pins                         ; 70                                              ;
 ; Total virtual pins                 ; 0                                               ;
 ; Total memory bits                  ; 8,448                                           ;
@@ -192,38 +195,39 @@ agreement for further details.
 +----------------------------+-------------+
 
 
-+------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis Source Files Read                                                                                                                                 ;
-+--------------------------------------+-----------------+------------------------------+----------------------------------------------------------------------+---------+
-; File Name with User-Entered Path     ; Used in Netlist ; File Type                    ; File Name with Absolute Path                                         ; Library ;
-+--------------------------------------+-----------------+------------------------------+----------------------------------------------------------------------+---------+
-; ../src/iodelay.v                     ; yes             ; User Verilog HDL File        ; C:/HWorks/USBToMIPI/FPGA/src/iodelay.v                               ;         ;
-; ../src/mipi.v                        ; yes             ; User Verilog HDL File        ; C:/HWorks/USBToMIPI/FPGA/src/mipi.v                                  ;         ;
-; ../src/buffered_ram.v                ; yes             ; User Verilog HDL File        ; C:/HWorks/USBToMIPI/FPGA/src/buffered_ram.v                          ;         ;
-; ../src/pkt_decode.v                  ; yes             ; User Verilog HDL File        ; C:/HWorks/USBToMIPI/FPGA/src/pkt_decode.v                            ;         ;
-; ../src/usb.v                         ; yes             ; User Verilog HDL File        ; C:/HWorks/USBToMIPI/FPGA/src/usb.v                                   ;         ;
-; ../src/top.v                         ; yes             ; User Verilog HDL File        ; C:/HWorks/USBToMIPI/FPGA/src/top.v                                   ;         ;
-; ../src/core/clk_gen.v                ; yes             ; User Wizard-Generated File   ; C:/HWorks/USBToMIPI/FPGA/src/core/clk_gen.v                          ;         ;
-; ../src/core/mipi_clkpll_v3.v         ; yes             ; User Wizard-Generated File   ; C:/HWorks/USBToMIPI/FPGA/src/core/mipi_clkpll_v3.v                   ;         ;
-; /hworks/usbtomipi/fpga/src/globals.v ; yes             ; Auto-Found Verilog HDL File  ; /hworks/usbtomipi/fpga/src/globals.v                                 ;         ;
-; altpll.tdf                           ; yes             ; Megafunction                 ; c:/altera/15.1/quartus/libraries/megafunctions/altpll.tdf            ;         ;
-; aglobal151.inc                       ; yes             ; Megafunction                 ; c:/altera/15.1/quartus/libraries/megafunctions/aglobal151.inc        ;         ;
-; stratix_pll.inc                      ; yes             ; Megafunction                 ; c:/altera/15.1/quartus/libraries/megafunctions/stratix_pll.inc       ;         ;
-; stratixii_pll.inc                    ; yes             ; Megafunction                 ; c:/altera/15.1/quartus/libraries/megafunctions/stratixii_pll.inc     ;         ;
-; cycloneii_pll.inc                    ; yes             ; Megafunction                 ; c:/altera/15.1/quartus/libraries/megafunctions/cycloneii_pll.inc     ;         ;
-; db/clk_gen_altpll.v                  ; yes             ; Auto-Generated Megafunction  ; C:/HWorks/USBToMIPI/FPGA/prj/db/clk_gen_altpll.v                     ;         ;
-; db/mipi_clkpll_v3_altpll.v           ; yes             ; Auto-Generated Megafunction  ; C:/HWorks/USBToMIPI/FPGA/prj/db/mipi_clkpll_v3_altpll.v              ;         ;
-; altsyncram.tdf                       ; yes             ; Megafunction                 ; c:/altera/15.1/quartus/libraries/megafunctions/altsyncram.tdf        ;         ;
-; stratix_ram_block.inc                ; yes             ; Megafunction                 ; c:/altera/15.1/quartus/libraries/megafunctions/stratix_ram_block.inc ;         ;
-; lpm_mux.inc                          ; yes             ; Megafunction                 ; c:/altera/15.1/quartus/libraries/megafunctions/lpm_mux.inc           ;         ;
-; lpm_decode.inc                       ; yes             ; Megafunction                 ; c:/altera/15.1/quartus/libraries/megafunctions/lpm_decode.inc        ;         ;
-; a_rdenreg.inc                        ; yes             ; Megafunction                 ; c:/altera/15.1/quartus/libraries/megafunctions/a_rdenreg.inc         ;         ;
-; altrom.inc                           ; yes             ; Megafunction                 ; c:/altera/15.1/quartus/libraries/megafunctions/altrom.inc            ;         ;
-; altram.inc                           ; yes             ; Megafunction                 ; c:/altera/15.1/quartus/libraries/megafunctions/altram.inc            ;         ;
-; altdpram.inc                         ; yes             ; Megafunction                 ; c:/altera/15.1/quartus/libraries/megafunctions/altdpram.inc          ;         ;
-; db/altsyncram_23u1.tdf               ; yes             ; Auto-Generated Megafunction  ; C:/HWorks/USBToMIPI/FPGA/prj/db/altsyncram_23u1.tdf                  ;         ;
-; db/altsyncram_jur1.tdf               ; yes             ; Auto-Generated Megafunction  ; C:/HWorks/USBToMIPI/FPGA/prj/db/altsyncram_jur1.tdf                  ;         ;
-+--------------------------------------+-----------------+------------------------------+----------------------------------------------------------------------+---------+
++----------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Source Files Read                                                                                                                                     ;
++--------------------------------------+-----------------+----------------------------------+----------------------------------------------------------------------+---------+
+; File Name with User-Entered Path     ; Used in Netlist ; File Type                        ; File Name with Absolute Path                                         ; Library ;
++--------------------------------------+-----------------+----------------------------------+----------------------------------------------------------------------+---------+
+; ../src/iodelay.v                     ; yes             ; User Verilog HDL File            ; C:/HWorks/USBToMIPI/FPGA/src/iodelay.v                               ;         ;
+; ../src/mipi.v                        ; yes             ; User Verilog HDL File            ; C:/HWorks/USBToMIPI/FPGA/src/mipi.v                                  ;         ;
+; ../src/buffered_ram.v                ; yes             ; User Verilog HDL File            ; C:/HWorks/USBToMIPI/FPGA/src/buffered_ram.v                          ;         ;
+; ../src/pkt_decode.v                  ; yes             ; User Verilog HDL File            ; C:/HWorks/USBToMIPI/FPGA/src/pkt_decode.v                            ;         ;
+; ../src/usb.v                         ; yes             ; User Verilog HDL File            ; C:/HWorks/USBToMIPI/FPGA/src/usb.v                                   ;         ;
+; ../src/top.v                         ; yes             ; User Verilog HDL File            ; C:/HWorks/USBToMIPI/FPGA/src/top.v                                   ;         ;
+; ../src/core/clk_gen.v                ; yes             ; User Wizard-Generated File       ; C:/HWorks/USBToMIPI/FPGA/src/core/clk_gen.v                          ;         ;
+; ../src/tx_buf_512x16.mif             ; yes             ; User Memory Initialization File  ; C:/HWorks/USBToMIPI/FPGA/src/tx_buf_512x16.mif                       ;         ;
+; ../src/core/mipi_clkpll_v3.v         ; yes             ; User Wizard-Generated File       ; C:/HWorks/USBToMIPI/FPGA/src/core/mipi_clkpll_v3.v                   ;         ;
+; /hworks/usbtomipi/fpga/src/globals.v ; yes             ; Auto-Found Verilog HDL File      ; /hworks/usbtomipi/fpga/src/globals.v                                 ;         ;
+; altpll.tdf                           ; yes             ; Megafunction                     ; c:/altera/15.1/quartus/libraries/megafunctions/altpll.tdf            ;         ;
+; aglobal151.inc                       ; yes             ; Megafunction                     ; c:/altera/15.1/quartus/libraries/megafunctions/aglobal151.inc        ;         ;
+; stratix_pll.inc                      ; yes             ; Megafunction                     ; c:/altera/15.1/quartus/libraries/megafunctions/stratix_pll.inc       ;         ;
+; stratixii_pll.inc                    ; yes             ; Megafunction                     ; c:/altera/15.1/quartus/libraries/megafunctions/stratixii_pll.inc     ;         ;
+; cycloneii_pll.inc                    ; yes             ; Megafunction                     ; c:/altera/15.1/quartus/libraries/megafunctions/cycloneii_pll.inc     ;         ;
+; db/clk_gen_altpll.v                  ; yes             ; Auto-Generated Megafunction      ; C:/HWorks/USBToMIPI/FPGA/prj/db/clk_gen_altpll.v                     ;         ;
+; db/mipi_clkpll_v3_altpll.v           ; yes             ; Auto-Generated Megafunction      ; C:/HWorks/USBToMIPI/FPGA/prj/db/mipi_clkpll_v3_altpll.v              ;         ;
+; altsyncram.tdf                       ; yes             ; Megafunction                     ; c:/altera/15.1/quartus/libraries/megafunctions/altsyncram.tdf        ;         ;
+; stratix_ram_block.inc                ; yes             ; Megafunction                     ; c:/altera/15.1/quartus/libraries/megafunctions/stratix_ram_block.inc ;         ;
+; lpm_mux.inc                          ; yes             ; Megafunction                     ; c:/altera/15.1/quartus/libraries/megafunctions/lpm_mux.inc           ;         ;
+; lpm_decode.inc                       ; yes             ; Megafunction                     ; c:/altera/15.1/quartus/libraries/megafunctions/lpm_decode.inc        ;         ;
+; a_rdenreg.inc                        ; yes             ; Megafunction                     ; c:/altera/15.1/quartus/libraries/megafunctions/a_rdenreg.inc         ;         ;
+; altrom.inc                           ; yes             ; Megafunction                     ; c:/altera/15.1/quartus/libraries/megafunctions/altrom.inc            ;         ;
+; altram.inc                           ; yes             ; Megafunction                     ; c:/altera/15.1/quartus/libraries/megafunctions/altram.inc            ;         ;
+; altdpram.inc                         ; yes             ; Megafunction                     ; c:/altera/15.1/quartus/libraries/megafunctions/altdpram.inc          ;         ;
+; db/altsyncram_23u1.tdf               ; yes             ; Auto-Generated Megafunction      ; C:/HWorks/USBToMIPI/FPGA/prj/db/altsyncram_23u1.tdf                  ;         ;
+; db/altsyncram_jur1.tdf               ; yes             ; Auto-Generated Megafunction      ; C:/HWorks/USBToMIPI/FPGA/prj/db/altsyncram_jur1.tdf                  ;         ;
++--------------------------------------+-----------------+----------------------------------+----------------------------------------------------------------------+---------+
 
 
 +-------------------------------------------------------------------------------------------------------------------------------------------+
@@ -231,20 +235,20 @@ agreement for further details.
 +---------------------------------------------+---------------------------------------------------------------------------------------------+
 ; Resource                                    ; Usage                                                                                       ;
 +---------------------------------------------+---------------------------------------------------------------------------------------------+
-; Estimated Total logic elements              ; 1,447                                                                                       ;
+; Estimated Total logic elements              ; 1,432                                                                                       ;
 ;                                             ;                                                                                             ;
-; Total combinational functions               ; 1154                                                                                        ;
+; Total combinational functions               ; 1134                                                                                        ;
 ; Logic element usage by number of LUT inputs ;                                                                                             ;
-;     -- 4 input functions                    ; 553                                                                                         ;
-;     -- 3 input functions                    ; 233                                                                                         ;
-;     -- <=2 input functions                  ; 368                                                                                         ;
+;     -- 4 input functions                    ; 535                                                                                         ;
+;     -- 3 input functions                    ; 229                                                                                         ;
+;     -- <=2 input functions                  ; 370                                                                                         ;
 ;                                             ;                                                                                             ;
 ; Logic elements by mode                      ;                                                                                             ;
-;     -- normal mode                          ; 1068                                                                                        ;
+;     -- normal mode                          ; 1048                                                                                        ;
 ;     -- arithmetic mode                      ; 86                                                                                          ;
 ;                                             ;                                                                                             ;
-; Total registers                             ; 782                                                                                         ;
-;     -- Dedicated logic registers            ; 782                                                                                         ;
+; Total registers                             ; 786                                                                                         ;
+;     -- Dedicated logic registers            ; 786                                                                                         ;
 ;     -- I/O registers                        ; 0                                                                                           ;
 ;                                             ;                                                                                             ;
 ; I/O pins                                    ; 70                                                                                          ;
@@ -256,9 +260,9 @@ agreement for further details.
 ;     -- PLLs                                 ; 2                                                                                           ;
 ;                                             ;                                                                                             ;
 ; Maximum fan-out node                        ; clk_gen:main_clk_gen|altpll:altpll_component|clk_gen_altpll:auto_generated|wire_pll1_clk[0] ;
-; Maximum fan-out                             ; 665                                                                                         ;
-; Total fan-out                               ; 6778                                                                                        ;
-; Average fan-out                             ; 3.14                                                                                        ;
+; Maximum fan-out                             ; 666                                                                                         ;
+; Total fan-out                               ; 6706                                                                                        ;
+; Average fan-out                             ; 3.13                                                                                        ;
 +---------------------------------------------+---------------------------------------------------------------------------------------------+
 
 
@@ -267,7 +271,7 @@ agreement for further details.
 +--------------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+-----------------------------------------------------------------------------------------------------------------------------------------+--------------+
 ; Compilation Hierarchy Node                       ; LC Combinationals ; LC Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                                                     ; Library Name ;
 +--------------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+-----------------------------------------------------------------------------------------------------------------------------------------+--------------+
-; |top                                             ; 1154 (15)         ; 782 (66)     ; 8448        ; 0            ; 0       ; 0         ; 70   ; 0            ; |top                                                                                                                                    ; work         ;
+; |top                                             ; 1134 (16)         ; 786 (66)     ; 8448        ; 0            ; 0       ; 0         ; 70   ; 0            ; |top                                                                                                                                    ; work         ;
 ;    |buffered_ram:tx_buffer|                      ; 0 (0)             ; 0 (0)        ; 8192        ; 0            ; 0       ; 0         ; 0    ; 0            ; |top|buffered_ram:tx_buffer                                                                                                             ; work         ;
 ;       |altsyncram:buffered_ram_altsyncram|       ; 0 (0)             ; 0 (0)        ; 8192        ; 0            ; 0       ; 0         ; 0    ; 0            ; |top|buffered_ram:tx_buffer|altsyncram:buffered_ram_altsyncram                                                                          ; work         ;
 ;          |altsyncram_jur1:auto_generated|        ; 0 (0)             ; 0 (0)        ; 8192        ; 0            ; 0       ; 0         ; 0    ; 0            ; |top|buffered_ram:tx_buffer|altsyncram:buffered_ram_altsyncram|altsyncram_jur1:auto_generated                                           ; work         ;
@@ -277,12 +281,12 @@ agreement for further details.
 ;    |mipi_clkpll_v3:mipi_clk_gen|                 ; 0 (0)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |top|mipi_clkpll_v3:mipi_clk_gen                                                                                                        ; work         ;
 ;       |altpll:altpll_component|                  ; 0 (0)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |top|mipi_clkpll_v3:mipi_clk_gen|altpll:altpll_component                                                                                ; work         ;
 ;          |mipi_clkpll_v3_altpll:auto_generated|  ; 0 (0)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |top|mipi_clkpll_v3:mipi_clk_gen|altpll:altpll_component|mipi_clkpll_v3_altpll:auto_generated                                           ; work         ;
-;    |pkt_decode:u_cmd_decode|                     ; 1101 (675)        ; 693 (560)    ; 256         ; 0            ; 0       ; 0         ; 0    ; 0            ; |top|pkt_decode:u_cmd_decode                                                                                                            ; work         ;
+;    |pkt_decode:u_cmd_decode|                     ; 1080 (665)        ; 697 (561)    ; 256         ; 0            ; 0       ; 0         ; 0    ; 0            ; |top|pkt_decode:u_cmd_decode                                                                                                            ; work         ;
 ;       |atoi:atoi_u|                              ; 22 (22)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |top|pkt_decode:u_cmd_decode|atoi:atoi_u                                                                                                ; work         ;
 ;       |iodelay:sclk_delay|                       ; 11 (11)           ; 22 (22)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |top|pkt_decode:u_cmd_decode|iodelay:sclk_delay                                                                                         ; work         ;
-;       |iodelay:sdo_delay|                        ; 20 (20)           ; 34 (34)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |top|pkt_decode:u_cmd_decode|iodelay:sdo_delay                                                                                          ; work         ;
+;       |iodelay:sdo_delay|                        ; 21 (21)           ; 37 (37)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |top|pkt_decode:u_cmd_decode|iodelay:sdo_delay                                                                                          ; work         ;
 ;       |itoa:itoa_u|                              ; 16 (16)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |top|pkt_decode:u_cmd_decode|itoa:itoa_u                                                                                                ; work         ;
-;       |mipi:mipi_u|                              ; 357 (354)         ; 77 (76)      ; 256         ; 0            ; 0       ; 0         ; 0    ; 0            ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u                                                                                                ; work         ;
+;       |mipi:mipi_u|                              ; 345 (342)         ; 77 (76)      ; 256         ; 0            ; 0       ; 0         ; 0    ; 0            ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u                                                                                                ; work         ;
 ;          |buffered_ram_tdp:mipi_buffer|          ; 0 (0)             ; 0 (0)        ; 256         ; 0            ; 0       ; 0         ; 0    ; 0            ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|buffered_ram_tdp:mipi_buffer                                                                   ; work         ;
 ;             |altsyncram:buffered_ram_altsyncram| ; 0 (0)             ; 0 (0)        ; 256         ; 0            ; 0       ; 0         ; 0    ; 0            ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|buffered_ram_tdp:mipi_buffer|altsyncram:buffered_ram_altsyncram                                ; work         ;
 ;                |altsyncram_23u1:auto_generated|  ; 0 (0)             ; 0 (0)        ; 256         ; 0            ; 0       ; 0         ; 0    ; 0            ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|buffered_ram_tdp:mipi_buffer|altsyncram:buffered_ram_altsyncram|altsyncram_23u1:auto_generated ; work         ;
@@ -387,48 +391,104 @@ Encoding Type:  One-Hot
 +----------+----------+----------+----------+--------------+
 
 
-+--------------------------------------------------------------------------------------------------------------------------------+
-; Registers Removed During Synthesis                                                                                             ;
-+---------------------------------------------------------+----------------------------------------------------------------------+
-; Register name                                           ; Reason for Removal                                                   ;
-+---------------------------------------------------------+----------------------------------------------------------------------+
-; pkt_decode:u_cmd_decode|iodelay:sdo_delay|p_delay_we[1] ; Merged with pkt_decode:u_cmd_decode|iodelay:sclk_delay|p_delay_we[1] ;
-; pkt_decode:u_cmd_decode|iodelay:sdo_delay|p_delay_we[2] ; Merged with pkt_decode:u_cmd_decode|iodelay:sclk_delay|p_delay_we[2] ;
-; pkt_decode:u_cmd_decode|iodelay:sdo_delay|p_delay_we[0] ; Merged with pkt_decode:u_cmd_decode|iodelay:sclk_delay|p_delay_we[0] ;
-; pkt_decode:u_cmd_decode|tx_msg_pf[1..3,6,7,11,14,15]    ; Merged with pkt_decode:u_cmd_decode|tx_msg_pf[0]                     ;
-; pkt_decode:u_cmd_decode|tx_pf_code[2,3,6,7,10,11,14,15] ; Merged with pkt_decode:u_cmd_decode|tx_msg_pf[0]                     ;
-; pkt_decode:u_cmd_decode|tx_msg_pf[4,5,8,12,13]          ; Merged with pkt_decode:u_cmd_decode|tx_msg_pf[10]                    ;
-; pkt_decode:u_cmd_decode|tx_pf_code[4,5,12,13]           ; Merged with pkt_decode:u_cmd_decode|tx_msg_pf[10]                    ;
-; pkt_decode:u_cmd_decode|tx_msg_pf[0]                    ; Stuck at GND due to stuck port data_in                               ;
-; pkt_decode:u_cmd_decode|proc_mipi_cmd[3..7]             ; Lost fanout                                                          ;
-; pkt_decode:u_cmd_decode|tx_st~6                         ; Lost fanout                                                          ;
-; pkt_decode:u_cmd_decode|tx_st~7                         ; Lost fanout                                                          ;
-; pkt_decode:u_cmd_decode|tx_st~8                         ; Lost fanout                                                          ;
-; pkt_decode:u_cmd_decode|tx_msg_type~2                   ; Lost fanout                                                          ;
-; pkt_decode:u_cmd_decode|tx_msg_type~3                   ; Lost fanout                                                          ;
-; pkt_decode:u_cmd_decode|tx_msg_type~4                   ; Lost fanout                                                          ;
-; pkt_decode:u_cmd_decode|tx_msg_type~5                   ; Lost fanout                                                          ;
-; pkt_decode:u_cmd_decode|tx_msg_type~6                   ; Lost fanout                                                          ;
-; pkt_decode:u_cmd_decode|tx_msg_type~7                   ; Lost fanout                                                          ;
-; pkt_decode:u_cmd_decode|tx_msg_type~8                   ; Lost fanout                                                          ;
-; pkt_decode:u_cmd_decode|tx_msg_type~9                   ; Lost fanout                                                          ;
-; pkt_decode:u_cmd_decode|tx_msg_type~12                  ; Lost fanout                                                          ;
-; pkt_decode:u_cmd_decode|tx_msg_type~13                  ; Lost fanout                                                          ;
-; pkt_decode:u_cmd_decode|tx_msg_type~14                  ; Lost fanout                                                          ;
-; pkt_decode:u_cmd_decode|tx_msg_type~15                  ; Lost fanout                                                          ;
-; pkt_decode:u_cmd_decode|tx_msg_type~16                  ; Lost fanout                                                          ;
-; pkt_decode:u_cmd_decode|tx_msg_type~17                  ; Lost fanout                                                          ;
-; pkt_decode:u_cmd_decode|rx_st~9                         ; Lost fanout                                                          ;
-; pkt_decode:u_cmd_decode|rx_st~10                        ; Lost fanout                                                          ;
-; pkt_decode:u_cmd_decode|rx_st~11                        ; Lost fanout                                                          ;
-; pkt_decode:u_cmd_decode|mipi:mipi_u|st~9                ; Lost fanout                                                          ;
-; pkt_decode:u_cmd_decode|mipi:mipi_u|st~10               ; Lost fanout                                                          ;
-; pkt_decode:u_cmd_decode|mipi:mipi_u|st~11               ; Lost fanout                                                          ;
-; usb_slavefifo:u_usb_slavefifo|tx_st~5                   ; Lost fanout                                                          ;
-; usb_slavefifo:u_usb_slavefifo|tx_st~6                   ; Lost fanout                                                          ;
-; pkt_decode:u_cmd_decode|tx_msg_pf[10]                   ; Stuck at VCC due to stuck port data_in                               ;
-; Total Number of Removed Registers = 60                  ;                                                                      ;
-+---------------------------------------------------------+----------------------------------------------------------------------+
++----------------------------------------------------------------------------------------------------------------+
+; Registers Removed During Synthesis                                                                             ;
++------------------------------------------------------------+---------------------------------------------------+
+; Register name                                              ; Reason for Removal                                ;
++------------------------------------------------------------+---------------------------------------------------+
+; pkt_decode:u_cmd_decode|tx_msg_pf[1..3,6,7,11,14,15]       ; Merged with pkt_decode:u_cmd_decode|tx_msg_pf[0]  ;
+; pkt_decode:u_cmd_decode|tx_pf_code[2,3,6,7,10,11,14,15]    ; Merged with pkt_decode:u_cmd_decode|tx_msg_pf[0]  ;
+; pkt_decode:u_cmd_decode|tx_msg_pf[4,5,8,12,13]             ; Merged with pkt_decode:u_cmd_decode|tx_msg_pf[10] ;
+; pkt_decode:u_cmd_decode|tx_pf_code[4,5,12,13]              ; Merged with pkt_decode:u_cmd_decode|tx_msg_pf[10] ;
+; pkt_decode:u_cmd_decode|tx_msg_pf[0]                       ; Stuck at GND due to stuck port data_in            ;
+; pkt_decode:u_cmd_decode|proc_mipi_cmd[3..7]                ; Lost fanout                                       ;
+; pkt_decode:u_cmd_decode|tx_st~6                            ; Lost fanout                                       ;
+; pkt_decode:u_cmd_decode|tx_st~7                            ; Lost fanout                                       ;
+; pkt_decode:u_cmd_decode|tx_st~8                            ; Lost fanout                                       ;
+; pkt_decode:u_cmd_decode|tx_msg_type~2                      ; Lost fanout                                       ;
+; pkt_decode:u_cmd_decode|tx_msg_type~3                      ; Lost fanout                                       ;
+; pkt_decode:u_cmd_decode|tx_msg_type~4                      ; Lost fanout                                       ;
+; pkt_decode:u_cmd_decode|tx_msg_type~5                      ; Lost fanout                                       ;
+; pkt_decode:u_cmd_decode|tx_msg_type~6                      ; Lost fanout                                       ;
+; pkt_decode:u_cmd_decode|tx_msg_type~7                      ; Lost fanout                                       ;
+; pkt_decode:u_cmd_decode|tx_msg_type~8                      ; Lost fanout                                       ;
+; pkt_decode:u_cmd_decode|tx_msg_type~9                      ; Lost fanout                                       ;
+; pkt_decode:u_cmd_decode|tx_msg_type~12                     ; Lost fanout                                       ;
+; pkt_decode:u_cmd_decode|tx_msg_type~13                     ; Lost fanout                                       ;
+; pkt_decode:u_cmd_decode|tx_msg_type~14                     ; Lost fanout                                       ;
+; pkt_decode:u_cmd_decode|tx_msg_type~15                     ; Lost fanout                                       ;
+; pkt_decode:u_cmd_decode|tx_msg_type~16                     ; Lost fanout                                       ;
+; pkt_decode:u_cmd_decode|tx_msg_type~17                     ; Lost fanout                                       ;
+; pkt_decode:u_cmd_decode|rx_st~9                            ; Lost fanout                                       ;
+; pkt_decode:u_cmd_decode|rx_st~10                           ; Lost fanout                                       ;
+; pkt_decode:u_cmd_decode|rx_st~11                           ; Lost fanout                                       ;
+; pkt_decode:u_cmd_decode|mipi:mipi_u|st~9                   ; Lost fanout                                       ;
+; pkt_decode:u_cmd_decode|mipi:mipi_u|st~10                  ; Lost fanout                                       ;
+; pkt_decode:u_cmd_decode|mipi:mipi_u|st~11                  ; Lost fanout                                       ;
+; usb_slavefifo:u_usb_slavefifo|tx_st~5                      ; Lost fanout                                       ;
+; usb_slavefifo:u_usb_slavefifo|tx_st~6                      ; Lost fanout                                       ;
+; pkt_decode:u_cmd_decode|tx_msg_pf[10]                      ; Stuck at VCC due to stuck port data_in            ;
+; pkt_decode:u_cmd_decode|iodelay:sdi_delay|io_delay[1][0]   ; Stuck at GND due to stuck port data_in            ;
+; pkt_decode:u_cmd_decode|iodelay:sdi_delay|io_delay[2][0]   ; Stuck at GND due to stuck port data_in            ;
+; pkt_decode:u_cmd_decode|iodelay:sdi_delay|io_delay[3][0]   ; Stuck at GND due to stuck port data_in            ;
+; pkt_decode:u_cmd_decode|iodelay:sdi_delay|io_delay[4][0]   ; Stuck at GND due to stuck port data_in            ;
+; pkt_decode:u_cmd_decode|iodelay:sdi_delay|io_delay[5][0]   ; Stuck at GND due to stuck port data_in            ;
+; pkt_decode:u_cmd_decode|iodelay:sdi_delay|io_delay[6][0]   ; Stuck at GND due to stuck port data_in            ;
+; pkt_decode:u_cmd_decode|iodelay:sdi_delay|io_delay[7][0]   ; Stuck at GND due to stuck port data_in            ;
+; pkt_decode:u_cmd_decode|iodelay:sdi_delay|io_delay[8][0]   ; Stuck at GND due to stuck port data_in            ;
+; pkt_decode:u_cmd_decode|iodelay:sdi_delay|io_delay[9][0]   ; Stuck at GND due to stuck port data_in            ;
+; pkt_decode:u_cmd_decode|iodelay:sdi_delay|io_delay[10][0]  ; Stuck at GND due to stuck port data_in            ;
+; pkt_decode:u_cmd_decode|iodelay:sdi_delay|io_delay[11][0]  ; Stuck at GND due to stuck port data_in            ;
+; pkt_decode:u_cmd_decode|iodelay:sdi_delay|io_delay[12][0]  ; Stuck at GND due to stuck port data_in            ;
+; pkt_decode:u_cmd_decode|iodelay:sdi_delay|io_delay[13][0]  ; Stuck at GND due to stuck port data_in            ;
+; pkt_decode:u_cmd_decode|iodelay:sdi_delay|io_delay[14][0]  ; Stuck at GND due to stuck port data_in            ;
+; pkt_decode:u_cmd_decode|iodelay:sdi_delay|io_delay[15][0]  ; Stuck at GND due to stuck port data_in            ;
+; pkt_decode:u_cmd_decode|iodelay:sdi_delay|io_delay_num[1]  ; Lost fanout                                       ;
+; pkt_decode:u_cmd_decode|m_mipi_sdin_dly[1]                 ; Lost fanout                                       ;
+; pkt_decode:u_cmd_decode|iodelay:sdi_delay|io_delay_num[0]  ; Lost fanout                                       ;
+; pkt_decode:u_cmd_decode|m_mipi_sdin_dly[0]                 ; Lost fanout                                       ;
+; pkt_decode:u_cmd_decode|iodelay:sdi_delay|io_delay_num[3]  ; Lost fanout                                       ;
+; pkt_decode:u_cmd_decode|m_mipi_sdin_dly[3]                 ; Lost fanout                                       ;
+; pkt_decode:u_cmd_decode|iodelay:sdi_delay|io_delay_num[2]  ; Lost fanout                                       ;
+; pkt_decode:u_cmd_decode|m_mipi_sdin_dly[2]                 ; Lost fanout                                       ;
+; pkt_decode:u_cmd_decode|iodelay:sdi_delay|p_delay_we[0..2] ; Lost fanout                                       ;
+; pkt_decode:u_cmd_decode|m_mipi_sdin_dly_set                ; Lost fanout                                       ;
+; Total Number of Removed Registers = 84                     ;                                                   ;
++------------------------------------------------------------+---------------------------------------------------+
+
+
++---------------------------------------------------------------------------------------------------------------------------------------------------+
+; Removed Registers Triggering Further Register Optimizations                                                                                       ;
++----------------------------------------------------------+---------------------------+------------------------------------------------------------+
+; Register name                                            ; Reason for Removal        ; Registers Removed due to This Register                     ;
++----------------------------------------------------------+---------------------------+------------------------------------------------------------+
+; pkt_decode:u_cmd_decode|iodelay:sdi_delay|io_delay[1][0] ; Stuck at GND              ; pkt_decode:u_cmd_decode|iodelay:sdi_delay|io_delay[2][0],  ;
+;                                                          ; due to stuck port data_in ; pkt_decode:u_cmd_decode|iodelay:sdi_delay|io_delay[3][0],  ;
+;                                                          ;                           ; pkt_decode:u_cmd_decode|iodelay:sdi_delay|io_delay[4][0],  ;
+;                                                          ;                           ; pkt_decode:u_cmd_decode|iodelay:sdi_delay|io_delay[5][0],  ;
+;                                                          ;                           ; pkt_decode:u_cmd_decode|iodelay:sdi_delay|io_delay[6][0],  ;
+;                                                          ;                           ; pkt_decode:u_cmd_decode|iodelay:sdi_delay|io_delay[7][0],  ;
+;                                                          ;                           ; pkt_decode:u_cmd_decode|iodelay:sdi_delay|io_delay[8][0],  ;
+;                                                          ;                           ; pkt_decode:u_cmd_decode|iodelay:sdi_delay|io_delay[9][0],  ;
+;                                                          ;                           ; pkt_decode:u_cmd_decode|iodelay:sdi_delay|io_delay[10][0], ;
+;                                                          ;                           ; pkt_decode:u_cmd_decode|iodelay:sdi_delay|io_delay[11][0], ;
+;                                                          ;                           ; pkt_decode:u_cmd_decode|iodelay:sdi_delay|io_delay[12][0], ;
+;                                                          ;                           ; pkt_decode:u_cmd_decode|iodelay:sdi_delay|io_delay[13][0], ;
+;                                                          ;                           ; pkt_decode:u_cmd_decode|iodelay:sdi_delay|io_delay[14][0], ;
+;                                                          ;                           ; pkt_decode:u_cmd_decode|iodelay:sdi_delay|io_delay[15][0], ;
+;                                                          ;                           ; pkt_decode:u_cmd_decode|iodelay:sdi_delay|io_delay_num[1], ;
+;                                                          ;                           ; pkt_decode:u_cmd_decode|m_mipi_sdin_dly[1],                ;
+;                                                          ;                           ; pkt_decode:u_cmd_decode|iodelay:sdi_delay|io_delay_num[0], ;
+;                                                          ;                           ; pkt_decode:u_cmd_decode|m_mipi_sdin_dly[0],                ;
+;                                                          ;                           ; pkt_decode:u_cmd_decode|iodelay:sdi_delay|io_delay_num[3], ;
+;                                                          ;                           ; pkt_decode:u_cmd_decode|m_mipi_sdin_dly[3],                ;
+;                                                          ;                           ; pkt_decode:u_cmd_decode|iodelay:sdi_delay|io_delay_num[2], ;
+;                                                          ;                           ; pkt_decode:u_cmd_decode|m_mipi_sdin_dly[2],                ;
+;                                                          ;                           ; pkt_decode:u_cmd_decode|iodelay:sdi_delay|p_delay_we[2],   ;
+;                                                          ;                           ; pkt_decode:u_cmd_decode|iodelay:sdi_delay|p_delay_we[1],   ;
+;                                                          ;                           ; pkt_decode:u_cmd_decode|iodelay:sdi_delay|p_delay_we[0],   ;
+;                                                          ;                           ; pkt_decode:u_cmd_decode|m_mipi_sdin_dly_set                ;
++----------------------------------------------------------+---------------------------+------------------------------------------------------------+
 
 
 +------------------------------------------------------+
@@ -436,9 +496,9 @@ Encoding Type:  One-Hot
 +----------------------------------------------+-------+
 ; Statistic                                    ; Value ;
 +----------------------------------------------+-------+
-; Total registers                              ; 782   ;
+; Total registers                              ; 786   ;
 ; Number of registers using Synchronous Clear  ; 54    ;
-; Number of registers using Synchronous Load   ; 106   ;
+; Number of registers using Synchronous Load   ; 105   ;
 ; Number of registers using Asynchronous Clear ; 0     ;
 ; Number of registers using Asynchronous Load  ; 0     ;
 ; Number of registers using Clock Enable       ; 638   ;
@@ -458,46 +518,47 @@ Encoding Type:  One-Hot
 +------------------------------------------------+---------+
 
 
-+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Multiplexer Restructuring Statistics (Restructuring Performed)                                                                                                            ;
-+--------------------+-----------+---------------+----------------------+------------------------+------------+-------------------------------------------------------------+
-; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                  ;
-+--------------------+-----------+---------------+----------------------+------------------------+------------+-------------------------------------------------------------+
-; 4:1                ; 7 bits    ; 14 LEs        ; 14 LEs               ; 0 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|clk_cnt[2]         ;
-; 4:1                ; 72 bits   ; 144 LEs       ; 144 LEs              ; 0 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_msg_data[10]                ;
-; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_msg_data[86]                ;
-; 5:1                ; 8 bits    ; 24 LEs        ; 8 LEs                ; 16 LEs                 ; Yes        ; |top|usb_slavefifo:u_usb_slavefifo|tx_cache_addr[0]         ;
-; 5:1                ; 16 bits   ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|rx_msg_type[7]                 ;
-; 5:1                ; 104 bits  ; 312 LEs       ; 104 LEs              ; 208 LEs                ; Yes        ; |top|pkt_decode:u_cmd_decode|rx_msg_data[16]                ;
-; 5:1                ; 16 bits   ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|rx_msg_mode[14]                ;
-; 5:1                ; 16 bits   ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|rx_msg_ch_addr[5]              ;
-; 6:1                ; 2 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_data[7]                     ;
-; 6:1                ; 8 bits    ; 32 LEs        ; 16 LEs               ; 16 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_msg_data[95]                ;
-; 6:1                ; 8 bits    ; 32 LEs        ; 16 LEs               ; 16 LEs                 ; Yes        ; |top|usb_slavefifo:u_usb_slavefifo|tx_delay_cnt[3]          ;
-; 7:1                ; 2 bits    ; 8 LEs         ; 6 LEs                ; 2 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_data[13]                    ;
-; 7:1                ; 2 bits    ; 8 LEs         ; 6 LEs                ; 2 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_data[14]                    ;
-; 7:1                ; 2 bits    ; 8 LEs         ; 8 LEs                ; 0 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_data[1]                     ;
-; 7:1                ; 2 bits    ; 8 LEs         ; 6 LEs                ; 2 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_data[4]                     ;
-; 7:1                ; 3 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_data[11]                    ;
-; 8:1                ; 8 bits    ; 40 LEs        ; 8 LEs                ; 32 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|rx_ch_addr[1]                  ;
-; 8:1                ; 2 bits    ; 10 LEs        ; 4 LEs                ; 6 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|mipi_buf_upaddr[1] ;
-; 8:1                ; 2 bits    ; 10 LEs        ; 2 LEs                ; 8 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_msg_addr[6]                 ;
-; 8:1                ; 6 bits    ; 30 LEs        ; 18 LEs               ; 12 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_msg_addr[5]                 ;
-; 10:1               ; 2 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_msg_pf[9]                   ;
-; 12:1               ; 4 bits    ; 32 LEs        ; 16 LEs               ; 16 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|num[0]             ;
-; 11:1               ; 2 bits    ; 14 LEs        ; 8 LEs                ; 6 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|sf_cnt[3]          ;
-; 15:1               ; 2 bits    ; 20 LEs        ; 10 LEs               ; 10 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|sf_data[6]         ;
-; 15:1               ; 3 bits    ; 30 LEs        ; 9 LEs                ; 21 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|sf_data[2]         ;
-; 17:1               ; 2 bits    ; 22 LEs        ; 2 LEs                ; 20 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|mipi_buf_raddr[4]  ;
-; 20:1               ; 3 bits    ; 39 LEs        ; 18 LEs               ; 21 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|st_turns[1]        ;
-; 3:1                ; 5 bits    ; 10 LEs        ; 10 LEs               ; 0 LEs                  ; No         ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|comb               ;
-; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |top|pkt_decode:u_cmd_decode|atoi:atoi_u|char_err[1]        ;
-; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |top|pkt_decode:u_cmd_decode|atoi:atoi_u|char_err[0]        ;
-; 8:1                ; 4 bits    ; 20 LEs        ; 12 LEs               ; 8 LEs                  ; No         ; |top|usb_slavefifo:u_usb_slavefifo|Selector19               ;
-; 10:1               ; 3 bits    ; 18 LEs        ; 12 LEs               ; 6 LEs                  ; No         ; |top|pkt_decode:u_cmd_decode|Selector226                    ;
-; 11:1               ; 2 bits    ; 14 LEs        ; 6 LEs                ; 8 LEs                  ; No         ; |top|pkt_decode:u_cmd_decode|Selector225                    ;
-; 11:1               ; 3 bits    ; 21 LEs        ; 12 LEs               ; 9 LEs                  ; No         ; |top|pkt_decode:u_cmd_decode|Selector0                      ;
-+--------------------+-----------+---------------+----------------------+------------------------+------------+-------------------------------------------------------------+
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Multiplexer Restructuring Statistics (Restructuring Performed)                                                                                                           ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+------------------------------------------------------------+
+; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                 ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+------------------------------------------------------------+
+; 4:1                ; 7 bits    ; 14 LEs        ; 14 LEs               ; 0 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|clk_cnt[1]        ;
+; 4:1                ; 72 bits   ; 144 LEs       ; 144 LEs              ; 0 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_msg_data[9]                ;
+; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_msg_data[83]               ;
+; 5:1                ; 8 bits    ; 24 LEs        ; 8 LEs                ; 16 LEs                 ; Yes        ; |top|usb_slavefifo:u_usb_slavefifo|tx_cache_addr[0]        ;
+; 5:1                ; 16 bits   ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|rx_msg_type[7]                ;
+; 5:1                ; 104 bits  ; 312 LEs       ; 104 LEs              ; 208 LEs                ; Yes        ; |top|pkt_decode:u_cmd_decode|rx_msg_data[15]               ;
+; 5:1                ; 16 bits   ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|rx_msg_mode[13]               ;
+; 5:1                ; 16 bits   ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|rx_msg_ch_addr[4]             ;
+; 6:1                ; 2 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_data[7]                    ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 16 LEs               ; 16 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_msg_data[95]               ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 16 LEs               ; 16 LEs                 ; Yes        ; |top|usb_slavefifo:u_usb_slavefifo|tx_delay_cnt[2]         ;
+; 7:1                ; 2 bits    ; 8 LEs         ; 6 LEs                ; 2 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_data[13]                   ;
+; 7:1                ; 2 bits    ; 8 LEs         ; 6 LEs                ; 2 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_data[6]                    ;
+; 7:1                ; 2 bits    ; 8 LEs         ; 8 LEs                ; 0 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_data[10]                   ;
+; 7:1                ; 2 bits    ; 8 LEs         ; 6 LEs                ; 2 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_data[4]                    ;
+; 7:1                ; 3 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_data[11]                   ;
+; 8:1                ; 8 bits    ; 40 LEs        ; 8 LEs                ; 32 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|rx_ch_addr[7]                 ;
+; 8:1                ; 2 bits    ; 10 LEs        ; 2 LEs                ; 8 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_msg_addr[7]                ;
+; 8:1                ; 6 bits    ; 30 LEs        ; 18 LEs               ; 12 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_msg_addr[2]                ;
+; 10:1               ; 2 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_pf_code[9]                 ;
+; 12:1               ; 4 bits    ; 32 LEs        ; 16 LEs               ; 16 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|num[1]            ;
+; 11:1               ; 2 bits    ; 14 LEs        ; 8 LEs                ; 6 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|sf_cnt[2]         ;
+; 15:1               ; 2 bits    ; 20 LEs        ; 10 LEs               ; 10 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|sf_data[5]        ;
+; 15:1               ; 3 bits    ; 30 LEs        ; 9 LEs                ; 21 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|sf_data[3]        ;
+; 20:1               ; 2 bits    ; 26 LEs        ; 12 LEs               ; 14 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|mipi_buf_raddr[2] ;
+; 20:1               ; 3 bits    ; 39 LEs        ; 18 LEs               ; 21 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|st_turns[1]       ;
+; 3:1                ; 5 bits    ; 10 LEs        ; 10 LEs               ; 0 LEs                  ; No         ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|comb              ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |top|pkt_decode:u_cmd_decode|atoi:atoi_u|char_offset[1][0] ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |top|pkt_decode:u_cmd_decode|atoi:atoi_u|char_err[0]       ;
+; 16:1               ; 2 bits    ; 20 LEs        ; 20 LEs               ; 0 LEs                  ; No         ; |top|pkt_decode:u_cmd_decode|iodelay:sdo_delay|Mux0        ;
+; 6:1                ; 3 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; No         ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|mipi_buf_upaddr   ;
+; 8:1                ; 4 bits    ; 20 LEs        ; 12 LEs               ; 8 LEs                  ; No         ; |top|usb_slavefifo:u_usb_slavefifo|Selector18              ;
+; 10:1               ; 3 bits    ; 18 LEs        ; 12 LEs               ; 6 LEs                  ; No         ; |top|pkt_decode:u_cmd_decode|Selector222                   ;
+; 11:1               ; 2 bits    ; 14 LEs        ; 6 LEs                ; 8 LEs                  ; No         ; |top|pkt_decode:u_cmd_decode|Selector225                   ;
+; 11:1               ; 3 bits    ; 21 LEs        ; 12 LEs               ; 9 LEs                  ; No         ; |top|pkt_decode:u_cmd_decode|Selector0                     ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+------------------------------------------------------------+
 
 
 +-----------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -1372,6 +1433,17 @@ Note: In order to hide this table in the UI and the text report file, please set
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
++----------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: pkt_decode:u_cmd_decode|iodelay:sdi_delay ;
++----------------+-------+---------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                          ;
++----------------+-------+---------------------------------------------------------------+
+; P_DATA_NBIT    ; 1     ; Signed Integer                                                ;
+; P_DELAY_NBIT   ; 4     ; Signed Integer                                                ;
++----------------+-------+---------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
 +----------------------------------------------------------------------------------+
 ; Parameter Settings for User Entity Instance: pkt_decode:u_cmd_decode|itoa:itoa_u ;
 +----------------+-------+---------------------------------------------------------+
@@ -1512,6 +1584,15 @@ Note: In order to hide this table in the UI and the text report file, please set
 
 
 +-----------------------------------------------------------------------+
+; Port Connectivity Checks: "pkt_decode:u_cmd_decode|iodelay:sdi_delay" ;
++-------+-------+----------+--------------------------------------------+
+; Port  ; Type  ; Severity ; Details                                    ;
++-------+-------+----------+--------------------------------------------+
+; rst_n ; Input ; Info     ; Stuck at VCC                               ;
++-------+-------+----------+--------------------------------------------+
+
+
++-----------------------------------------------------------------------+
 ; Port Connectivity Checks: "pkt_decode:u_cmd_decode|iodelay:sdo_delay" ;
 +-------+-------+----------+--------------------------------------------+
 ; Port  ; Type  ; Severity ; Details                                    ;
@@ -1546,31 +1627,31 @@ Note: In order to hide this table in the UI and the text report file, please set
 ; Type                  ; Count                       ;
 +-----------------------+-----------------------------+
 ; boundary_port         ; 70                          ;
-; cycloneiii_ff         ; 782                         ;
-;     ENA               ; 506                         ;
+; cycloneiii_ff         ; 786                         ;
+;     ENA               ; 507                         ;
 ;     ENA SCLR          ; 34                          ;
-;     ENA SLD           ; 98                          ;
+;     ENA SLD           ; 97                          ;
 ;     SCLR              ; 13                          ;
 ;     SCLR SLD          ; 7                           ;
 ;     SLD               ; 1                           ;
-;     plain             ; 123                         ;
+;     plain             ; 127                         ;
 ; cycloneiii_io_obuf    ; 56                          ;
-; cycloneiii_lcell_comb ; 1159                        ;
+; cycloneiii_lcell_comb ; 1139                        ;
 ;     arith             ; 86                          ;
 ;         1 data inputs ; 4                           ;
 ;         2 data inputs ; 66                          ;
 ;         3 data inputs ; 16                          ;
-;     normal            ; 1073                        ;
+;     normal            ; 1053                        ;
 ;         0 data inputs ; 4                           ;
 ;         1 data inputs ; 18                          ;
-;         2 data inputs ; 281                         ;
-;         3 data inputs ; 217                         ;
-;         4 data inputs ; 553                         ;
+;         2 data inputs ; 283                         ;
+;         3 data inputs ; 213                         ;
+;         4 data inputs ; 535                         ;
 ; cycloneiii_pll        ; 2                           ;
 ; cycloneiii_ram_block  ; 24                          ;
 ;                       ;                             ;
 ; Max LUT depth         ; 10.00                       ;
-; Average LUT depth     ; 2.81                        ;
+; Average LUT depth     ; 2.71                        ;
 +-----------------------+-----------------------------+
 
 
@@ -1589,22 +1670,21 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 15.1.0 Build 185 10/21/2015 SJ Standard Edition
-    Info: Processing started: Wed Feb 15 13:42:31 2017
+    Info: Processing started: Mon Feb 20 21:24:45 2017
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off usbtomipi -c usbtomipi_v3
 Info (20030): Parallel compilation is enabled and will use 4 of the 4 processors detected
-Warning (10229): Verilog HDL Expression warning at iodelay.v(46): truncated literal to match 4 bits File: C:/HWorks/USBToMIPI/FPGA/src/iodelay.v Line: 46
 Info (12021): Found 1 design units, including 1 entities, in source file /hworks/usbtomipi/fpga/src/iodelay.v
     Info (12023): Found entity 1: iodelay File: C:/HWorks/USBToMIPI/FPGA/src/iodelay.v Line: 22
 Info (12021): Found 2 design units, including 2 entities, in source file /hworks/usbtomipi/fpga/src/mipi.v
     Info (12023): Found entity 1: mipi File: C:/HWorks/USBToMIPI/FPGA/src/mipi.v Line: 20
-    Info (12023): Found entity 2: parity File: C:/HWorks/USBToMIPI/FPGA/src/mipi.v Line: 532
+    Info (12023): Found entity 2: parity File: C:/HWorks/USBToMIPI/FPGA/src/mipi.v Line: 543
 Info (12021): Found 2 design units, including 2 entities, in source file /hworks/usbtomipi/fpga/src/buffered_ram.v
     Info (12023): Found entity 1: buffered_ram File: C:/HWorks/USBToMIPI/FPGA/src/buffered_ram.v Line: 22
     Info (12023): Found entity 2: buffered_ram_tdp File: C:/HWorks/USBToMIPI/FPGA/src/buffered_ram.v Line: 104
 Info (12021): Found 3 design units, including 3 entities, in source file /hworks/usbtomipi/fpga/src/pkt_decode.v
     Info (12023): Found entity 1: pkt_decode File: C:/HWorks/USBToMIPI/FPGA/src/pkt_decode.v Line: 21
-    Info (12023): Found entity 2: atoi File: C:/HWorks/USBToMIPI/FPGA/src/pkt_decode.v Line: 654
-    Info (12023): Found entity 3: itoa File: C:/HWorks/USBToMIPI/FPGA/src/pkt_decode.v Line: 726
+    Info (12023): Found entity 2: atoi File: C:/HWorks/USBToMIPI/FPGA/src/pkt_decode.v Line: 684
+    Info (12023): Found entity 3: itoa File: C:/HWorks/USBToMIPI/FPGA/src/pkt_decode.v Line: 756
 Info (12021): Found 1 design units, including 1 entities, in source file /hworks/usbtomipi/fpga/src/usb.v
     Info (12023): Found entity 1: usb_slavefifo File: C:/HWorks/USBToMIPI/FPGA/src/usb.v Line: 20
 Info (12021): Found 1 design units, including 1 entities, in source file /hworks/usbtomipi/fpga/src/top.v
@@ -1752,11 +1832,11 @@ Info (12128): Elaborating entity "mipi_clkpll_v3_altpll" for hierarchy "mipi_clk
 Info (12128): Elaborating entity "usb_slavefifo" for hierarchy "usb_slavefifo:u_usb_slavefifo" File: C:/HWorks/USBToMIPI/FPGA/src/top.v Line: 162
 Info (12128): Elaborating entity "pkt_decode" for hierarchy "pkt_decode:u_cmd_decode" File: C:/HWorks/USBToMIPI/FPGA/src/top.v Line: 247
 Info (12128): Elaborating entity "atoi" for hierarchy "pkt_decode:u_cmd_decode|atoi:atoi_u" File: C:/HWorks/USBToMIPI/FPGA/src/pkt_decode.v Line: 113
-Info (12128): Elaborating entity "mipi" for hierarchy "pkt_decode:u_cmd_decode|mipi:mipi_u" File: C:/HWorks/USBToMIPI/FPGA/src/pkt_decode.v Line: 501
-Warning (10230): Verilog HDL assignment warning at mipi.v(223): truncated value with size 32 to match size of target (4) File: C:/HWorks/USBToMIPI/FPGA/src/mipi.v Line: 223
-Warning (10230): Verilog HDL assignment warning at mipi.v(224): truncated value with size 5 to match size of target (4) File: C:/HWorks/USBToMIPI/FPGA/src/mipi.v Line: 224
-Warning (10230): Verilog HDL assignment warning at mipi.v(366): truncated value with size 32 to match size of target (4) File: C:/HWorks/USBToMIPI/FPGA/src/mipi.v Line: 366
-Info (12128): Elaborating entity "buffered_ram_tdp" for hierarchy "pkt_decode:u_cmd_decode|mipi:mipi_u|buffered_ram_tdp:mipi_buffer" File: C:/HWorks/USBToMIPI/FPGA/src/mipi.v Line: 129
+Info (12128): Elaborating entity "mipi" for hierarchy "pkt_decode:u_cmd_decode|mipi:mipi_u" File: C:/HWorks/USBToMIPI/FPGA/src/pkt_decode.v Line: 515
+Warning (10230): Verilog HDL assignment warning at mipi.v(225): truncated value with size 32 to match size of target (4) File: C:/HWorks/USBToMIPI/FPGA/src/mipi.v Line: 225
+Warning (10230): Verilog HDL assignment warning at mipi.v(226): truncated value with size 5 to match size of target (4) File: C:/HWorks/USBToMIPI/FPGA/src/mipi.v Line: 226
+Warning (10230): Verilog HDL assignment warning at mipi.v(368): truncated value with size 32 to match size of target (4) File: C:/HWorks/USBToMIPI/FPGA/src/mipi.v Line: 368
+Info (12128): Elaborating entity "buffered_ram_tdp" for hierarchy "pkt_decode:u_cmd_decode|mipi:mipi_u|buffered_ram_tdp:mipi_buffer" File: C:/HWorks/USBToMIPI/FPGA/src/mipi.v Line: 131
 Info (12128): Elaborating entity "altsyncram" for hierarchy "pkt_decode:u_cmd_decode|mipi:mipi_u|buffered_ram_tdp:mipi_buffer|altsyncram:buffered_ram_altsyncram" File: C:/HWorks/USBToMIPI/FPGA/src/buffered_ram.v Line: 163
 Info (12130): Elaborated megafunction instantiation "pkt_decode:u_cmd_decode|mipi:mipi_u|buffered_ram_tdp:mipi_buffer|altsyncram:buffered_ram_altsyncram" File: C:/HWorks/USBToMIPI/FPGA/src/buffered_ram.v Line: 163
 Info (12133): Instantiated megafunction "pkt_decode:u_cmd_decode|mipi:mipi_u|buffered_ram_tdp:mipi_buffer|altsyncram:buffered_ram_altsyncram" with the following parameter: File: C:/HWorks/USBToMIPI/FPGA/src/buffered_ram.v Line: 163
@@ -1784,10 +1864,10 @@ Info (12133): Instantiated megafunction "pkt_decode:u_cmd_decode|mipi:mipi_u|buf
 Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_23u1.tdf
     Info (12023): Found entity 1: altsyncram_23u1 File: C:/HWorks/USBToMIPI/FPGA/prj/db/altsyncram_23u1.tdf Line: 28
 Info (12128): Elaborating entity "altsyncram_23u1" for hierarchy "pkt_decode:u_cmd_decode|mipi:mipi_u|buffered_ram_tdp:mipi_buffer|altsyncram:buffered_ram_altsyncram|altsyncram_23u1:auto_generated" File: c:/altera/15.1/quartus/libraries/megafunctions/altsyncram.tdf Line: 792
-Info (12128): Elaborating entity "parity" for hierarchy "pkt_decode:u_cmd_decode|mipi:mipi_u|parity:parity_u" File: C:/HWorks/USBToMIPI/FPGA/src/mipi.v Line: 156
-Info (12128): Elaborating entity "iodelay" for hierarchy "pkt_decode:u_cmd_decode|iodelay:sclk_delay" File: C:/HWorks/USBToMIPI/FPGA/src/pkt_decode.v Line: 513
-Info (12128): Elaborating entity "iodelay" for hierarchy "pkt_decode:u_cmd_decode|iodelay:sdo_delay" File: C:/HWorks/USBToMIPI/FPGA/src/pkt_decode.v Line: 524
-Info (12128): Elaborating entity "itoa" for hierarchy "pkt_decode:u_cmd_decode|itoa:itoa_u" File: C:/HWorks/USBToMIPI/FPGA/src/pkt_decode.v Line: 553
+Info (12128): Elaborating entity "parity" for hierarchy "pkt_decode:u_cmd_decode|mipi:mipi_u|parity:parity_u" File: C:/HWorks/USBToMIPI/FPGA/src/mipi.v Line: 158
+Info (12128): Elaborating entity "iodelay" for hierarchy "pkt_decode:u_cmd_decode|iodelay:sclk_delay" File: C:/HWorks/USBToMIPI/FPGA/src/pkt_decode.v Line: 527
+Info (12128): Elaborating entity "iodelay" for hierarchy "pkt_decode:u_cmd_decode|iodelay:sdo_delay" File: C:/HWorks/USBToMIPI/FPGA/src/pkt_decode.v Line: 540
+Info (12128): Elaborating entity "itoa" for hierarchy "pkt_decode:u_cmd_decode|itoa:itoa_u" File: C:/HWorks/USBToMIPI/FPGA/src/pkt_decode.v Line: 583
 Info (12128): Elaborating entity "buffered_ram" for hierarchy "buffered_ram:tx_buffer" File: C:/HWorks/USBToMIPI/FPGA/src/top.v Line: 261
 Info (12128): Elaborating entity "altsyncram" for hierarchy "buffered_ram:tx_buffer|altsyncram:buffered_ram_altsyncram" File: C:/HWorks/USBToMIPI/FPGA/src/buffered_ram.v Line: 77
 Info (12130): Elaborated megafunction instantiation "buffered_ram:tx_buffer|altsyncram:buffered_ram_altsyncram" File: C:/HWorks/USBToMIPI/FPGA/src/buffered_ram.v Line: 77
@@ -1843,21 +1923,21 @@ Warning (13024): Output pins are stuck at VCC or GND
     Warning (13410): Pin "USB_PKEND" is stuck at VCC File: C:/HWorks/USBToMIPI/FPGA/src/top.v Line: 66
     Warning (13410): Pin "USB_FIFOADR[0]" is stuck at GND File: C:/HWorks/USBToMIPI/FPGA/src/top.v Line: 67
 Info (286030): Timing-Driven Synthesis is running
-Info (17049): 30 registers lost all their fanouts during netlist optimizations.
+Info (17049): 42 registers lost all their fanouts during netlist optimizations.
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 2 node(s), including 0 DDIO, 2 PLL, 0 transceiver and 0 LCELL
 Warning (15899): PLL "clk_gen:main_clk_gen|altpll:altpll_component|clk_gen_altpll:auto_generated|pll1" has parameters clk2_multiply_by and clk2_divide_by specified but port CLK[2] is not connected File: C:/HWorks/USBToMIPI/FPGA/prj/db/clk_gen_altpll.v Line: 51
-Info (21057): Implemented 1620 device resources after synthesis - the final resource count might be different
+Info (21057): Implemented 1605 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 4 input pins
     Info (21059): Implemented 10 output pins
     Info (21060): Implemented 56 bidirectional pins
-    Info (21061): Implemented 1524 logic cells
+    Info (21061): Implemented 1509 logic cells
     Info (21064): Implemented 24 RAM segments
     Info (21065): Implemented 2 PLLs
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 26 warnings
-    Info: Peak virtual memory: 872 megabytes
-    Info: Processing ended: Wed Feb 15 13:42:47 2017
-    Info: Elapsed time: 00:00:16
-    Info: Total CPU time (on all processors): 00:00:32
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 25 warnings
+    Info: Peak virtual memory: 865 megabytes
+    Info: Processing ended: Mon Feb 20 21:25:02 2017
+    Info: Elapsed time: 00:00:17
+    Info: Total CPU time (on all processors): 00:00:33
 
 

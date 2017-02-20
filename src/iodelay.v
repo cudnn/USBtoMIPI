@@ -43,7 +43,7 @@ module iodelay
 
    ////////////////// ARCH ////////////////////
 
-   reg [P_DELAY_NBIT-1:0] io_delay_num=`MIPI_IODELAY_NBIT'd16;
+   reg [P_DELAY_NBIT-1:0] io_delay_num;
    reg [2:0]              p_delay_we;
    
    always@(posedge clk) begin

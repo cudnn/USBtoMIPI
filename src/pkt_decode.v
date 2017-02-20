@@ -223,8 +223,12 @@ module pkt_decode
    reg  [2:0]                     t_mipi_done; // clock domain transfer
    reg  [`MIPI_CLKDIV_NBIT-1:0]   m_mipi_div;
    reg                            m_mipi_div_set;
-   reg  [`MIPI_DLY_NBIT-1:0]      m_mipi_dly;
-   reg                            m_mipi_dly_set;
+   reg  [`MIPI_DLY_NBIT-1:0]      m_mipi_sclk_dly;
+   reg                            m_mipi_sclk_dly_set;
+   reg  [`MIPI_DLY_NBIT-1:0]      m_mipi_sdout_dly;
+   reg                            m_mipi_sdout_dly_set;
+   reg  [`MIPI_DLY_NBIT-1:0]      m_mipi_sdin_dly;
+   reg                            m_mipi_sdin_dly_set;
    reg                            m_mipi_start;
    reg  [`MIPI_BANK_NBIT-1:0]     mipi_bank;
    reg                            mipi_cus_mode;
@@ -237,6 +241,9 @@ module pkt_decode
       proc_mipi_start      <= `LOW;
       mipi_buf_wr          <= `LOW;
       t_mipi_done          <= {t_mipi_done[1:0],mipi_done};
+      m_mipi_sdin_dly_set  <= `LOW;
+      m_mipi_sdout_dly_set <= `LOW;
+      m_mipi_sclk_dly_set  <= `LOW;
 
       proc_io_start        <= `LOW;
       proc_io_set          <= `LOW;
@@ -263,10 +270,17 @@ module pkt_decode
                   m_mipi_div_set <= (rx_msg_mode!=`MSG_MODE_EXEDATA);
                   m_mipi_div     <= atoi_rx_data;
                end
-               m_mipi_dly_set <= `LOW;
                if(rx_msg_addr==`MIPI_DLY_BASEADDR) begin
-                  m_mipi_dly_set <= (rx_msg_mode!=`MSG_MODE_EXEDATA);
-                  m_mipi_dly     <= atoi_rx_data;
+                  m_mipi_sclk_dly_set <= (rx_msg_mode!=`MSG_MODE_EXEDATA);
+                  m_mipi_sclk_dly     <= atoi_rx_data;
+               end               
+               if(rx_msg_addr==`MIPI_DLY_BASEADDR+1) begin
+                  m_mipi_sdout_dly_set <= (rx_msg_mode!=`MSG_MODE_EXEDATA);
+                  m_mipi_sdout_dly     <= atoi_rx_data;
+               end               
+               if(rx_msg_addr==`MIPI_DLY_BASEADDR+2) begin
+                  m_mipi_sdin_dly_set <= (rx_msg_mode!=`MSG_MODE_EXEDATA);
+                  m_mipi_sdin_dly     <= atoi_rx_data;
                end               
                if(rx_msg_addr==`MIPI_SA_BASEADDR) begin
                   mipi_cus_ssc <= atoi_rx_data[0]; // HIGH - SSC enable, LOW - SSC disable
@@ -471,12 +485,11 @@ module pkt_decode
    wire [`MIPI_BUF_ADDR_NBIT-1:0] mipi_data_num;
    
    wire                       mipi_sclk;
+   wire                       mipi_ssc;
    wire                       mipi_sdi;
    wire                       mipi_sdo;
    wire                       mipi_sdo_en;
-   
-   assign mipi_sdi = sdi;
-   
+      
    mipi mipi_u
    (
       .clk        (mipi_clk      ),
@@ -495,32 +508,49 @@ module pkt_decode
       .i_buf_raddr(mipi_buf_raddr),
       .o_buf_rdata(mipi_buf_rdata),
       .sclk       (mipi_sclk     ),
+      .ssc        (mipi_ssc      ),
       .sdi        (mipi_sdi      ),
       .sdo        (mipi_sdo      ),
       .sdo_en     (mipi_sdo_en   )
    );
    
-   // mipi sclk&sdo output delay
-   wire [`MIPI_IODELAY_NBIT-1:0] m_sclk_delay = m_mipi_dly[`MIPI_IODELAY_NBIT*2-1:`MIPI_IODELAY_NBIT];
-   iodelay #(1,`MIPI_IODELAY_NBIT) 
+   // mipi sclk&sdo&sdi delay
+   wire [`MIPI_IODELAY_NBIT-1:0] m_sclk_delay =  m_mipi_sclk_dly[`MIPI_IODELAY_NBIT-1:0];
+   iodelay #(1,`MIPI_IODELAY_NBIT)
    sclk_delay (
-      .clk        (fast_clk      ),
-      .rst_n      (`HIGH         ),
-      .in_dio     (mipi_sclk     ),
-      .in_delay_we(m_mipi_dly_set),
-      .in_delay   (m_sclk_delay  ),
-      .out_dio    (sclk          )
+      .clk        (fast_clk           ),
+      .rst_n      (`HIGH              ),
+      .in_dio     (mipi_sclk          ),
+      .in_delay_we(m_mipi_sclk_dly_set),
+      .in_delay   (m_sclk_delay       ),
+      .out_dio    (sclk               )
    );
    
-   wire [`MIPI_IODELAY_NBIT-1:0] m_sdo_delay = m_mipi_dly[`MIPI_IODELAY_NBIT-1:0];
+   wire [`MIPI_IODELAY_NBIT-1:0] m_sdo_delay = m_mipi_sdout_dly[`MIPI_IODELAY_NBIT-1:0];
+   wire                          mipi_sdo_delay;
+   wire                          mipi_sdo_en_delay;
    iodelay #(2,`MIPI_IODELAY_NBIT) 
    sdo_delay (
       .clk        (fast_clk              ),
       .rst_n      (`HIGH                 ),
       .in_dio     ({mipi_sdo,mipi_sdo_en}),
-      .in_delay_we(m_mipi_dly_set        ),
+      .in_delay_we(m_mipi_sdout_dly_set  ),
       .in_delay   (m_sdo_delay           ),
-      .out_dio    ({sdo,sdo_en}          )
+      .out_dio    ({mipi_sdo_delay,mipi_sdo_en_delay})
+   );
+   
+   assign sdo = mipi_sdo_delay|mipi_ssc;
+   assign sdo_en = mipi_sdo_en_delay|mipi_sdo_en;
+   
+   wire [`MIPI_IODELAY_NBIT-1:0] m_sdi_delay = m_mipi_sdin_dly[`MIPI_IODELAY_NBIT-1:0];
+   iodelay #(1,`MIPI_IODELAY_NBIT) 
+   sdi_delay (
+      .clk        (fast_clk           ),
+      .rst_n      (`HIGH              ),
+      .in_dio     (sdi                ),
+      .in_delay_we(m_mipi_sdin_dly_set),
+      .in_delay   (m_sdi_delay        ),
+      .out_dio    (mipi_sdi           )
    );
    
    ////////////////// TX STATEMENT         
