@@ -632,7 +632,7 @@ module pkt_decode
             else if(tx_msg_type==`MSG_TYPE_MIPI) begin
                tx_st       <= `ST_MSG_DATA;
                tx_msg_data <= {mipi_buf_rdata,{`MSG_DATA_MAX_NBIT-`USB_DATA_NBIT/2{1'b0}}};
-               tx_msg_addr <= `USB_ADDR_NBIT'd4 + mipi_data_num;
+               tx_msg_addr <= `MIPI_DATA_BASEADDR+mipi_data_num-1'b1;
             end
          end
          `ST_MSG_DATA: begin
