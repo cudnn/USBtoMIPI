@@ -233,7 +233,7 @@ module pkt_decode
    reg  [`MIPI_BANK_NBIT-1:0]     mipi_bank;
    reg                            mipi_cus_mode;
    reg                            mipi_cus_ssc;
-   reg  [`MIPI_ADDR_NBIT-1:0]     mipi_cus_nbit;
+   reg  [`MIPI_DATA_NBIT*2-1:0]   mipi_cus_nbit;
    
    always@(posedge clk) begin
       proc_handshake_start <= `LOW;
@@ -282,14 +282,14 @@ module pkt_decode
                   m_mipi_sdin_dly_set <= (rx_msg_mode!=`MSG_MODE_EXEDATA);
                   m_mipi_sdin_dly     <= atoi_rx_data;
                end               
-               if(rx_msg_addr==`MIPI_SA_BASEADDR) begin
+               if(rx_msg_addr==`MIPI_SSC_BASEADDR) begin
                   mipi_cus_ssc <= atoi_rx_data[0]; // HIGH - SSC enable, LOW - SSC disable
                end
                if(rx_msg_addr==`MIPI_CMD_BASEADDR) begin
                   proc_mipi_cmd <= atoi_rx_data;
                   mipi_cus_mode<= (atoi_rx_data&`MIPI_CMD_EXT_MASK) ==`MIPI_CMD_CUS_PAT;
                end                   
-               if(rx_msg_addr==`MIPI_ADDR_BASEADDR) begin
+               if(rx_msg_addr==`MIPI_LEN_BASEADDR) begin
                   mipi_cus_nbit <= atoi_rx_data; // data length, nbit
                end
             end
@@ -446,6 +446,9 @@ module pkt_decode
    end
    
    ////////////////// MIPI Process
+   // Standard MIPI Instruction: ST 01 01/02/03 00~FF XX(FREQ) XXXXXX(Delay) XX(SA)  XX(CMD) XXXX(ADDR)   XX~XX(DATA)
+   // Custom Instruction:        ST 01 01/02/03 00~FF XX(FREQ) XXXXXX(Delay) XX(SSC) 10(CMD) XX(LENGTH) XX~XX(DATA) XX(BP)
+   
    reg                            mipi_buf_wr   ;
    reg  [`MIPI_BUF_ADDR_NBIT-1:0] mipi_buf_waddr;
    reg  [`MIPI_BUF_DATA_NBIT-1:0] mipi_buf_wdata;

@@ -22,9 +22,15 @@ module top
    // Clock Source
    CLK1,
    CLK2,
+   CLK3,
    // Chip Enable
    OE,
    V_1P8_EN,
+   // ADF4360
+   adf_clk,
+   adf_data,
+   adf_le,
+   adf_refin,
    // MIPI Interface
    SCLK,
    SDA,
@@ -46,6 +52,12 @@ module top
    ////////////////// PORT ////////////////////
    input                          CLK1; // 48MHz
    input                          CLK2; // FPGA v2 - 50MHz, V3 - 26MHz
+   input                          CLK3; // Clock input from ADF4360
+   
+   output                         adf_clk;
+   output                         adf_data;
+   output                         adf_le;
+   input                          adf_refin;
    
    output                         OE;
    output                         V_1P8_EN;
@@ -108,6 +120,16 @@ module top
       .inclk0 (CLK2    ),
       .c0     (mipi_clk),
 		.c1     (fast_clk)
+   );
+   
+   clk_config u_clk_config
+   (
+      .in_clk   (mclk     ),
+      .in_ld    (`LOW     ),
+      .out_refin(),
+      .out_clk  (adf_clk  ),
+      .out_data (adf_data ),
+      .out_le   (adf_le   )
    );   
    
    ////////////////// USB PHY Slave FIFO Controller

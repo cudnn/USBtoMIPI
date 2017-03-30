@@ -38,7 +38,7 @@
 
 // COMMUNICATION, BYTE INVERTED
 `define MSG_STR_NBIT        `USB_DATA_NBIT
-`define MSG_DATA_MAX_NBIT   96                  
+`define MSG_DATA_MAX_NBIT   96
                             
 `define MSG_HEAD            `MSG_STR_NBIT'h5453  // "ST"
                             
@@ -101,6 +101,10 @@
 `define MIPI_CMD_BASEADDR   `MIPI_BUF_ADDR_NBIT'd5
 `define MIPI_ADDR_BASEADDR  `MIPI_BUF_ADDR_NBIT'd6
 `define MIPI_DATA_BASEADDR  `MIPI_BUF_ADDR_NBIT'd8
+
+`define MIPI_SSC_BASEADDR   `MIPI_BUF_ADDR_NBIT'd4
+`define MIPI_LEN_BASEADDR   `MIPI_BUF_ADDR_NBIT'd6
+`define MIPI_CDATA_BASEADDR `MIPI_BUF_ADDR_NBIT'd7
 
 `define MIPI_SSC_PAT        `MIPI_BUF_DATA_NBIT'h80
 `define MIPI_BP_PAT         `MIPI_BUF_DATA_NBIT'h08
