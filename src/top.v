@@ -98,6 +98,7 @@ module top
    wire usb_clk;    // 24MHz
    wire mipi_clk;   // 52MHz
    wire fast_clk;
+   wire sr_clk;
    
    wire locked_sig;
    clk_gen  main_clk_gen (
@@ -105,7 +106,7 @@ module top
       .inclk0 (CLK1      ),
       .c0     (ifclk     ),
       .c1     (usb_clk   ),
-      .c2     (),
+      .c2     (sr_clk    ),
       .locked (locked_sig)
    );
 	
@@ -124,7 +125,7 @@ module top
    
    clk_config u_clk_config
    (
-      .in_clk   (mclk     ),
+      .in_clk   (sr_clk   ),
       .in_ld    (`LOW     ),
       .out_refin(),
       .out_clk  (adf_clk  ),

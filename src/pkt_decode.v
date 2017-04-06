@@ -234,6 +234,8 @@ module pkt_decode
    reg                            mipi_cus_mode;
    reg                            mipi_cus_ssc;
    reg  [`MIPI_DATA_NBIT*2-1:0]   mipi_cus_nbit;
+   reg                            mipi_cus_bp;
+   reg                            m_cus_bp;
    
    always@(posedge clk) begin
       proc_handshake_start <= `LOW;
@@ -292,6 +294,9 @@ module pkt_decode
                if(rx_msg_addr==`MIPI_LEN_BASEADDR) begin
                   mipi_cus_nbit <= atoi_rx_data; // data length, nbit
                end
+               m_cus_bp <= (atoi_rx_data==`MIPI_BP_PAT);
+               if(rx_data[`MSG_STR_NBIT/2-1:0]==`MSG_END_N || rx_data[`MSG_STR_NBIT/2-1:0]==`MSG_END_R)
+                  mipi_cus_bp <= m_cus_bp;
             end
             
             // set data
@@ -500,10 +505,11 @@ module pkt_decode
       .div        (mipi_div      ),
       .start      (mipi_start    ),
       .done       (mipi_done     ),
-      .num        (mipi_data_num ),
+      .data_num   (mipi_data_num ),
       .cusmode    (mipi_cus_mode ),
       .cusssc     (mipi_cus_ssc  ),
       .cusnbit    (mipi_cus_nbit ),
+      .cusbp      (mipi_cus_bp   ),
       .i_buf_clk  (clk           ),
       .i_buf_wr   (mipi_buf_wr   ),
       .i_buf_waddr(mipi_buf_waddr),

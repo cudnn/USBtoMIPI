@@ -37,9 +37,9 @@ module clk_config
 );
 
    ///////////////// PARAMETER ////////////////
-   parameter P_CLK_DIV   = 4;
+   parameter P_CLK_DIV   = 8;
    parameter P_R_COUNTER = {2'b00,2'b11,1'b0,1'b0,2'b11,14'd4,2'b01}; // R counter: 1 - 16383
-   parameter P_CONTROL   = {2'b00,2'b00,6'b000000,2'b11,1'b0,1'b0,1'b0,1'b1,3'b111,1'b0,2'b01,2'b00};     
+   parameter P_CONTROL   = {2'b00,2'b00,6'b000000,2'b11,1'b0,1'b0,1'b0,1'b1,3'b011,1'b0,2'b01,2'b00};     
    parameter P_N_COUNTER = {2'b00,1'b0,13'd4,1'b0,5'd4,2'b10}; // B counter: 3 - 8191, A counter: 2 - 31 
 
    ////////////////// 

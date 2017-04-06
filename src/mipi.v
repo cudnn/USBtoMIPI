@@ -26,10 +26,11 @@ module mipi
    // control 
    start,
    done,
-   num,
+   data_num,
    cusmode,
    cusssc ,
    cusnbit,
+   cusbp,
    // BUFFER Interface
    i_buf_clk,
    i_buf_wr,
@@ -46,16 +47,18 @@ module mipi
 );
 
    ////////////////// PORT ////////////////////
-   input                            clk;     // high frequency clock input, 48MHz
-   input                            set;     // set signale of clock cycle
-   input  [`MIPI_CLKDIV_NBIT-1:0]   div;     // value of clock cycle
-                                             // range from 2 to 255 correspond to 24MHz ~ 188KHz 
-   input                            start;   // start of mipi 
-   output                           done;    // done of mipi
-   output [`MIPI_BUF_ADDR_NBIT-1:0] num;     // data number
-   input                            cusmode; // custum mode
+   input                            clk;      // high frequency clock input, 48MHz
+   input                            set;      // set signale of clock cycle
+   input  [`MIPI_CLKDIV_NBIT-1:0]   div;      // value of clock cycle
+                                              // range from 2 to 255 correspond to 24MHz ~ 188KHz 
+   input                            start;    // start of mipi 
+   output                           done;     // done of mipi
+   output [`MIPI_BUF_ADDR_NBIT-1:0] data_num; // data number
+   
+   input                            cusmode;  // custum mode
    input                            cusssc ;
    input  [`MIPI_DATA_NBIT*2-1:0]   cusnbit;
+   input                            cusbp;
    
    input                            i_buf_clk  ;
    input                            i_buf_wr   ;
@@ -168,15 +171,18 @@ module mipi
    `define ST_MIPI_END     3'd7
    
    reg  [2:0]                     st;
-   reg  [`MIPI_BUF_ADDR_NBIT-1:0] st_turns;
-   reg  [3:0]                     sf_cnt;
    reg  [`MIPI_BUF_DATA_NBIT-1:0] sf_data;
-
+   wire [`MIPI_BUF_DATA_NBIT-1:0] next_sf_data = {sf_data[`MIPI_BUF_DATA_NBIT-3:0],sf_data[`MIPI_BUF_DATA_NBIT-1],sf_data[`MIPI_BUF_DATA_NBIT-1] ? sdi : sf_data[`MIPI_BUF_DATA_NBIT-2]};
+   reg  [3:0]                     sf_cnt;
+   reg  [`MIPI_BUF_ADDR_NBIT-1:0] st_turns;
+   wire [`MIPI_DATA_NBIT*2-1:2]   cusnbit_hi = cusnbit[`MIPI_BUF_ADDR_NBIT-1+2:2];
+   wire [1:0]                     cusnbit_lo = cusnbit[1:0];
+   
    reg                            mipi_op; // 1: read; 0: write         
    reg  [`MIPI_CMD_NBIT-1:0]      mipi_cmd;
    reg  [`MIPI_BUF_ADDR_NBIT-1:0] mipi_buf_upaddr;
    reg  [`MIPI_BUF_ADDR_NBIT-1:0] mipi_buf_raddr;
-   reg  [`MIPI_BUF_ADDR_NBIT-1:0] num;
+   reg  [`MIPI_BUF_ADDR_NBIT-1:0] data_num;
 
    wire   clk_en;
    assign clk_en = (clk_cnt==0);
@@ -196,7 +202,7 @@ module mipi
                   sf_cnt         <= 4'd1; // two bits of SSC, {HIGH LOW}
                   sf_data        <= `MIPI_SSC_PAT;
                   mipi_buf_raddr <= `MIPI_SA_BASEADDR;
-                  num            <= 0;
+                  data_num       <= 0;
                   /////// custom mode ///////
                   if(cusmode) begin
                      sf_data        <= ~cusssc ? `MIPI_BUF_DATA_NBIT'd0 : `MIPI_SSC_PAT;
@@ -217,11 +223,12 @@ module mipi
                   if(cusmode) begin 
                      st                <= `ST_MIPI_DATA;
                      sf_data           <= mipi_buf_rdata;
-                     mipi_buf_raddr    <= mipi_buf_raddr + 1'b1;
                      if(cusnbit!=0) begin
-                        sf_cnt         <= cusnbit[`MIPI_BUF_ADDR_NBIT-1+2:2]==0 ? cusnbit[1:0]-1'b1 : (4'd`MIPI_DATA_NBIT>>1)-1'b1;
-                        st_turns       <= cusnbit[1:0]==0 ? cusnbit[`MIPI_BUF_ADDR_NBIT-1+2:2]-1'b1 : cusnbit[`MIPI_BUF_ADDR_NBIT-1+2:2];
-                        mipi_buf_upaddr<= `MIPI_CDATA_BASEADDR+(cusnbit[1:0]==0 ? cusnbit[`MIPI_BUF_ADDR_NBIT-1+2:2]-1'b1 : cusnbit[`MIPI_BUF_ADDR_NBIT-1+2:2]);
+                        sf_cnt         <= cusnbit_hi==0 ? cusnbit_lo-1'b1 : (4'd`MIPI_DATA_NBIT>>1)-1'b1;
+                        st_turns       <= cusnbit_lo==0 ? cusnbit_hi-1'b1 : cusnbit_hi;
+                        mipi_buf_upaddr<=(cusnbit_lo==0 ? cusnbit_hi-1'b1 : cusnbit_hi) + `MIPI_CDATA_BASEADDR;
+                        data_num       <=(cusnbit_lo==0 ? cusnbit_hi-1'b1 : cusnbit_hi) + (`MIPI_CDATA_BASEADDR-`MIPI_DATA_BASEADDR) + 2'd2;
+                        mipi_buf_raddr <= mipi_buf_raddr + 1'b1;
                      end
                      else
                         st <= `ST_MIPI_END;                     
@@ -287,8 +294,8 @@ module mipi
                   sf_data <= mipi_buf_rdata;
                   // register 0 write: next st IDLE
                   if((mipi_cmd&`MIPI_CMD_ZERO_MASK)==`MIPI_CMD_WRZERO_PAT) begin
-                     st  <= `ST_MIPI_END;
-                     num <= `MIPI_BUF_ADDR_NBIT'd1;
+                     st       <= `ST_MIPI_END;
+                     data_num <= `MIPI_BUF_ADDR_NBIT'd1;
                   end
                   // register write&read: next st DATA
                   else if((mipi_cmd&`MIPI_CMD_REG_MASK)==`MIPI_CMD_WR_PAT || 
@@ -296,7 +303,7 @@ module mipi
                      st       <= mipi_op ? `ST_MIPI_BUSPARK : `ST_MIPI_DATA;
                      sf_cnt   <= 4'd`MIPI_DATA_NBIT;
                      st_turns <= 4'd0; // one byte data, D0
-                     num      <= `MIPI_BUF_ADDR_NBIT'd1;                     
+                     data_num <= `MIPI_BUF_ADDR_NBIT'd1;                     
                   end
                   // register extended write&read long: next st ADDR
                   else if((mipi_cmd&`MIPI_CMD_EXTL_MASK)==`MIPI_CMD_EXTWRL_PAT || 
@@ -304,9 +311,9 @@ module mipi
                      st             <= `ST_MIPI_ADDR;
                      st_turns       <= 4'd1; // two bytes address, A1 A0
                      mipi_buf_raddr <= `MIPI_ADDR_BASEADDR + 1'b1;
-                     num            <= mipi_cmd[2:0] + 1'b1; 
-                     if(cusmode&&(mipi_cmd&`MIPI_CMD_EXTL_MASK)==`MIPI_CMD_EXTWRL_PAT)
-                        num         <= mipi_wdata_num[2:0] + 1'b1; 
+                     data_num       <= mipi_cmd[2:0] + 1'b1; 
+                     if((mipi_cmd&`MIPI_CMD_EXTL_MASK)==`MIPI_CMD_EXTWRL_PAT)
+                        data_num    <= mipi_wdata_num[2:0] + 1'b1; 
                   end
                   // register extended write&read: next st ADDR
                   else if((mipi_cmd&`MIPI_CMD_EXT_MASK)==`MIPI_CMD_EXTWR_PAT || 
@@ -314,9 +321,9 @@ module mipi
                      st             <= `ST_MIPI_ADDR;
                      st_turns       <= 4'd0; // one byte address, A0
                      mipi_buf_raddr <= `MIPI_DATA_BASEADDR;
-                     num            <= mipi_cmd[3:0] + 1'b1; 
-                     if(~cusmode&&(mipi_cmd&`MIPI_CMD_EXT_MASK)==`MIPI_CMD_EXTWR_PAT)
-                        num         <= mipi_wdata_num[3:0] + 1'b1;
+                     data_num       <= mipi_cmd[3:0] + 1'b1; 
+                     if((mipi_cmd&`MIPI_CMD_EXT_MASK)==`MIPI_CMD_EXTWR_PAT)
+                        data_num    <= mipi_wdata_num[3:0] + 1'b1;
                   end
                end
             end
@@ -331,16 +338,16 @@ module mipi
                      st     <= mipi_op ? `ST_MIPI_BUSPARK : `ST_MIPI_DATA;
                      sf_cnt <= 4'd`MIPI_DATA_NBIT;
                      if((mipi_cmd&`MIPI_CMD_EXTL_MASK)==`MIPI_CMD_EXTWRL_PAT) begin // write all the data from USER
-                        st_turns        <= ~cusmode ? mipi_cmd[2:0] : mipi_wdata_num[2:0]; 
-                        mipi_buf_upaddr <= `MIPI_DATA_BASEADDR + (~cusmode ? mipi_cmd[2:0] : mipi_wdata_num[2:0]);
+                        st_turns        <= mipi_wdata_num[2:0]; 
+                        mipi_buf_upaddr <= `MIPI_DATA_BASEADDR + mipi_wdata_num[2:0];
                      end
                      else if((mipi_cmd&`MIPI_CMD_EXTL_MASK)==`MIPI_CMD_EXTRDL_PAT) begin // read data, number set by BC[2:0]
                         st_turns        <= mipi_cmd[2:0];
                         mipi_buf_upaddr <= `MIPI_DATA_BASEADDR + mipi_cmd[2:0];
                      end
                      else if((mipi_cmd&`MIPI_CMD_EXT_MASK)==`MIPI_CMD_EXTWR_PAT) begin // write all the data from USER
-                        st_turns        <= ~cusmode ? mipi_cmd[3:0] : mipi_wdata_num[3:0]; 
-                        mipi_buf_upaddr <= `MIPI_DATA_BASEADDR + (~cusmode ? mipi_cmd[3:0] : mipi_wdata_num[3:0]);
+                        st_turns        <= mipi_wdata_num[3:0]; 
+                        mipi_buf_upaddr <= `MIPI_DATA_BASEADDR + mipi_wdata_num[3:0];
                      end
                      else if((mipi_cmd&`MIPI_CMD_EXT_MASK)==`MIPI_CMD_EXTRD_PAT) begin // read data, number set by BC[3:0]
                         st_turns        <= mipi_cmd[3:0];
@@ -354,27 +361,28 @@ module mipi
             end
             `ST_MIPI_DATA: begin
                sf_cnt  <= sf_cnt - 1'b1;
+               // data shift in&out
                sf_data <= {sf_data[`MIPI_BUF_DATA_NBIT-2:0],(mipi_op ? sdi : 1'b0)};
                /////// custom mode ///////
-               if(cusmode) 
-                  sf_data <= {sf_data[`MIPI_BUF_DATA_NBIT-3:0],sf_data[`MIPI_BUF_DATA_NBIT-1],sdi};
+               if(cusmode) begin
+                  sf_data <= next_sf_data;
+               end
                ///////             ///////
                if(sf_cnt==0) begin
                   sf_cnt   <= 4'd`MIPI_DATA_NBIT;
+                  st_turns <= st_turns - 1'b1;
+                  sf_data  <= mipi_op ? `MIPI_BUF_DATA_NBIT'd0 : mipi_buf_rdata;
+                  mipi_buf_raddr <= mipi_buf_raddr + 1'b1;
                   /////// custom mode ///////
                   if(cusmode) begin 
                      sf_cnt <= (st_turns==1)&&(cusnbit[1:0]!=0) ? cusnbit[1:0]-1'b1 : (4'd`MIPI_DATA_NBIT>>1)-1'b1;
-                     num    <= (cusnbit[1:0]==0 ? cusnbit[`MIPI_BUF_ADDR_NBIT-1+2:2]-1'b1 : cusnbit[`MIPI_BUF_ADDR_NBIT-1+2:2]) + 1'b1 + (`MIPI_CDATA_BASEADDR-`MIPI_DATA_BASEADDR);
                   end
                   ///////             ///////
-                  
-                  sf_data  <= mipi_op ? `MIPI_BUF_DATA_NBIT'd0 : mipi_buf_rdata;                  
-                  st_turns <= st_turns - 1'b1;
-                  mipi_buf_raddr <= mipi_buf_raddr + 1'b1;
                   if(st_turns==0) begin
-                     sf_cnt   <= 0;
-                     st_turns <= 0;
-                     st       <= `ST_MIPI_END;
+                     sf_cnt         <= 0;
+                     st_turns       <= 0;
+                     st             <= `ST_MIPI_END;
+                     mipi_buf_raddr <= mipi_buf_raddr;
                   end
                end
             end
@@ -484,9 +492,9 @@ module mipi
             ///////             ///////                  
             sclk_en        <= `HIGH;
             done           <= `LOW;
-            mipi_buf_wr    <= mipi_op&(sf_cnt==0);
+            mipi_buf_wr    <= (cusmode|mipi_op)&(sf_cnt==0);
             mipi_buf_waddr <= mipi_buf_upaddr - st_turns;
-            mipi_buf_wdata <= sf_data;
+            mipi_buf_wdata <= ~cusmode ? sf_data : (st_turns==0 ? (next_sf_data<<(cusnbit[1:0]!=0 ? 4'd8-{cusnbit[1:0],1'b0} : 4'd0)) : next_sf_data);
          end
          `ST_MIPI_BUSPARK: begin
             in_process     <= `HIGH;
@@ -510,15 +518,15 @@ module mipi
             sdo_en         <= (clk_cnt>=(clk_div>>1)); // as the same behavior as BUSPARK
             sclk_en        <= `HIGH;
             /////// custom mode ///////
-            if(cusmode&&(mipi_buf_rdata!=`MIPI_BP_PAT)) begin
+            if(cusmode&~cusbp) begin
                sdo_en      <= `LOW;
                sclk_en     <= `LOW;
             end
             ///////             ///////                  
+            mipi_buf_wr    <= cusmode;
+            mipi_buf_waddr <= mipi_buf_upaddr + 1'b1;
+            mipi_buf_wdata <= cusbp ? `MIPI_BP_PAT : `MIPI_BUF_DATA_NBIT'd1;
             done           <= `HIGH;
-            mipi_buf_wr    <= `LOW;
-            mipi_buf_waddr <= 0;
-            mipi_buf_wdata <= 0;
          end
          default:;
       endcase
