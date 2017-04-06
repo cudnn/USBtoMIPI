@@ -291,8 +291,8 @@ module pkt_decode
                   proc_mipi_cmd <= atoi_rx_data;
                   mipi_cus_mode<= (atoi_rx_data&`MIPI_CMD_EXT_MASK) ==`MIPI_CMD_CUS_PAT;
                end                   
-               if(rx_msg_addr==`MIPI_LEN_BASEADDR) begin
-                  mipi_cus_nbit <= atoi_rx_data; // data length, nbit
+               if(rx_msg_addr==`MIPI_LEN_BASEADDR||rx_msg_addr==`MIPI_LEN_BASEADDR+1) begin
+                  mipi_cus_nbit <= {mipi_cus_nbit[`MIPI_DATA_NBIT*2-1:`MIPI_DATA_NBIT],atoi_rx_data}; // data length, nbit
                end
                m_cus_bp <= (atoi_rx_data==`MIPI_BP_PAT);
                if(rx_data[`MSG_STR_NBIT/2-1:0]==`MSG_END_N || rx_data[`MSG_STR_NBIT/2-1:0]==`MSG_END_R)

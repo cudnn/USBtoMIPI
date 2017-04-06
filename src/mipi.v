@@ -175,7 +175,7 @@ module mipi
    wire [`MIPI_BUF_DATA_NBIT-1:0] next_sf_data = {sf_data[`MIPI_BUF_DATA_NBIT-3:0],sf_data[`MIPI_BUF_DATA_NBIT-1],sf_data[`MIPI_BUF_DATA_NBIT-1] ? sdi : sf_data[`MIPI_BUF_DATA_NBIT-2]};
    reg  [3:0]                     sf_cnt;
    reg  [`MIPI_BUF_ADDR_NBIT-1:0] st_turns;
-   wire [`MIPI_DATA_NBIT*2-1:2]   cusnbit_hi = cusnbit[`MIPI_BUF_ADDR_NBIT-1+2:2];
+   wire [`MIPI_BUF_ADDR_NBIT-1:2] cusnbit_hi = cusnbit[`MIPI_BUF_ADDR_NBIT-1+2:2];
    wire [1:0]                     cusnbit_lo = cusnbit[1:0];
    
    reg                            mipi_op; // 1: read; 0: write         

@@ -1,5 +1,5 @@
 Analysis & Synthesis report for usbtomipi_v3
-Thu Apr 06 19:27:43 2017
+Thu Apr 06 20:27:41 2017
 Quartus Prime Version 15.1.0 Build 185 10/21/2015 SJ Standard Edition
 
 
@@ -80,13 +80,13 @@ agreement for further details.
 +--------------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                         ;
 +------------------------------------+-------------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Thu Apr 06 19:27:43 2017           ;
+; Analysis & Synthesis Status        ; Successful - Thu Apr 06 20:27:41 2017           ;
 ; Quartus Prime Version              ; 15.1.0 Build 185 10/21/2015 SJ Standard Edition ;
 ; Revision Name                      ; usbtomipi_v3                                    ;
 ; Top-level Entity Name              ; top                                             ;
 ; Family                             ; Cyclone IV E                                    ;
-; Total logic elements               ; 6,642                                           ;
-;     Total combinational functions  ; 2,994                                           ;
+; Total logic elements               ; 6,626                                           ;
+;     Total combinational functions  ; 2,978                                           ;
 ;     Dedicated logic registers      ; 5,202                                           ;
 ; Total registers                    ; 5202                                            ;
 ; Total pins                         ; 75                                              ;
@@ -290,17 +290,17 @@ agreement for further details.
 +---------------------------------------------+-----------------------------------------------------------------------------------------------------------+
 ; Resource                                    ; Usage                                                                                                     ;
 +---------------------------------------------+-----------------------------------------------------------------------------------------------------------+
-; Estimated Total logic elements              ; 6,642                                                                                                     ;
+; Estimated Total logic elements              ; 6,626                                                                                                     ;
 ;                                             ;                                                                                                           ;
-; Total combinational functions               ; 2994                                                                                                      ;
+; Total combinational functions               ; 2978                                                                                                      ;
 ; Logic element usage by number of LUT inputs ;                                                                                                           ;
-;     -- 4 input functions                    ; 1602                                                                                                      ;
-;     -- 3 input functions                    ; 738                                                                                                       ;
-;     -- <=2 input functions                  ; 654                                                                                                       ;
+;     -- 4 input functions                    ; 1611                                                                                                      ;
+;     -- 3 input functions                    ; 736                                                                                                       ;
+;     -- <=2 input functions                  ; 631                                                                                                       ;
 ;                                             ;                                                                                                           ;
 ; Logic elements by mode                      ;                                                                                                           ;
-;     -- normal mode                          ; 2737                                                                                                      ;
-;     -- arithmetic mode                      ; 257                                                                                                       ;
+;     -- normal mode                          ; 2736                                                                                                      ;
+;     -- arithmetic mode                      ; 242                                                                                                       ;
 ;                                             ;                                                                                                           ;
 ; Total registers                             ; 5202                                                                                                      ;
 ;     -- Dedicated logic registers            ; 5202                                                                                                      ;
@@ -316,8 +316,8 @@ agreement for further details.
 ;                                             ;                                                                                                           ;
 ; Maximum fan-out node                        ; mipi_clkpll_v3:mipi_clk_gen|altpll:altpll_component|mipi_clkpll_v3_altpll:auto_generated|wire_pll1_clk[0] ;
 ; Maximum fan-out                             ; 3224                                                                                                      ;
-; Total fan-out                               ; 32968                                                                                                     ;
-; Average fan-out                             ; 3.76                                                                                                      ;
+; Total fan-out                               ; 32955                                                                                                     ;
+; Average fan-out                             ; 3.77                                                                                                      ;
 +---------------------------------------------+-----------------------------------------------------------------------------------------------------------+
 
 
@@ -326,7 +326,7 @@ agreement for further details.
 +-----------------------------------------------------------------------------------------------------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------+
 ; Compilation Hierarchy Node                                                                                                              ; LC Combinationals ; LC Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                                                                                                                                                                                                                                                             ; Library Name ;
 +-----------------------------------------------------------------------------------------------------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------+
-; |top                                                                                                                                    ; 2994 (17)         ; 5202 (66)    ; 342016      ; 0            ; 0       ; 0         ; 75   ; 0            ; |top                                                                                                                                                                                                                                                                                                                                            ; work         ;
+; |top                                                                                                                                    ; 2978 (17)         ; 5202 (66)    ; 342016      ; 0            ; 0       ; 0         ; 75   ; 0            ; |top                                                                                                                                                                                                                                                                                                                                            ; work         ;
 ;    |buffered_ram:tx_buffer|                                                                                                             ; 0 (0)             ; 0 (0)        ; 8192        ; 0            ; 0       ; 0         ; 0    ; 0            ; |top|buffered_ram:tx_buffer                                                                                                                                                                                                                                                                                                                     ; work         ;
 ;       |altsyncram:buffered_ram_altsyncram|                                                                                              ; 0 (0)             ; 0 (0)        ; 8192        ; 0            ; 0       ; 0         ; 0    ; 0            ; |top|buffered_ram:tx_buffer|altsyncram:buffered_ram_altsyncram                                                                                                                                                                                                                                                                                  ; work         ;
 ;          |altsyncram_jur1:auto_generated|                                                                                               ; 0 (0)             ; 0 (0)        ; 8192        ; 0            ; 0       ; 0         ; 0    ; 0            ; |top|buffered_ram:tx_buffer|altsyncram:buffered_ram_altsyncram|altsyncram_jur1:auto_generated                                                                                                                                                                                                                                                   ; work         ;
@@ -337,13 +337,13 @@ agreement for further details.
 ;    |mipi_clkpll_v3:mipi_clk_gen|                                                                                                        ; 0 (0)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |top|mipi_clkpll_v3:mipi_clk_gen                                                                                                                                                                                                                                                                                                                ; work         ;
 ;       |altpll:altpll_component|                                                                                                         ; 0 (0)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |top|mipi_clkpll_v3:mipi_clk_gen|altpll:altpll_component                                                                                                                                                                                                                                                                                        ; work         ;
 ;          |mipi_clkpll_v3_altpll:auto_generated|                                                                                         ; 0 (0)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |top|mipi_clkpll_v3:mipi_clk_gen|altpll:altpll_component|mipi_clkpll_v3_altpll:auto_generated                                                                                                                                                                                                                                                   ; work         ;
-;    |pkt_decode:u_cmd_decode|                                                                                                            ; 1261 (704)        ; 729 (574)    ; 2048        ; 0            ; 0       ; 0         ; 0    ; 0            ; |top|pkt_decode:u_cmd_decode                                                                                                                                                                                                                                                                                                                    ; work         ;
+;    |pkt_decode:u_cmd_decode|                                                                                                            ; 1245 (703)        ; 729 (574)    ; 2048        ; 0            ; 0       ; 0         ; 0    ; 0            ; |top|pkt_decode:u_cmd_decode                                                                                                                                                                                                                                                                                                                    ; work         ;
 ;       |atoi:atoi_u|                                                                                                                     ; 20 (20)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |top|pkt_decode:u_cmd_decode|atoi:atoi_u                                                                                                                                                                                                                                                                                                        ; work         ;
 ;       |iodelay:sclk_delay|                                                                                                              ; 11 (11)           ; 22 (22)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |top|pkt_decode:u_cmd_decode|iodelay:sclk_delay                                                                                                                                                                                                                                                                                                 ; work         ;
 ;       |iodelay:sdi_delay|                                                                                                               ; 4 (4)             ; 7 (7)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |top|pkt_decode:u_cmd_decode|iodelay:sdi_delay                                                                                                                                                                                                                                                                                                  ; work         ;
 ;       |iodelay:sdo_delay|                                                                                                               ; 21 (21)           ; 37 (37)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |top|pkt_decode:u_cmd_decode|iodelay:sdo_delay                                                                                                                                                                                                                                                                                                  ; work         ;
 ;       |itoa:itoa_u|                                                                                                                     ; 12 (12)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |top|pkt_decode:u_cmd_decode|itoa:itoa_u                                                                                                                                                                                                                                                                                                        ; work         ;
-;       |mipi:mipi_u|                                                                                                                     ; 489 (487)         ; 89 (88)      ; 2048        ; 0            ; 0       ; 0         ; 0    ; 0            ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u                                                                                                                                                                                                                                                                                                        ; work         ;
+;       |mipi:mipi_u|                                                                                                                     ; 474 (472)         ; 89 (88)      ; 2048        ; 0            ; 0       ; 0         ; 0    ; 0            ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u                                                                                                                                                                                                                                                                                                        ; work         ;
 ;          |buffered_ram_tdp:mipi_buffer|                                                                                                 ; 0 (0)             ; 0 (0)        ; 2048        ; 0            ; 0       ; 0         ; 0    ; 0            ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|buffered_ram_tdp:mipi_buffer                                                                                                                                                                                                                                                                           ; work         ;
 ;             |altsyncram:buffered_ram_altsyncram|                                                                                        ; 0 (0)             ; 0 (0)        ; 2048        ; 0            ; 0       ; 0         ; 0    ; 0            ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|buffered_ram_tdp:mipi_buffer|altsyncram:buffered_ram_altsyncram                                                                                                                                                                                                                                        ; work         ;
 ;                |altsyncram_o6u1:auto_generated|                                                                                         ; 0 (0)             ; 0 (0)        ; 2048        ; 0            ; 0       ; 0         ; 0    ; 0            ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|buffered_ram_tdp:mipi_buffer|altsyncram:buffered_ram_altsyncram|altsyncram_o6u1:auto_generated                                                                                                                                                                                                         ; work         ;
@@ -840,7 +840,6 @@ Encoding Type:  One-Hot
 +-----------------------------------------------------------+---------------------------------------------------+
 ; Register name                                             ; Reason for Removal                                ;
 +-----------------------------------------------------------+---------------------------------------------------+
-; pkt_decode:u_cmd_decode|mipi_cus_nbit[8..15]              ; Stuck at GND due to stuck port data_in            ;
 ; pkt_decode:u_cmd_decode|tx_msg_pf[1..3,6,7,11,14,15]      ; Merged with pkt_decode:u_cmd_decode|tx_msg_pf[0]  ;
 ; pkt_decode:u_cmd_decode|tx_pf_code[2,3,6,7,10,11,14,15]   ; Merged with pkt_decode:u_cmd_decode|tx_msg_pf[0]  ;
 ; pkt_decode:u_cmd_decode|tx_msg_pf[4,5,8,12,13]            ; Merged with pkt_decode:u_cmd_decode|tx_msg_pf[10] ;
@@ -892,7 +891,7 @@ Encoding Type:  One-Hot
 ; pkt_decode:u_cmd_decode|iodelay:sdi_delay|io_delay[13][0] ; Stuck at GND due to stuck port data_in            ;
 ; pkt_decode:u_cmd_decode|iodelay:sdi_delay|io_delay[14][0] ; Stuck at GND due to stuck port data_in            ;
 ; pkt_decode:u_cmd_decode|iodelay:sdi_delay|io_delay[15][0] ; Stuck at GND due to stuck port data_in            ;
-; Total Number of Removed Registers = 86                    ;                                                   ;
+; Total Number of Removed Registers = 78                    ;                                                   ;
 +-----------------------------------------------------------+---------------------------------------------------+
 
 
@@ -965,52 +964,52 @@ Encoding Type:  One-Hot
 +--------------------+-----------+---------------+----------------------+------------------------+------------+-------------------------------------------------------------+
 ; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                  ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+-------------------------------------------------------------+
-; 4:1                ; 7 bits    ; 14 LEs        ; 14 LEs               ; 0 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|clk_cnt[3]         ;
-; 4:1                ; 72 bits   ; 144 LEs       ; 144 LEs              ; 0 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_msg_data[8]                 ;
+; 4:1                ; 7 bits    ; 14 LEs        ; 14 LEs               ; 0 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|clk_cnt[6]         ;
+; 4:1                ; 72 bits   ; 144 LEs       ; 144 LEs              ; 0 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_msg_data[57]                ;
 ; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_msg_data[82]                ;
 ; 5:1                ; 8 bits    ; 24 LEs        ; 8 LEs                ; 16 LEs                 ; Yes        ; |top|usb_slavefifo:u_usb_slavefifo|tx_cache_addr[2]         ;
-; 5:1                ; 16 bits   ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|rx_msg_type[2]                 ;
-; 5:1                ; 104 bits  ; 312 LEs       ; 104 LEs              ; 208 LEs                ; Yes        ; |top|pkt_decode:u_cmd_decode|rx_msg_data[30]                ;
+; 5:1                ; 16 bits   ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|rx_msg_type[3]                 ;
+; 5:1                ; 104 bits  ; 312 LEs       ; 104 LEs              ; 208 LEs                ; Yes        ; |top|pkt_decode:u_cmd_decode|rx_msg_data[61]                ;
 ; 5:1                ; 16 bits   ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|rx_msg_mode[15]                ;
 ; 5:1                ; 16 bits   ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|rx_msg_ch_addr[13]             ;
 ; 6:1                ; 2 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_data[15]                    ;
-; 6:1                ; 8 bits    ; 32 LEs        ; 16 LEs               ; 16 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_msg_data[92]                ;
-; 5:1                ; 10 bits   ; 30 LEs        ; 10 LEs               ; 20 LEs                 ; Yes        ; |top|clk_config:u_clk_config|sf_data[18]                    ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 16 LEs               ; 16 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_msg_data[94]                ;
+; 5:1                ; 10 bits   ; 30 LEs        ; 10 LEs               ; 20 LEs                 ; Yes        ; |top|clk_config:u_clk_config|sf_data[19]                    ;
 ; 5:1                ; 4 bits    ; 12 LEs        ; 8 LEs                ; 4 LEs                  ; Yes        ; |top|clk_config:u_clk_config|sf_data[17]                    ;
-; 6:1                ; 8 bits    ; 32 LEs        ; 16 LEs               ; 16 LEs                 ; Yes        ; |top|usb_slavefifo:u_usb_slavefifo|tx_delay_cnt[2]          ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 16 LEs               ; 16 LEs                 ; Yes        ; |top|usb_slavefifo:u_usb_slavefifo|tx_delay_cnt[3]          ;
 ; 7:1                ; 2 bits    ; 8 LEs         ; 6 LEs                ; 2 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_data[13]                    ;
 ; 7:1                ; 2 bits    ; 8 LEs         ; 6 LEs                ; 2 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_data[6]                     ;
 ; 7:1                ; 2 bits    ; 8 LEs         ; 8 LEs                ; 0 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_data[10]                    ;
-; 7:1                ; 2 bits    ; 8 LEs         ; 6 LEs                ; 2 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_data[4]                     ;
+; 7:1                ; 2 bits    ; 8 LEs         ; 6 LEs                ; 2 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_data[12]                    ;
 ; 7:1                ; 3 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_data[11]                    ;
-; 4:1                ; 24 bits   ; 48 LEs        ; 24 LEs               ; 24 LEs                 ; Yes        ; |top|clk_config:u_clk_config|sf_cnt[1]                      ;
-; 7:1                ; 8 bits    ; 32 LEs        ; 16 LEs               ; 16 LEs                 ; Yes        ; |top|clk_config:u_clk_config|sf_data[1]                     ;
-; 6:1                ; 5 bits    ; 20 LEs        ; 10 LEs               ; 10 LEs                 ; Yes        ; |top|clk_config:u_clk_config|sf_cnt[5]                      ;
-; 6:1                ; 2 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |top|clk_config:u_clk_config|sf_cnt[4]                      ;
-; 8:1                ; 8 bits    ; 40 LEs        ; 8 LEs                ; 32 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|rx_ch_addr[7]                  ;
-; 8:1                ; 8 bits    ; 40 LEs        ; 16 LEs               ; 24 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_msg_addr[5]                 ;
-; 10:1               ; 3 bits    ; 18 LEs        ; 3 LEs                ; 15 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|mipi_buf_upaddr[5] ;
+; 4:1                ; 24 bits   ; 48 LEs        ; 24 LEs               ; 24 LEs                 ; Yes        ; |top|clk_config:u_clk_config|sf_cnt[29]                     ;
+; 7:1                ; 8 bits    ; 32 LEs        ; 16 LEs               ; 16 LEs                 ; Yes        ; |top|clk_config:u_clk_config|sf_data[5]                     ;
+; 6:1                ; 5 bits    ; 20 LEs        ; 10 LEs               ; 10 LEs                 ; Yes        ; |top|clk_config:u_clk_config|sf_cnt[9]                      ;
+; 6:1                ; 2 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |top|clk_config:u_clk_config|sf_cnt[3]                      ;
+; 8:1                ; 8 bits    ; 40 LEs        ; 8 LEs                ; 32 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|rx_ch_addr[1]                  ;
+; 8:1                ; 8 bits    ; 40 LEs        ; 16 LEs               ; 24 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_msg_addr[0]                 ;
+; 10:1               ; 3 bits    ; 18 LEs        ; 3 LEs                ; 15 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|mipi_buf_upaddr[6] ;
 ; 10:1               ; 2 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|mipi_buf_upaddr[3] ;
-; 10:1               ; 3 bits    ; 18 LEs        ; 6 LEs                ; 12 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|mipi_buf_upaddr[2] ;
-; 10:1               ; 2 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_pf_code[9]                  ;
+; 10:1               ; 3 bits    ; 18 LEs        ; 6 LEs                ; 12 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|mipi_buf_upaddr[0] ;
+; 10:1               ; 2 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|tx_msg_pf[9]                   ;
 ; 11:1               ; 3 bits    ; 21 LEs        ; 3 LEs                ; 18 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|data_num[7]        ;
 ; 12:1               ; 4 bits    ; 32 LEs        ; 12 LEs               ; 20 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|data_num[3]        ;
-; 11:1               ; 2 bits    ; 14 LEs        ; 8 LEs                ; 6 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|sf_cnt[3]          ;
-; 15:1               ; 2 bits    ; 20 LEs        ; 10 LEs               ; 10 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|sf_data[5]         ;
-; 15:1               ; 3 bits    ; 30 LEs        ; 9 LEs                ; 21 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|sf_data[3]         ;
+; 11:1               ; 2 bits    ; 14 LEs        ; 8 LEs                ; 6 LEs                  ; Yes        ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|sf_cnt[2]          ;
+; 15:1               ; 2 bits    ; 20 LEs        ; 10 LEs               ; 10 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|sf_data[6]         ;
+; 15:1               ; 3 bits    ; 30 LEs        ; 9 LEs                ; 21 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|sf_data[2]         ;
 ; 19:1               ; 4 bits    ; 48 LEs        ; 8 LEs                ; 40 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|st_turns[5]        ;
 ; 19:1               ; 3 bits    ; 36 LEs        ; 15 LEs               ; 21 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|st_turns[2]        ;
 ; 18:1               ; 4 bits    ; 48 LEs        ; 4 LEs                ; 44 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|mipi_buf_raddr[7]  ;
-; 21:1               ; 2 bits    ; 28 LEs        ; 12 LEs               ; 16 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|mipi_buf_raddr[1]  ;
+; 22:1               ; 2 bits    ; 28 LEs        ; 12 LEs               ; 16 LEs                 ; Yes        ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|mipi_buf_raddr[2]  ;
 ; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |top|pkt_decode:u_cmd_decode|atoi:atoi_u|char_err[0]        ;
-; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |top|pkt_decode:u_cmd_decode|atoi:atoi_u|char_err[1]        ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |top|pkt_decode:u_cmd_decode|atoi:atoi_u|char_offset[1][0]  ;
 ; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|mipi_buf_wdata     ;
-; 16:1               ; 2 bits    ; 20 LEs        ; 20 LEs               ; 0 LEs                  ; No         ; |top|pkt_decode:u_cmd_decode|iodelay:sdo_delay|Mux1         ;
-; 5:1                ; 2 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|mipi_buf_wdata[2]  ;
-; 6:1                ; 4 bits    ; 16 LEs        ; 12 LEs               ; 4 LEs                  ; No         ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|mipi_buf_wdata[6]  ;
-; 8:1                ; 4 bits    ; 20 LEs        ; 12 LEs               ; 8 LEs                  ; No         ; |top|usb_slavefifo:u_usb_slavefifo|Selector16               ;
+; 16:1               ; 2 bits    ; 20 LEs        ; 20 LEs               ; 0 LEs                  ; No         ; |top|pkt_decode:u_cmd_decode|iodelay:sdo_delay|Mux0         ;
+; 5:1                ; 2 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|mipi_buf_wdata[1]  ;
+; 6:1                ; 4 bits    ; 16 LEs        ; 12 LEs               ; 4 LEs                  ; No         ; |top|pkt_decode:u_cmd_decode|mipi:mipi_u|mipi_buf_wdata[4]  ;
+; 8:1                ; 4 bits    ; 20 LEs        ; 12 LEs               ; 8 LEs                  ; No         ; |top|usb_slavefifo:u_usb_slavefifo|Selector18               ;
 ; 10:1               ; 3 bits    ; 18 LEs        ; 12 LEs               ; 6 LEs                  ; No         ; |top|pkt_decode:u_cmd_decode|Selector228                    ;
-; 11:1               ; 2 bits    ; 14 LEs        ; 6 LEs                ; 8 LEs                  ; No         ; |top|pkt_decode:u_cmd_decode|Selector221                    ;
+; 11:1               ; 2 bits    ; 14 LEs        ; 6 LEs                ; 8 LEs                  ; No         ; |top|pkt_decode:u_cmd_decode|Selector225                    ;
 ; 11:1               ; 3 bits    ; 21 LEs        ; 12 LEs               ; 9 LEs                  ; No         ; |top|pkt_decode:u_cmd_decode|Selector0                      ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+-------------------------------------------------------------+
 
@@ -2194,22 +2193,21 @@ Note: In order to hide this table in the UI and the text report file, please set
 ;     SLD               ; 3                           ;
 ;     plain             ; 183                         ;
 ; cycloneiii_io_obuf    ; 56                          ;
-; cycloneiii_lcell_comb ; 1450                        ;
-;     arith             ; 166                         ;
-;         1 data inputs ; 1                           ;
-;         2 data inputs ; 152                         ;
+; cycloneiii_lcell_comb ; 1434                        ;
+;     arith             ; 151                         ;
+;         2 data inputs ; 138                         ;
 ;         3 data inputs ; 13                          ;
-;     normal            ; 1284                        ;
+;     normal            ; 1283                        ;
 ;         0 data inputs ; 3                           ;
-;         1 data inputs ; 34                          ;
-;         2 data inputs ; 305                         ;
-;         3 data inputs ; 264                         ;
-;         4 data inputs ; 678                         ;
+;         1 data inputs ; 32                          ;
+;         2 data inputs ; 299                         ;
+;         3 data inputs ; 262                         ;
+;         4 data inputs ; 687                         ;
 ; cycloneiii_pll        ; 2                           ;
 ; cycloneiii_ram_block  ; 24                          ;
 ;                       ;                             ;
 ; Max LUT depth         ; 11.00                       ;
-; Average LUT depth     ; 3.16                        ;
+; Average LUT depth     ; 3.11                        ;
 +-----------------------+-----------------------------+
 
 
@@ -2218,7 +2216,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------+--------------+
 ; Partition Name ; Elapsed Time ;
 +----------------+--------------+
-; Top            ; 00:00:07     ;
+; Top            ; 00:00:04     ;
 +----------------+--------------+
 
 
@@ -2917,7 +2915,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 15.1.0 Build 185 10/21/2015 SJ Standard Edition
-    Info: Processing started: Thu Apr 06 19:26:48 2017
+    Info: Processing started: Thu Apr 06 20:26:55 2017
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off usbtomipi -c usbtomipi_v3
 Info (20030): Parallel compilation is enabled and will use 4 of the 4 processors detected
 Info (12021): Found 1 design units, including 1 entities, in source file /onedrive/works/powervalue/usbtomipi/fpga/mipi/src/clk_config.v
@@ -3083,9 +3081,7 @@ Info (12128): Elaborating entity "usb_slavefifo" for hierarchy "usb_slavefifo:u_
 Info (12128): Elaborating entity "pkt_decode" for hierarchy "pkt_decode:u_cmd_decode" File: D:/OneDrive/Works/PowerValue/USBToMIPI/FPGA/MIPI/src/top.v Line: 270
 Info (12128): Elaborating entity "atoi" for hierarchy "pkt_decode:u_cmd_decode|atoi:atoi_u" File: D:/OneDrive/Works/PowerValue/USBToMIPI/FPGA/MIPI/src/pkt_decode.v Line: 113
 Info (12128): Elaborating entity "mipi" for hierarchy "pkt_decode:u_cmd_decode|mipi:mipi_u" File: D:/OneDrive/Works/PowerValue/USBToMIPI/FPGA/MIPI/src/pkt_decode.v Line: 524
-Warning (10230): Verilog HDL assignment warning at mipi.v(228): truncated value with size 14 to match size of target (8) File: D:/OneDrive/Works/PowerValue/USBToMIPI/FPGA/MIPI/src/mipi.v Line: 228
-Warning (10230): Verilog HDL assignment warning at mipi.v(229): truncated value with size 14 to match size of target (8) File: D:/OneDrive/Works/PowerValue/USBToMIPI/FPGA/MIPI/src/mipi.v Line: 229
-Warning (10230): Verilog HDL assignment warning at mipi.v(230): truncated value with size 14 to match size of target (8) File: D:/OneDrive/Works/PowerValue/USBToMIPI/FPGA/MIPI/src/mipi.v Line: 230
+Warning (10230): Verilog HDL assignment warning at mipi.v(178): truncated value with size 8 to match size of target (6) File: D:/OneDrive/Works/PowerValue/USBToMIPI/FPGA/MIPI/src/mipi.v Line: 178
 Info (12128): Elaborating entity "buffered_ram_tdp" for hierarchy "pkt_decode:u_cmd_decode|mipi:mipi_u|buffered_ram_tdp:mipi_buffer" File: D:/OneDrive/Works/PowerValue/USBToMIPI/FPGA/MIPI/src/mipi.v Line: 134
 Info (12128): Elaborating entity "altsyncram" for hierarchy "pkt_decode:u_cmd_decode|mipi:mipi_u|buffered_ram_tdp:mipi_buffer|altsyncram:buffered_ram_altsyncram" File: D:/OneDrive/Works/PowerValue/USBToMIPI/FPGA/MIPI/src/buffered_ram.v Line: 163
 Info (12130): Elaborated megafunction instantiation "pkt_decode:u_cmd_decode|mipi:mipi_u|buffered_ram_tdp:mipi_buffer|altsyncram:buffered_ram_altsyncram" File: D:/OneDrive/Works/PowerValue/USBToMIPI/FPGA/MIPI/src/buffered_ram.v Line: 163
@@ -3168,7 +3164,7 @@ Info (12021): Found 1 design units, including 1 entities, in source file db/cmpr
     Info (12023): Found entity 1: cmpr_ngc File: D:/OneDrive/Works/PowerValue/USBToMIPI/FPGA/MIPI/prj/db/cmpr_ngc.tdf Line: 23
 Info (12033): Analysis and Synthesis generated SignalTap II or debug node instance "mipi"
 Info (11170): Start IP generation for the debug fabric within sld_hub.
-Info (11172): 2017.04.06.19:27:20 Progress: Loading sldc68575f6/alt_sld_fab_wrapper_hw.tcl
+Info (11172): 2017.04.06.20:27:23 Progress: Loading sldc68575f6/alt_sld_fab_wrapper_hw.tcl
 Info (11172): Alt_sld_fab.alt_sld_fab: SLD fabric agents which did not specify prefer_host were connected to JTAG
 Info (11172): Alt_sld_fab: Generating alt_sld_fab "alt_sld_fab" for QUARTUS_SYNTH
 Info (11172): Alt_sld_fab: "alt_sld_fab" instantiated alt_sld_fab "alt_sld_fab"
@@ -3241,17 +3237,17 @@ Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
 Warning (21074): Design contains 2 input pin(s) that do not drive logic
     Warning (15610): No output dependent on input pin "CLK3" File: D:/OneDrive/Works/PowerValue/USBToMIPI/FPGA/MIPI/src/top.v Line: 55
     Warning (15610): No output dependent on input pin "adf_refin" File: D:/OneDrive/Works/PowerValue/USBToMIPI/FPGA/MIPI/src/top.v Line: 60
-Info (21057): Implemented 7211 device resources after synthesis - the final resource count might be different
+Info (21057): Implemented 7195 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 9 input pins
     Info (21059): Implemented 14 output pins
     Info (21060): Implemented 56 bidirectional pins
-    Info (21061): Implemented 6781 logic cells
+    Info (21061): Implemented 6765 logic cells
     Info (21064): Implemented 348 RAM segments
     Info (21065): Implemented 2 PLLs
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 43 warnings
-    Info: Peak virtual memory: 961 megabytes
-    Info: Processing ended: Thu Apr 06 19:27:43 2017
-    Info: Elapsed time: 00:00:55
-    Info: Total CPU time (on all processors): 00:01:39
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 41 warnings
+    Info: Peak virtual memory: 964 megabytes
+    Info: Processing ended: Thu Apr 06 20:27:41 2017
+    Info: Elapsed time: 00:00:46
+    Info: Total CPU time (on all processors): 00:01:27
 
 
