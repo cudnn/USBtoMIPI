@@ -19,15 +19,16 @@
 #
 # Quartus Prime
 # Version 15.1.0 Build 185 10/21/2015 SJ Standard Edition
-# Date created = 13:34:00  September 18, 2016
+# Date created = 22:47:25  March 28, 2017
 #
 # -------------------------------------------------------------------------- #
 
 QUARTUS_VERSION = "15.1"
-DATE = "13:34:00  September 18, 2016"
+DATE = "22:47:25  March 28, 2017"
 
 # Revisions
 
-PROJECT_REVISION = "usbtomipi_v2"
+PROJECT_REVISION = "IO"
 PROJECT_REVISION = "usbtomipi_v3"
 PROJECT_REVISION = "usbtomipi"
+PROJECT_REVISION = "usbtomipi_v2"

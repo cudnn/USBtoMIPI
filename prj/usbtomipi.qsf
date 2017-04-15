@@ -245,8 +245,6 @@ set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to SCLK[2]
 set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to SDA[2]
 set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to SCLK[3]
 set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to SDA[3]
-set_global_assignment -name QIP_FILE ../src/core.qip
-set_global_assignment -name QIP_FILE ../src/core/mipi_clk_core.qip
 set_global_assignment -name QIP_FILE ../src/core/mipi_clkpll.qip
 set_location_assignment PIN_D4 -to OE
 set_global_assignment -name SIGNALTAP_FILE ../stp/usb_dt.stp

@@ -29,7 +29,9 @@ module top
    SCLK,
    SDA,
    // IO Interface
-   IO_DB,
+   P1_IO_DB,
+   P2_IO_DB,
+   P3_IO_DB,
    // USB Interface
    USB_XTALIN,
    USB_FLAGB,
@@ -50,7 +52,10 @@ module top
    output                         OE;
    output                         V_1P8_EN;
    
-   inout  [`IO_UNIT_NBIT-1:0]     IO_DB;
+   inout  [`IO_UNIT_NBIT-1:0]     P1_IO_DB;
+   inout  [`IO_UNIT_NBIT-1:0]     P2_IO_DB;
+   inout  [`IO_UNIT_NBIT-1:0]     P3_IO_DB;
+   
    
    inout  [3:0]                   SCLK;
    inout  [3:0]                   SDA;
@@ -165,10 +170,19 @@ module top
    wire                      pktdec_tx_eop ;
    
    wire [`IO_UNIT_NBIT-1:0]  pktdec_o_io_dir;
-   wire [`IO_UNIT_NBIT-1:0]  pktdec_i_io_db;
+   reg  [`IO_UNIT_NBIT-1:0]  pktdec_i_io_db;
    wire [`IO_UNIT_NBIT-1:0]  pktdec_o_io_db;
    wire [`IO_BANK_NBIT-1:0]  pktdec_o_io_bank;
-   wire [`IO_UNIT_NBIT-1:0]  o_io_db;
+   
+   always@* begin
+      case(pktdec_o_io_bank)
+         0: pktdec_i_io_db <= P1_IO_DB;
+         1: pktdec_i_io_db <= P2_IO_DB;
+         2: pktdec_i_io_db <= P3_IO_DB;
+         default:
+            pktdec_i_io_db <= `IO_UNIT_NBIT'd0;
+      endcase
+   end
    
    // P1
    reg [`IO_UNIT_NBIT-1:0]  p1_o_io_dir;
@@ -181,19 +195,57 @@ module top
    end
    
    generate
-   genvar i;
-      for(i=0;i<`IO_UNIT_NBIT;i=i+1)
-      begin:io_ctrl
-         assign IO_DB[i] = p1_o_io_dir[i] ? p1_o_io_db[i] : 1'bZ;
-         assign pktdec_i_io_db[i] = (pktdec_o_io_bank==0) ? IO_DB[i] : `LOW;
+   genvar i1;
+      for(i1=0;i1<`IO_UNIT_NBIT;i1=i1+1)
+      begin:io_ctrl_1
+         assign P1_IO_DB[i1] = p1_o_io_dir[i1] ? p1_o_io_db[i1] : 1'bZ;
+//         assign pktdec_i_io_db[i1] = (pktdec_o_io_bank==0) ? P1_IO_DB[i1] : `LOW;
       end
    endgenerate
 
    // P2   
+   reg [`IO_UNIT_NBIT-1:0]  p2_o_io_dir;
+   reg [`IO_UNIT_NBIT-1:0]  p2_o_io_db;
+   always@(posedge mclk) begin
+      if(pktdec_o_io_bank==1) begin
+         p2_o_io_dir <= pktdec_o_io_dir;
+         p2_o_io_db  <= pktdec_o_io_db;
+      end
+   end
+   
+   generate
+   genvar i2;
+      for(i2=0;i2<`IO_UNIT_NBIT;i2=i2+1)
+      begin:io_ctrl_2
+         assign P2_IO_DB[i2] = p2_o_io_dir[i2] ? p2_o_io_db[i2] : 1'bZ;
+//         assign pktdec_i_io_db[i2] = (pktdec_o_io_bank==1) ? P2_IO_DB[i2] : `LOW;
+      end
+   endgenerate
+
+   // P3   
+   reg [`IO_UNIT_NBIT-1:0]  p3_o_io_dir;
+   reg [`IO_UNIT_NBIT-1:0]  p3_o_io_db;
+   always@(posedge mclk) begin
+      if(pktdec_o_io_bank==2) begin
+         p3_o_io_dir <= pktdec_o_io_dir;
+         p3_o_io_db  <= pktdec_o_io_db;
+      end
+   end
+   
+   generate
+   genvar i3;
+      for(i3=0;i3<`IO_UNIT_NBIT;i3=i3+1)
+      begin:io_ctrl_3
+         assign P3_IO_DB[i3] = p3_o_io_dir[i3] ? p3_o_io_db[i3] : 1'bZ;
+//         assign pktdec_i_io_db[i3] = (pktdec_o_io_bank==2) ? P3_IO_DB[i3] : `LOW;
+      end
+   endgenerate
+
+   // OE
    reg OE=`HIGH;
    reg V_1P8_EN=`LOW;
    always@(posedge mclk) begin
-      if(pktdec_o_io_bank==`IO_BANK_NBIT'd1) begin
+      if(pktdec_o_io_bank==3) begin
          if(pktdec_o_io_dir[0])
             OE <= pktdec_o_io_db[0];
          if(pktdec_o_io_dir[1])
