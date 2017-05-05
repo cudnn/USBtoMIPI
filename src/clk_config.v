@@ -128,7 +128,7 @@ module clk_config
             sf_cnt <= sf_cnt - 1'b1;
             if(sf_cnt==0) begin
                st <= `IDLE;
-               init_start <= `LOW;
+//               init_start <= `LOW;
             end
          end
          default:

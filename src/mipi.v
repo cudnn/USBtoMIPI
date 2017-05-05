@@ -24,6 +24,7 @@ module mipi
    set,
    div,
    // control 
+   acqpos,
    start,
    done,
    data_num,
@@ -51,6 +52,7 @@ module mipi
    input                            set;      // set signale of clock cycle
    input  [`MIPI_CLKDIV_NBIT-1:0]   div;      // value of clock cycle
                                               // range from 2 to 255 correspond to 24MHz ~ 188KHz 
+   input  [`MIPI_IODELAY_NBIT-1:0]  acqpos;
    input                            start;    // start of mipi 
    output                           done;     // done of mipi
    output [`MIPI_BUF_ADDR_NBIT-1:0] data_num; // data number
@@ -170,9 +172,16 @@ module mipi
    `define ST_MIPI_BUSPARK 3'd6
    `define ST_MIPI_END     3'd7
    
+   wire   clk_en;
+   assign clk_en = (clk_cnt+clk_dly==(clk_dly==0 ? 0 : clk_div));
+   wire   sdi_en;
+   assign sdi_en = (clk_cnt+clk_dly==clk_div>acqpos ? clk_div-1-acqpos : 0);
+   reg	 sf_sdi;
+
    reg  [2:0]                     st;
    reg  [`MIPI_BUF_DATA_NBIT-1:0] sf_data;
-   wire [`MIPI_BUF_DATA_NBIT-1:0] next_sf_data = {sf_data[`MIPI_BUF_DATA_NBIT-3:0],sf_data[`MIPI_BUF_DATA_NBIT-1],sf_data[`MIPI_BUF_DATA_NBIT-1] ? sdi : sf_data[`MIPI_BUF_DATA_NBIT-2]};
+   wire [`MIPI_BUF_DATA_NBIT-1:0] next_sf_data = cusmode ? {sf_data[`MIPI_BUF_DATA_NBIT-3:0],sf_data[`MIPI_BUF_DATA_NBIT-1],sf_data[`MIPI_BUF_DATA_NBIT-1] ? sf_sdi : sf_data[`MIPI_BUF_DATA_NBIT-2]} :
+                                                           {sf_data[`MIPI_BUF_DATA_NBIT-2:0],(mipi_op ? sf_sdi : sf_data[`MIPI_BUF_DATA_NBIT-1])};
    reg  [3:0]                     sf_cnt;
    reg  [`MIPI_BUF_ADDR_NBIT-1:0] st_turns;
    wire [`MIPI_BUF_ADDR_NBIT-1:2] cusnbit_hi = cusnbit[`MIPI_BUF_ADDR_NBIT-1+2:2];
@@ -184,10 +193,10 @@ module mipi
    reg  [`MIPI_BUF_ADDR_NBIT-1:0] mipi_buf_raddr;
    reg  [`MIPI_BUF_ADDR_NBIT-1:0] data_num;
 
-   wire   clk_en;
-   assign clk_en = (clk_cnt==0);
       
    always@(posedge clk) begin
+      if(sdi_en)
+         sf_sdi <= sdi;
       if(clk_en) begin
          case(st)
             `ST_MIPI_IDLE: begin
@@ -362,11 +371,7 @@ module mipi
             `ST_MIPI_DATA: begin
                sf_cnt  <= sf_cnt - 1'b1;
                // data shift in&out
-               sf_data <= {sf_data[`MIPI_BUF_DATA_NBIT-2:0],(mipi_op ? sdi : 1'b0)};
-               /////// custom mode ///////
-               if(cusmode) begin
-                  sf_data <= next_sf_data;
-               end
+               sf_data <= next_sf_data;
                ///////             ///////
                if(sf_cnt==0) begin
                   sf_cnt   <= 4'd`MIPI_DATA_NBIT;
@@ -396,7 +401,7 @@ module mipi
             default:
                st <= `ST_MIPI_IDLE;
          endcase
-      end
+      end      
    end
 
    reg in_process;
@@ -443,7 +448,7 @@ module mipi
             pb_strobe      <= `HIGH;
             pb_data        <= sf_data[`MIPI_BUF_DATA_NBIT-1];
             ssc            <= `LOW;
-            sdo            <= sf_data[`MIPI_BUF_DATA_NBIT-1];
+            sdo            <= sf_cnt==3 && clk_cnt+clk_dly==clk_div-1'b1 ? `LOW : sf_data[`MIPI_BUF_DATA_NBIT-1];
             sdo_en         <= `HIGH;
             sclk_en        <= `HIGH;
             done           <= `LOW;

@@ -487,7 +487,7 @@ module pkt_decode
          mipi_div_set <= `HIGH;
       if(d_mipi_start[2:1]==2'b01)
          mipi_start <= `HIGH;
-      mipi_div <= m_mipi_div;
+      mipi_div <= {m_mipi_div,1'b0};
    end
    
    wire [`MIPI_BUF_ADDR_NBIT-1:0] mipi_data_num;
@@ -503,6 +503,7 @@ module pkt_decode
       .clk        (mipi_clk      ),
       .set        (mipi_div_set  ),
       .div        (mipi_div      ),
+      .acqpos     (m_sdi_delay   ),
       .start      (mipi_start    ),
       .done       (mipi_done     ),
       .data_num   (mipi_data_num ),
@@ -552,15 +553,17 @@ module pkt_decode
    assign sdo_en = mipi_sdo_en_delay|mipi_sdo_en;
    
    wire [`MIPI_IODELAY_NBIT-1:0] m_sdi_delay = m_mipi_sdin_dly[`MIPI_IODELAY_NBIT-1:0];
-   iodelay #(1,`MIPI_IODELAY_NBIT) 
-   sdi_delay (
-      .clk        (fast_clk           ),
-      .rst_n      (`HIGH              ),
-      .in_dio     (sdi                ),
-      .in_delay_we(m_mipi_sdin_dly_set),
-      .in_delay   (m_sdi_delay        ),
-      .out_dio    (mipi_sdi           )
-   );
+//   iodelay #(1,`MIPI_IODELAY_NBIT) 
+//   sdi_delay (
+//      .clk        (fast_clk           ),
+//      .rst_n      (`HIGH              ),
+//      .in_dio     (sdi                ),
+//      .in_delay_we(m_mipi_sdin_dly_set),
+//      .in_delay   (m_sdi_delay        ),
+//      .out_dio    (mipi_sdi           )
+//   );
+   
+   assign mipi_sdi = sdi;
    
    ////////////////// TX STATEMENT         
    
